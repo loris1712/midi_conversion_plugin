@@ -5,6 +5,8 @@ export default {
     extend: {
       colors: {
         black: '#000000',
+        accent: '#F5B40A',
+        appBar: 'rgba(235, 235, 245, 0.705)',
       },
     },
   },

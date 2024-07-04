@@ -1,21 +1,34 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/electron-vite.animate.svg'
-import './App.css'
-import { Button } from '@radix-ui/themes'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import AppBar from "./components/AppBar";
+import UploadPage from './pages/Upload';
+import Navigation from './layout/Navigation';
+const  App = () => {
 
-function App() {
-  const [count, setCount] = useState(0)
+
+  const router = createBrowserRouter([
+    {
+      path: '/',
+      element: <UploadPage />,
+    },
+    {
+      path: '/home',
+      element: <UploadPage />,
+    },
+    {
+      path: '/setting',
+      element: <UploadPage />,
+    },
+  ], {
+    basename: "/"
+  });
+  
 
   return (
-    <div className='h-screen w-screen bg-black flex flex-col items-center justify-center'>
-      <Button
-        color="red"
-        radius="full"
-        onClick={() => setCount((count) => count + 1)}
-      >
-        Welcome
-      </Button>
+    <div className="h-screen w-screen bg-black">
+      <AppBar />
+      <Navigation>
+        <RouterProvider router={router} />
+      </Navigation>
     </div>
   );
 }

@@ -25,6 +25,10 @@ body {
 
 }
 
+.nav-item {
+  @apply h-[50px] flex flex-col items-center justify-center
+}
+
 
 
 
