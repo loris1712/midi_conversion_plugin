@@ -7,11 +7,9 @@ import './index.css'
 
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <Theme>
-      <App />
-    </Theme>
-  </React.StrictMode>,
+  <Theme>
+    <App />
+  </Theme>,
 );
 
 // Use contextBridge
