@@ -2,6 +2,8 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import AppBar from "./components/AppBar";
 import UploadPage from './pages/Upload';
 import Navigation from './layout/Navigation';
+import HomePage from './pages/Home';
+import SettingsPage from './pages/Settings';
 const  App = () => {
 
 
@@ -12,11 +14,11 @@ const  App = () => {
     },
     {
       path: '/home',
-      element: <UploadPage />,
+      element: <HomePage />,
     },
     {
       path: '/setting',
-      element: <UploadPage />,
+      element: <SettingsPage />,
     },
   ], {
     basename: "/"

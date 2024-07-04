@@ -18,13 +18,13 @@ const Navigation = ({ children }: NavigationProps) => {
       <nav className="flex flex-col w-[50px] items-center border-r border-[#FFFFFF1A]">
         <ul className="flex flex-col flex-1">
           <li className="nav-item">
-            <a>
+            <a href="/">
               <img src={pianoSvg} />
             </a>
           </li>
 
           <li className="nav-item">
-            <a>
+            <a href="/home">
               <img src={homeSvg} />
             </a>
           </li>
@@ -37,7 +37,7 @@ const Navigation = ({ children }: NavigationProps) => {
         </ul>
 
         <li className="nav-item">
-          <a>
+          <a href="/setting">
             <img src={settingsSvg} />
           </a>
         </li>
