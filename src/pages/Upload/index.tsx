@@ -16,8 +16,9 @@ const UploadPage: React.FC = () => {
     onDrop,
   });
 
+
   return (
-    <div className="flex flex-col items-center justify-center h-full w-full">
+    <div className="flex flex-col items-center justify-center h-full w-full gap-4">
       <div
         {...getRootProps()}
         className="p-[56px] max-w-[500px] w-full cursor-pointer border border-dashed border-uploadBorder rounded-[10px] flex flex-col items-center justify-end gap-4"
@@ -32,12 +33,13 @@ const UploadPage: React.FC = () => {
             Image or PDF(multiple pages works as well)
           </p>
         </div>
-        {files?.length && (
-          <Button className="bg-accent border-accent/70 rounded-[5px] text-[#121212]">
-            CONVERT
-          </Button>
-        )}
       </div>
+
+      {files?.length && (
+        <Button className="bg-accent border-accent/70 rounded-[5px] text-[#121212]">
+          CONVERT
+        </Button>
+      )}
     </div>
   );
 };
