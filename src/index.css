@@ -8,12 +8,15 @@
   font-weight: 500;
 
   color-scheme: light dark;
-  background-color: #242424;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+*{
+    color: #ffffff;
 }
 
 
@@ -22,6 +25,7 @@ body {
   margin: 0;
   display: flex;
   place-items: center;
+  
 
 }
 

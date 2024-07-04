@@ -15,7 +15,7 @@ interface NavigationProps {
 const Navigation = ({ children }: NavigationProps) => {
   return (
     <main className="h-full w-full flex flex-row pt-[28px]">
-      <nav className="flex flex-col w-[50px] items-center border-r border-[#FFFFFF1A]">
+      <nav className="flex flex-col w-[50px] items-center border-r border-[#FFFFFF1A] flex-shrink-0 flex-grow-0">
         <ul className="flex flex-col flex-1">
           <li className="nav-item">
             <a href="/">
@@ -42,7 +42,7 @@ const Navigation = ({ children }: NavigationProps) => {
           </a>
         </li>
       </nav>
-      <div className="px-1 h-full w-full">{children}</div>
+      <div className="h-full w-full px-[1rem]">{children}</div>
     </main>
   );
 };

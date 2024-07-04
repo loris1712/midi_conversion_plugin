@@ -20,10 +20,11 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
 
-    "baseUrl": "/src",
+    "baseUrl": "./src",
     "paths": {
-      "components/*": ["/components/*"],
-      "assets/*": ["/assets/*"]
+      "@components/*": ["components/*"],
+      "@assets/*": ["assets/*"],
+      "@pages/*": ["pages/*"]
     }
   },
   "include": ["src", "electron"],

@@ -28,6 +28,8 @@ let win: BrowserWindow | null;
 
 function createWindow() {
   win = new BrowserWindow({
+    minWidth:980,
+    minHeight: 640,
     icon: path.join(process.env.VITE_PUBLIC, 'electron-vite.svg'),
     titleBarStyle: 'hidden',
     titleBarOverlay: {
@@ -36,6 +38,7 @@ function createWindow() {
     },
     webPreferences: {
       preload: path.join(__dirname, 'preload.mjs'),
+      nodeIntegration: true
     },
   });
 
