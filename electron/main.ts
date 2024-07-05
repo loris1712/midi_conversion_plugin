@@ -30,13 +30,10 @@ function createWindow() {
   win = new BrowserWindow({
     minWidth:980,
     minHeight: 640,
+    resizable:true,
     title:"Hab",
     icon: path.join(process.env.VITE_PUBLIC, 'electron-vite.svg'),
     titleBarStyle: 'hidden',
-    titleBarOverlay: {
-      color: '#2f3241',
-      symbolColor: '#74b1be',
-    },
     webPreferences: {
       preload: path.join(__dirname, 'preload.mjs'),
       nodeIntegration: true
