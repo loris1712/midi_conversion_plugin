@@ -1,5 +1,5 @@
 import { app, BrowserWindow } from 'electron';
-import {autoUpdater, AppUpdater} from 'electron-updater'
+import {autoUpdater} from 'electron-updater'
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
@@ -36,7 +36,7 @@ function createWindow() {
     minWidth:980,
     minHeight: 640,
     resizable:true,
-    title:"Hab",
+    title:"Halbestunde",
     icon: path.join(process.env.VITE_PUBLIC, 'electron-vite.svg'),
     titleBarStyle: 'hidden',
     webPreferences: {
@@ -76,6 +76,16 @@ app.on('activate', () => {
   }
 
   autoUpdater.checkForUpdates();
+  win?.webContents.send('check-updates')
 });
+
+autoUpdater.on('update-available', (info) => {
+  console.log({ info });
+  autoUpdater.downloadUpdate();
+});
+
+autoUpdater.on('update-downloaded', (info)=> {
+  win?.webContents.send('update-downloaded', info);
+})
 
 app.whenReady().then(createWindow);

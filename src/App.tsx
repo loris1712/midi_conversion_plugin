@@ -37,7 +37,7 @@ const router = createBrowserRouter(
 
 const App = () => {
 
-  const { isLoading, data, isError, isSuccess, isFetching } = useQuery({
+  const { isLoading, data, isError, isSuccess } = useQuery({
     queryKey: ['appLoad'],
     queryFn: async ()=> {
       const email = 'aephisarh@gmail.com';
@@ -47,8 +47,6 @@ const App = () => {
     }
   });
 
-  console.log({ isFetching, isLoading });
-
   useEffect(() => {
     if(data){
       const { IdToken } = data;
@@ -57,6 +55,16 @@ const App = () => {
       }
     }
   }, [data]);
+
+  useEffect(()=> {
+    window.ipcRenderer.on('check-updates', () => {
+      console.log("CHECKING FOR UPDATES")
+    });
+
+    window.ipcRenderer.on('update-downloaded', () => {
+      console.log('UPDATES DOWNLOADED');
+    });
+  }, [])
 
   return (
     <div className="h-screen w-screen bg-black">
