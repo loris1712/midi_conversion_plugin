@@ -21,12 +21,13 @@ const UploadPage: React.FC = () => {
       console.log({ file });
       const {data} = await generatePresignedUploadUrl(file.name);
       console.log({data});
-      
-      
     },
     onSuccess:()=> {
       setProcessDone(true);
       setPage('download')
+    },
+    onError:(error) => {
+      console.log("UPLOAD ERROR", error)
     }
   });
 
