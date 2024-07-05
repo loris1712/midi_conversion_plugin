@@ -2,7 +2,7 @@
   "targets": [
     {
       "target_name": "binding",
-      "sources": [ "muse/binding.cc" ]
+      "sources": [ "muse/main.cpp" ]
     }
   ]
 }

@@ -8,7 +8,7 @@
 */
 
 #include <iostream>
-
+#include <node.h>
 #include "MuseClientSdkApi.h"
 
 int main()
