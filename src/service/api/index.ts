@@ -6,8 +6,8 @@ const axiosInstance = axios.create({
   baseURL: serverUrl,
 });
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 axiosInstance.interceptors.request.use(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (config: InternalAxiosRequestConfig<any>) => {
     config.headers.Authorization = `${tokenType} ${getAuthToken()}`;
     return config;
@@ -28,3 +28,7 @@ export const generatePresignedUploadUrl = (filename: string) => {
     },
   });
 };
+
+export const getResults = (referenceId: string) => {
+    return axiosInstance.get(`/recognize/${referenceId}`);
+}

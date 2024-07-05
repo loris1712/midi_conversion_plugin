@@ -37,7 +37,7 @@ const router = createBrowserRouter(
 
 const App = () => {
 
-  const { isLoading, data, isError, isSuccess } = useQuery({
+  const { isLoading, data, isError, isSuccess, isFetching } = useQuery({
     queryKey: ['appLoad'],
     queryFn: async ()=> {
       const email = 'aephisarh@gmail.com';
@@ -47,10 +47,14 @@ const App = () => {
     }
   });
 
+  console.log({ isFetching, isLoading });
+
   useEffect(() => {
-    const { IdToken } = data;
-    if(IdToken){
-      saveAuthToken(IdToken);
+    if(data){
+      const { IdToken } = data;
+      if (IdToken) {
+        saveAuthToken(IdToken);
+      }
     }
   }, [data]);
 
@@ -58,15 +62,15 @@ const App = () => {
     <div className="h-screen w-screen bg-black">
       <AppBar />
       {isLoading && <InitLoading />}
+      {!isSuccess && isError && (
+        <div className="h-full w-full flex flex-col items-center justify-center">
+          <p>Error Loading</p>
+        </div>
+      )}
       {!isLoading && isSuccess && (
         <Navigation>
           <RouterProvider router={router} />
         </Navigation>
-      )}
-      {!isSuccess && isError && (
-        <div className='h-full w-full flex flex-col items-center justify-center'>
-          <p>Error Loading</p>
-        </div>
       )}
     </div>
   );
