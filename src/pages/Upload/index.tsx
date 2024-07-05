@@ -10,7 +10,7 @@ type PAGE = 'upload' | 'processing' | 'download'
 
 const UploadPage: React.FC = () => {
 
-  const [page, setPage] = useState<PAGE>('upload');
+  const [page, setPage] = useState<PAGE>('processing');
   const [processDone, setProcessDone] = useState<boolean>(false);
   
 

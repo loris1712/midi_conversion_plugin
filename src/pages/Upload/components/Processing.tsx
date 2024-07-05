@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import loadingBar from '@assets/loading-bar.png';
+import loadingBar from '@assets/loading.gif';
 import { ReactComponent as LoadingRing } from '@assets/loading.svg';
 
 const Processing = ({ isdone }: { isdone?: boolean }) => {
