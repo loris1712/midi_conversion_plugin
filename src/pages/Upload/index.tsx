@@ -1,7 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import FileUpload from "./components/FileUpload";
 import Processing from './components/Processing';
+import Download from "./components/Download";
 
 
 
@@ -9,16 +10,33 @@ type PAGE = 'upload' | 'processing' | 'download'
 
 const UploadPage: React.FC = () => {
 
-  const [page, setPage] = useState<PAGE>('processing');
+  const [page, setPage] = useState<PAGE>('upload');
+  const [processDone, setProcessDone] = useState<boolean>(false);
   
 
   const fileProcessMutation = useMutation({
     mutationKey: ['fileUploads'],
     mutationFn: async (files: File[]) => {
       console.log({ files });
-      return files;
+      setTimeout(()=> {
+        return files;
+      }, 8000)
+      
     },
+    onSuccess:()=> {
+      setProcessDone(true);
+      setPage('download')
+    }
   });
+
+
+  const onDownload = () => {
+    alert('DOWNLOADING')
+  };
+
+  const uploadNewFile = () => {
+    setPage('upload')
+  }
 
 
   return (
@@ -31,7 +49,12 @@ const UploadPage: React.FC = () => {
           }}
         />
       )}
-      {page === 'processing' && <Processing />}
+      {page === 'processing' && (
+        <Processing isdone={processDone} />
+      )}
+      {page === 'download' && (
+        <Download uploadNewFile={uploadNewFile} onDownload={onDownload} />
+      )}
     </div>
   );
 };

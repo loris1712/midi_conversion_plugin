@@ -32,8 +32,8 @@ const Navigation = ({ children }: NavigationProps) => {
   }, []);
 
   return (
-    <main className="h-full w-full flex flex-row pt-[28px]">
-      <nav className="flex flex-col w-[50px] items-center border-r border-[#FFFFFF1A] flex-shrink-0 flex-grow-0">
+    <main className="h-full w-full flex flex-row pt-[28px] relative">
+      <nav className="flex flex-col w-[50px] items-center border-r border-[#FFFFFF1A] flex-shrink-0 flex-grow-0 relative z-10 bg-black">
         <ul className="flex flex-col flex-1">
           {Routes.map((route, idx) => (
             <NavItem
