@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 
 import { ReactComponent as UploadIcon } from '@assets/upload.svg';
@@ -6,6 +6,7 @@ import { Button } from '@radix-ui/themes';
 
 
 interface FileUploadProps {
+    // eslint-disable-next-line no-unused-vars
     onUpload: (file: File) => void
 }
 
@@ -13,7 +14,6 @@ const FileUpload = ({ onUpload }: FileUploadProps) => {
   const [files, setFiles] = useState<File>();
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
-    console.log({ acceptedFiles });
     setFiles(acceptedFiles[0]);
   }, []);
 

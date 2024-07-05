@@ -1,4 +1,5 @@
 import { app, BrowserWindow } from 'electron';
+import {autoUpdater, AppUpdater} from 'electron-updater'
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
@@ -25,6 +26,10 @@ process.env.VITE_PUBLIC = VITE_DEV_SERVER_URL
   : RENDERER_DIST;
 
 let win: BrowserWindow | null;
+
+// auto updater
+autoUpdater.autoDownload = true;
+autoUpdater.autoInstallOnAppQuit = true;
 
 function createWindow() {
   win = new BrowserWindow({
@@ -69,6 +74,8 @@ app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow();
   }
+
+  autoUpdater.checkForUpdates();
 });
 
 app.whenReady().then(createWindow);
