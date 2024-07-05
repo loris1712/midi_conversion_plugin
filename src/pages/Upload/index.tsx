@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 
-import uploadIcon from '@assets/upload.svg';
+import { ReactComponent as UploadIcon } from '@assets/upload.svg';
 import { Button } from '@radix-ui/themes';
 
 const UploadPage: React.FC = () => {
@@ -24,7 +24,7 @@ const UploadPage: React.FC = () => {
         className="p-[56px] max-w-[500px] w-full cursor-pointer border border-dashed border-uploadBorder rounded-[10px] flex flex-col items-center justify-end gap-4"
       >
         <input {...getInputProps()} />
-        <img src={uploadIcon} />
+        <UploadIcon/>
         <div className="flex flex-col gap-3 items-center justify-center">
           <p className="text-[14px] font-[400] text-center">
             Drag your files or click to browse

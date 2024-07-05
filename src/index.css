@@ -13,28 +13,26 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  
+  --black: '#000000';
+  --accent: '#F5B40A';
+  --appBar: 'rgba(235, 235, 245, 0.705)';
+  --uploadBorder: 'rgba(255, 255, 255, 0.34)';
 }
 
-*{
-    color: #ffffff;
+* {
+  color: #ffffff;
 }
-
-
 
 body {
   margin: 0;
   display: flex;
   place-items: center;
-  
-
 }
 
 .nav-item {
-  @apply h-[50px] flex flex-col items-center justify-center
+  @apply h-[50px] flex flex-col items-center justify-center;
 }
-
-
-
 
 @media (prefers-color-scheme: light) {
   :root {
