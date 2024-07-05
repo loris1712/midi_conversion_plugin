@@ -48,7 +48,7 @@ const Navigation = ({ children }: NavigationProps) => {
         </ul>
 
         <li className="nav-item">
-          <NavItem href="/settings" isactive={activeRoute("/settings")}>
+          <NavItem href="/setting" isactive={activeRoute('/settings')}>
             <SettingsIcon />
           </NavItem>
         </li>
