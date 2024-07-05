@@ -6,7 +6,7 @@ interface ProcessingProps {
   isDone?: boolean;
 }
 
-const Processing = ({ isDone, isUploaded }: ProcessingProps) => {
+const Processing = ({ isUploaded }: ProcessingProps) => {
   return (
     <div className="h-full w-full flex flex-col items-center justify-center">
       <div className="flex flex-col p-5 bg-[#262626] items-center justify-center gap-2 rounded-[8px] min-w-[376px] min-h-[171px] h-fit max-w-[400px]">

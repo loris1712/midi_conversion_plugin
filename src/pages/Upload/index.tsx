@@ -24,7 +24,8 @@ const UploadPage: React.FC = () => {
           'Content-Type': file.type,
         },
         onUploadProgress:(e)=> {
-          const completed = Math.round((e.loaded * 100) / e.total);
+          const total = e.total ?? 1
+          const completed = Math.round((e.loaded * 100) / total);
           setProgress(completed);
         }
       });

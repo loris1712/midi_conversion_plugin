@@ -5,7 +5,7 @@ import Navigation from './layout/Navigation';
 import HomePage from './pages/Home';
 import SettingsPage from './pages/Settings';
 import MusicPage from '@pages/Music';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import InitLoading from '@components/InitLoading';
 import { signIn } from '@service/api';

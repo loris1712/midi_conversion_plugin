@@ -3,7 +3,7 @@ import { ReactComponent as CheckIcon } from '@assets/done-check.svg';
 
 interface DownloadProps {
   uploadNewFile: () => void;
-  onDownload: (links: any) => void;
+  onDownload: () => void;
 }
 
 const Download = ({ onDownload, uploadNewFile }: DownloadProps) => {
