@@ -1,8 +1,9 @@
 import { useMutation } from "@tanstack/react-query";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import FileUpload from "./components/FileUpload";
 import Processing from './components/Processing';
 import Download from "./components/Download";
+import { generatePresignedUploadUrl } from "@service/api";
 
 
 
@@ -10,17 +11,17 @@ type PAGE = 'upload' | 'processing' | 'download'
 
 const UploadPage: React.FC = () => {
 
-  const [page, setPage] = useState<PAGE>('processing');
+  const [page, setPage] = useState<PAGE>('upload');
   const [processDone, setProcessDone] = useState<boolean>(false);
   
 
   const fileProcessMutation = useMutation({
     mutationKey: ['fileUploads'],
-    mutationFn: async (files: File[]) => {
-      console.log({ files });
-      setTimeout(()=> {
-        return files;
-      }, 8000)
+    mutationFn: async (file: File) => {
+      console.log({ file });
+      const {data} = await generatePresignedUploadUrl(file.name);
+      console.log({data});
+      
       
     },
     onSuccess:()=> {

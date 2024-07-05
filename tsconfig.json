@@ -25,7 +25,9 @@
     "paths": {
       "@components/*": ["components/*"],
       "@assets/*": ["assets/*"],
-      "@pages/*": ["pages/*"]
+      "@pages/*": ["pages/*"],
+      "@service/*":["service/*"],
+      "@constants/*": ["constants/*"] 
     }
   },
   "include": ["src", "electron"],

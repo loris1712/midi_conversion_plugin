@@ -6,19 +6,21 @@ import { Button } from '@radix-ui/themes';
 
 
 interface FileUploadProps {
-    onUpload: (files: File[]) => void
+    onUpload: (file: File) => void
 }
 
 const FileUpload = ({ onUpload }: FileUploadProps) => {
-  const [files, setFiles] = useState<File[]>();
+  const [files, setFiles] = useState<File>();
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     console.log({ acceptedFiles });
-    setFiles(acceptedFiles);
+    setFiles(acceptedFiles[0]);
   }, []);
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
+    maxFiles: 1,
+    accept: {}
   });
   return (
     <>
@@ -38,7 +40,7 @@ const FileUpload = ({ onUpload }: FileUploadProps) => {
         </div>
       </div>
 
-      {files?.length && (
+      {!!files?.name && (
         <Button
           onClick={() => {
             onUpload(files)
