@@ -4,6 +4,7 @@
   "appId": "plugin.halbestubde",
   "asar": true,
   "productName": "Halbestubde",
+  "forceCodeSigning": true,
   "directories": {
     "output": "release/${version}"
   },
