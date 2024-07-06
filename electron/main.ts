@@ -36,7 +36,7 @@ function createWindow() {
     minWidth:980,
     minHeight: 640,
     title:"Halbestunde",
-    icon: path.join(process.env.VITE_PUBLIC, 'electron-vite.svg'),
+    icon: path.join(process.env.VITE_PUBLIC, 'icon.png'),
     titleBarStyle: 'hidden',
     webPreferences: {
       preload: path.join(__dirname, 'preload.mjs'),
