@@ -1,39 +1,11 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import AppBar from './components/AppBar';
-import UploadPage from './pages/Upload';
-import Navigation from './layout/Navigation';
-import HomePage from './pages/Home';
-import SettingsPage from './pages/Settings';
-import MusicPage from '@pages/Music';
 import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import InitLoading from '@components/InitLoading';
 import { signIn } from '@service/api';
 import { saveAuthToken } from '@service/local';
+import AppBar from './components/AppBar';
+import Navigation from './layout/Navigation';
 
-const router = createBrowserRouter(
-  [
-    {
-      path: '/',
-      element: <UploadPage />,
-    },
-    {
-      path: '/home',
-      element: <HomePage />,
-    },
-    {
-      path: '/music',
-      element: <MusicPage />,
-    },
-    {
-      path: '/setting',
-      element: <SettingsPage />,
-    },
-  ],
-  {
-    basename: '/',
-  },
-);
 
 const App = () => {
 
@@ -75,11 +47,7 @@ const App = () => {
           <p>Error Loading</p>
         </div>
       )}
-      {!isLoading && isSuccess && (
-        <Navigation>
-          <RouterProvider router={router} />
-        </Navigation>
-      )}
+      {!isLoading && isSuccess && <Navigation />}
     </div>
   );
 };

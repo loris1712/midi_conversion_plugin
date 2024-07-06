@@ -35,7 +35,6 @@ function createWindow() {
   win = new BrowserWindow({
     minWidth:980,
     minHeight: 640,
-    resizable:true,
     title:"Halbestunde",
     icon: path.join(process.env.VITE_PUBLIC, 'electron-vite.svg'),
     titleBarStyle: 'hidden',
