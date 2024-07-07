@@ -10,6 +10,7 @@
 #include <iostream>
 
 #include "MuseClientSdkApi.h"
+#include "MuseSdkApiVersion.h"
 
 int main()
 {

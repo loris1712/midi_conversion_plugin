@@ -6,7 +6,7 @@
   "targets": [
     {
       "target_name": "muse_sdk",
-      "sources": [ "muse/app.cpp" ],
+      "sources": [ "muse/muse_sdk.cc" ],
       'dependencies': [
         '<!(node -p \'require("node-addon-api").gyp\')'
       ],

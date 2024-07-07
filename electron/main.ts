@@ -3,6 +3,7 @@ import {autoUpdater} from 'electron-updater'
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
+
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // The built directory structure
@@ -55,6 +56,11 @@ function createWindow() {
   } else {
     // win.loadFile('dist/index.html')
     win.loadFile(path.join(RENDERER_DIST, 'index.html'));
+  }
+  try {
+    // console.log(addon.fn());
+  } catch (error) {
+    console.log(error);
   }
 }
 

@@ -6,7 +6,7 @@ import { signIn } from '@service/api';
 import { saveAuthToken } from '@service/local';
 import AppBar from './components/AppBar';
 import Navigation from './layout/Navigation';
-import 'bindings'
+
 
 
 const App = () => {

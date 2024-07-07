@@ -4,6 +4,7 @@ import electron from 'vite-plugin-electron/simple'
 import react from '@vitejs/plugin-react'
 import tsconfigPaths from 'vite-tsconfig-paths'
 import svgr from 'vite-plugin-svgr'; 
+import native from 'vite-plugin-native';
 
 
 // https://vitejs.dev/config/
@@ -25,6 +26,13 @@ export default defineConfig({
       main: {
         // Shortcut of `build.lib.entry`.
         entry: 'electron/main.ts',
+        vite: {
+          plugins: [
+            native({
+              forceCopyIfUnbuilt: true,
+            }),
+          ],
+        },
       },
       preload: {
         // Shortcut of `build.rollupOptions.input`.

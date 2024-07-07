@@ -13,6 +13,7 @@ const UploadPage: React.FC = () => {
   const [progress, setProgress] = useState(0);
   const [isUploaded, setIsUploaded] = useState(false);
 
+
   const fileProcessMutation = useMutation({
     mutationKey: ['fileUploads'],
     mutationFn: async (file: File) => {
@@ -40,8 +41,17 @@ const UploadPage: React.FC = () => {
     },
   });
 
-  const onDownload = () => {
-    alert('DOWNLOADING');
+  const onDownload = (filename: string) => {
+    const fileLinks = {
+      job_status: 'completed',
+      body: {
+        filename_musicxml:
+          'https://sagemaker-omr-storage-frankfurt.s3.eu-central-1.amazonaws.com/output/597aba3d-54f9-4757-b962-de0780c40321.musicxml',
+        filename_midi:
+          'https://sagemaker-omr-storage-frankfurt.s3.eu-central-1.amazonaws.com/output/597aba3d-54f9-4757-b962-de0780c40321.mid',
+      },
+    };
+    alert('DOWNLOADING: ' + filename);
   };
 
   const uploadNewFile = () => {
