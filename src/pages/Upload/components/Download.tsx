@@ -5,6 +5,7 @@ import { ReactComponent as CheckIcon } from '@assets/done-check.svg';
 import Modal from '@components/Modal';
 
 import { FileNameInput } from './styles';
+import CircleLoader from '@components/Loaders/CircleLoader';
 
 interface DownloadProps {
   ext?: string;
@@ -21,7 +22,9 @@ const Download = ({ ext, onDownload, uploadNewFile }: DownloadProps) => {
   useEffect(() => {
     window.ipcRenderer.on('download-progress', (_event, args) => {
       const { percent } = args;
-      setDownloadProgress(Math.floor(Number(percent) * 100));
+      if(percent > 0){
+        setDownloadProgress(Math.floor(Number(percent) * 100));
+      }
     });
 
     window.ipcRenderer.on('download-complete', () => {
@@ -29,14 +32,18 @@ const Download = ({ ext, onDownload, uploadNewFile }: DownloadProps) => {
     });
   }, []);
 
+  const isDownloading = downloadProgress > 0;
+
   return (
     <>
       <div className="h-full w-full flex flex-col items-center justify-center gap-8">
         <div className="flex flex-col p-5 bg-[#262626] items-center justify-center gap-2 rounded-[8px] min-w-[376px] w-fit min-h-[171px] h-fit max-w-[400px]">
           <CheckIcon className="h-[38px]" />
-          <p className="font-medium text-[14px] text-center">
-            The conversion is complete. You can download the converted file.
-          </p>
+          {!downloadDone && (
+            <p className="font-medium text-[14px] text-center">
+              The conversion is complete. You can download the converted file.
+            </p>
+          )}
         </div>
         <div className="grid grid-cols-2 gap-4">
           <Button
@@ -71,6 +78,12 @@ const Download = ({ ext, onDownload, uploadNewFile }: DownloadProps) => {
           title="Save As"
           content={
             <div className="flex flex-col items-start gap-1">
+              {downloadDone && (
+                <div className="flex flex-row items-center gap-2 mb-4">
+                  <CheckIcon className="h-[20px] w-[20px]" />
+                  <p>File downloaded successfully!</p>
+                </div>
+              )}
               <FileNameInput
                 autoFocus
                 disabled={downloadDone}
@@ -81,7 +94,7 @@ const Download = ({ ext, onDownload, uploadNewFile }: DownloadProps) => {
                 <p className="text-[10px]">
                   Saved to: ../Downloads/{filename}.{ext}
                 </p>
-                {downloadProgress > 0 && (
+                {isDownloading && (
                   <p className="text-[10px]">{downloadProgress}%</p>
                 )}
               </div>
@@ -100,12 +113,14 @@ const Download = ({ ext, onDownload, uploadNewFile }: DownloadProps) => {
               </Button>
             ) : (
               <Button
-                disabled={!filename.length}
+                disabled={!filename.length || isDownloading}
                 onClick={() => {
+                  setDownloadProgress(1);
                   onDownload(filename);
                 }}
-                className="bg-accent text-black px-8 disabled:bg-black/10"
+                className="bg-accent text-black px-8"
               >
+                {isDownloading && <CircleLoader />}
                 Save
               </Button>
             )
