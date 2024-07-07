@@ -22,7 +22,13 @@
 
 * {
   color: #ffffff;
+
 }
+*:disabled{
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
 
 body {
   margin: 0;

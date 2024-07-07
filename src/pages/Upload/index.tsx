@@ -9,7 +9,7 @@ import { generatePresignedUploadUrl } from '@service/api';
 type PAGE = 'upload' | 'processing' | 'download';
 
 const UploadPage: React.FC = () => {
-  const [page, setPage] = useState<PAGE>('download');
+  const [page, setPage] = useState<PAGE>('upload');
   const [progress, setProgress] = useState(0);
   const [isUploaded, setIsUploaded] = useState(false);
 
@@ -17,9 +17,9 @@ const UploadPage: React.FC = () => {
     job_status: 'completed',
     body: {
       filename_musicxml:
-        'https://sagemaker-omr-storage-frankfurt.s3.eu-central-1.amazonaws.com/output/597aba3d-54f9-4757-b962-de0780c40321.musicxml',
+        'https://onlinetestcase.com/wp-content/uploads/2023/06/5-MB-MP3.mp3',
       filename_midi:
-        'https://sagemaker-omr-storage-frankfurt.s3.eu-central-1.amazonaws.com/output/597aba3d-54f9-4757-b962-de0780c40321.mid',
+        'https://onlinetestcase.com/wp-content/uploads/2023/06/5-MB-MP3.mp3',
     },
   };
 
@@ -54,6 +54,7 @@ const UploadPage: React.FC = () => {
     const payload = {
       filename,
       url: fileLinks.body.filename_midi,
+      ext: getFileExtension(fileLinks.body.filename_midi),
     };
     window.ipcRenderer.send('download', payload);
   };

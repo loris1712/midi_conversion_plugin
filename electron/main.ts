@@ -1,8 +1,8 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
-import {autoUpdater} from 'electron-updater'
+import { autoUpdater } from 'electron-updater';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
-
+import {download as downloader} from 'electron-dl';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -34,15 +34,15 @@ autoUpdater.autoInstallOnAppQuit = true;
 
 function createWindow() {
   win = new BrowserWindow({
-    minWidth:980,
+    minWidth: 980,
     minHeight: 640,
-    title:"Halbestunde",
+    title: 'Halbestunde',
     icon: path.join(process.env.VITE_PUBLIC, 'icon.png'),
     titleBarStyle: 'hidden',
     webPreferences: {
       preload: path.join(__dirname, 'preload.mjs'),
       nodeIntegration: true,
-      webSecurity: false
+      webSecurity: false,
     },
   });
 
@@ -50,7 +50,6 @@ function createWindow() {
   win.webContents.on('did-finish-load', () => {
     win?.webContents.send('main-process-message', new Date().toLocaleString());
   });
-
 
   if (VITE_DEV_SERVER_URL) {
     win.loadURL(VITE_DEV_SERVER_URL);
@@ -67,11 +66,25 @@ function createWindow() {
 
 // ipcMain comms
 
-ipcMain.on('download', (_event, args) => {
-  const { filename, url } = args;
-  console.log({filename, url})
+ipcMain.on('download', async (_event, args) => {
+  const downloadPath = app.getPath('downloads');
+  const { filename, url, ext } = args;
+  console.log({ filename, url, ext });
+  const currentWindow = BrowserWindow.getFocusedWindow();
+  const filePath = `${filename}.${ext}`;
+  if (currentWindow) {
+    await downloader(currentWindow, url, {
+      directory: downloadPath,
+      filename: filePath,
+      onTotalProgress: (progress) => {
+        win?.webContents.send('download-progress', progress);
+      },
+      onCompleted: () => {
+        win?.webContents.send('download-complete', {});
+      },
+    });
+  }
 });
-
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
@@ -94,14 +107,13 @@ app.on('activate', () => {
   win?.webContents.send('check-updates');
 });
 
-
 autoUpdater.on('update-available', (info) => {
   console.log({ info });
   autoUpdater.downloadUpdate();
 });
 
-autoUpdater.on('update-downloaded', (info)=> {
+autoUpdater.on('update-downloaded', (info) => {
   win?.webContents.send('update-downloaded', info);
-})
+});
 
 app.whenReady().then(createWindow);

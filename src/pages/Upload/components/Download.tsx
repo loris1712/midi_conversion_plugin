@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Button } from '@radix-ui/themes';
 import { ReactComponent as CheckIcon } from '@assets/done-check.svg';
@@ -12,10 +12,22 @@ interface DownloadProps {
   onDownload: (filename: string) => void;
 }
 
-const Download = ({ext, onDownload, uploadNewFile }: DownloadProps) => {
-
+const Download = ({ ext, onDownload, uploadNewFile }: DownloadProps) => {
   const [showDownloadModal, setShowDownloadModal] = useState(false);
-  const [filename, setFilename] = useState("")
+  const [filename, setFilename] = useState('');
+  const [downloadProgress, setDownloadProgress] = useState(0);
+  const [downloadDone, setDownloadDone] = useState(false);
+
+  useEffect(() => {
+    window.ipcRenderer.on('download-progress', (_event, args) => {
+      const { percent } = args;
+      setDownloadProgress(Math.floor(Number(percent) * 100));
+    });
+
+    window.ipcRenderer.on('download-complete', () => {
+      setDownloadDone(true);
+    });
+  }, []);
 
   return (
     <>
@@ -40,6 +52,7 @@ const Download = ({ext, onDownload, uploadNewFile }: DownloadProps) => {
           </Button>
 
           <Button
+            disabled={downloadDone}
             variant="solid"
             className="p-4 h-[42px] bg-accent text-black"
             onClick={() => {
@@ -57,21 +70,45 @@ const Download = ({ext, onDownload, uploadNewFile }: DownloadProps) => {
           }}
           title="Save As"
           content={
-            <div className='flex flex-col items-start gap-1'>
-              <FileNameInput autoFocus value={filename} onChange={(e) => setFilename(e.target.value)} />
-                <p className='text-[10px]'>Saved to: ../Downloads/{filename}.{ext}</p>
+            <div className="flex flex-col items-start gap-1">
+              <FileNameInput
+                autoFocus
+                disabled={downloadDone}
+                value={filename}
+                onChange={(e) => setFilename(e.target.value)}
+              />
+              <div className="flex flex-row items-center justify-between w-full mt-1">
+                <p className="text-[10px]">
+                  Saved to: ../Downloads/{filename}.{ext}
+                </p>
+                {downloadProgress > 0 && (
+                  <p className="text-[10px]">{downloadProgress}%</p>
+                )}
+              </div>
             </div>
           }
           buttons={
-            <Button
-              disabled={!filename.length}
-              onClick={() => {
-                onDownload(filename);
-              }}
-              className='bg-accent text-black px-8 disabled:bg-black/10'
-            >
-              Save
-            </Button>
+            downloadDone ? (
+              <Button
+                disabled={!filename.length}
+                onClick={() => {
+                  setShowDownloadModal(false);
+                }}
+                className="bg-accent text-black px-8 disabled:bg-black/10"
+              >
+                Okay
+              </Button>
+            ) : (
+              <Button
+                disabled={!filename.length}
+                onClick={() => {
+                  onDownload(filename);
+                }}
+                className="bg-accent text-black px-8 disabled:bg-black/10"
+              >
+                Save
+              </Button>
+            )
           }
         />
       )}
