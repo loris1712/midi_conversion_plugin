@@ -326,13 +326,18 @@ $(obj).$(TOOLSET)/%.o: $(obj)/%.S FORCE_DO_CMD
 
 ifeq ($(strip $(foreach prefix,$(NO_LOAD),\
     $(findstring $(join ^,$(prefix)),\
-                 $(join ^,binding.target.mk)))),)
-  include binding.target.mk
+                 $(join ^,muse_sdk.target.mk)))),)
+  include muse_sdk.target.mk
+endif
+ifeq ($(strip $(foreach prefix,$(NO_LOAD),\
+    $(findstring $(join ^,$(prefix)),\
+                 $(join ^,node_modules/node-addon-api/nothing.target.mk)))),)
+  include node_modules/node-addon-api/nothing.target.mk
 endif
 
 quiet_cmd_regen_makefile = ACTION Regenerating $@
-cmd_regen_makefile = cd $(srcdir); /Users/archie/VisualStudioCode/Work/music-plugin/halbestunde-plugin/node_modules/node-gyp/gyp/gyp_main.py -fmake --ignore-environment "-Dlibrary=shared_library" "-Dvisibility=default" "-Dnode_root_dir=/Users/archie/Library/Caches/node-gyp/20.3.0" "-Dnode_gyp_dir=/Users/archie/VisualStudioCode/Work/music-plugin/halbestunde-plugin/node_modules/node-gyp" "-Dnode_lib_file=/Users/archie/Library/Caches/node-gyp/20.3.0/<(target_arch)/node.lib" "-Dmodule_root_dir=/Users/archie/VisualStudioCode/Work/music-plugin/halbestunde-plugin" "-Dnode_engine=v8" "--depth=." "-Goutput_dir=." "--generator-output=build" -I/Users/archie/VisualStudioCode/Work/music-plugin/halbestunde-plugin/build/config.gypi -I/Users/archie/VisualStudioCode/Work/music-plugin/halbestunde-plugin/node_modules/node-gyp/addon.gypi -I/Users/archie/Library/Caches/node-gyp/20.3.0/include/node/common.gypi "--toplevel-dir=." binding.gyp
-Makefile: $(srcdir)/node_modules/node-gyp/addon.gypi $(srcdir)/../../../../Library/Caches/node-gyp/20.3.0/include/node/common.gypi $(srcdir)/binding.gyp $(srcdir)/build/config.gypi
+cmd_regen_makefile = cd $(srcdir); /Users/archie/.config/yarn/global/node_modules/node-gyp/gyp/gyp_main.py -fmake --ignore-environment "-Dlibrary=shared_library" "-Dvisibility=default" "-Dnode_root_dir=/Users/archie/Library/Caches/node-gyp/20.3.0" "-Dnode_gyp_dir=/Users/archie/.config/yarn/global/node_modules/node-gyp" "-Dnode_lib_file=/Users/archie/Library/Caches/node-gyp/20.3.0/<(target_arch)/node.lib" "-Dmodule_root_dir=/Users/archie/VisualStudioCode/Work/music-plugin/halbestunde-plugin" "-Dnode_engine=v8" "--depth=." "-Goutput_dir=." "--generator-output=build" -I/Users/archie/VisualStudioCode/Work/music-plugin/halbestunde-plugin/build/config.gypi -I/Users/archie/.config/yarn/global/node_modules/node-gyp/addon.gypi -I/Users/archie/Library/Caches/node-gyp/20.3.0/include/node/common.gypi "--toplevel-dir=." binding.gyp
+Makefile: $(srcdir)/../../../../.config/yarn/global/node_modules/node-gyp/addon.gypi $(srcdir)/build/config.gypi $(srcdir)/binding.gyp $(srcdir)/../../../../Library/Caches/node-gyp/20.3.0/include/node/common.gypi $(srcdir)/node_modules/node-addon-api/node_api.gyp
 	$(call do_cmd,regen_makefile)
 
 # "all" is a concatenation of the "all" targets from all the included

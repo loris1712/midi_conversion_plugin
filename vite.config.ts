@@ -8,6 +8,7 @@ import svgr from 'vite-plugin-svgr';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  assetsInclude: ['**/*.node'],
   plugins: [
     react(),
     tsconfigPaths(),

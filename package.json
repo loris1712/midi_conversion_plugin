@@ -24,6 +24,7 @@
     "axios": "^1.7.2",
     "electron-updater": "^6.2.1",
     "helmet": "^7.1.0",
+    "node-addon-api": "^8.0.0",
     "node-gyp": "^10.1.0",
     "posthog-js": "^1.144.1",
     "react": "^18.2.0",
@@ -31,6 +32,7 @@
     "react-dropzone": "^14.2.3",
     "react-router-dom": "^6.24.1",
     "react-use": "^17.5.0",
+    "sharp": "^0.33.4",
     "styled-components": "^6.1.11",
     "vite-plugin-svgr": "^4.2.0",
     "vite-tsconfig-paths": "^4.3.2"
@@ -42,6 +44,7 @@
     "@typescript-eslint/parser": "^7.1.1",
     "@vitejs/plugin-react": "^4.2.1",
     "autoprefixer": "^10.4.19",
+    "cmake-js": "^7.3.0",
     "electron": "^30.0.1",
     "electron-builder": "^24.13.3",
     "eslint": "^8.57.0",
@@ -53,5 +56,6 @@
     "vite": "^5.1.6",
     "vite-plugin-electron": "^0.28.6",
     "vite-plugin-electron-renderer": "^0.14.5"
-  }
+  },
+  "nodeGypRebuild": "true"
 }

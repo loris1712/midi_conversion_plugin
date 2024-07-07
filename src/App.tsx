@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import InitLoading from '@components/InitLoading';
@@ -5,6 +6,7 @@ import { signIn } from '@service/api';
 import { saveAuthToken } from '@service/local';
 import AppBar from './components/AppBar';
 import Navigation from './layout/Navigation';
+import 'bindings'
 
 
 const App = () => {
