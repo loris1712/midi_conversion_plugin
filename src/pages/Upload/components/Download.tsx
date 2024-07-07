@@ -7,11 +7,12 @@ import Modal from '@components/Modal';
 import { FileNameInput } from './styles';
 
 interface DownloadProps {
+  ext?: string;
   uploadNewFile: () => void;
   onDownload: (filename: string) => void;
 }
 
-const Download = ({ onDownload, uploadNewFile }: DownloadProps) => {
+const Download = ({ext, onDownload, uploadNewFile }: DownloadProps) => {
 
   const [showDownloadModal, setShowDownloadModal] = useState(false);
   const [filename, setFilename] = useState("")
@@ -56,8 +57,9 @@ const Download = ({ onDownload, uploadNewFile }: DownloadProps) => {
           }}
           title="Save As"
           content={
-            <div>
+            <div className='flex flex-col items-start gap-1'>
               <FileNameInput autoFocus value={filename} onChange={(e) => setFilename(e.target.value)} />
+                <p className='text-[10px]'>Saved to: ../Downloads/{filename}.{ext}</p>
             </div>
           }
           buttons={

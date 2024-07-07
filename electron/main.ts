@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
 import {autoUpdater} from 'electron-updater'
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
@@ -51,6 +51,7 @@ function createWindow() {
     win?.webContents.send('main-process-message', new Date().toLocaleString());
   });
 
+
   if (VITE_DEV_SERVER_URL) {
     win.loadURL(VITE_DEV_SERVER_URL);
   } else {
@@ -63,6 +64,14 @@ function createWindow() {
     console.log(error);
   }
 }
+
+// ipcMain comms
+
+ipcMain.on('download', (_event, args) => {
+  const { filename, url } = args;
+  console.log({filename, url})
+});
+
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
@@ -82,8 +91,9 @@ app.on('activate', () => {
   }
 
   autoUpdater.checkForUpdates();
-  win?.webContents.send('check-updates')
+  win?.webContents.send('check-updates');
 });
+
 
 autoUpdater.on('update-available', (info) => {
   console.log({ info });

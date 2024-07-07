@@ -9,10 +9,19 @@ import { generatePresignedUploadUrl } from '@service/api';
 type PAGE = 'upload' | 'processing' | 'download';
 
 const UploadPage: React.FC = () => {
-  const [page, setPage] = useState<PAGE>('upload');
+  const [page, setPage] = useState<PAGE>('download');
   const [progress, setProgress] = useState(0);
   const [isUploaded, setIsUploaded] = useState(false);
 
+  const fileLinks = {
+    job_status: 'completed',
+    body: {
+      filename_musicxml:
+        'https://sagemaker-omr-storage-frankfurt.s3.eu-central-1.amazonaws.com/output/597aba3d-54f9-4757-b962-de0780c40321.musicxml',
+      filename_midi:
+        'https://sagemaker-omr-storage-frankfurt.s3.eu-central-1.amazonaws.com/output/597aba3d-54f9-4757-b962-de0780c40321.mid',
+    },
+  };
 
   const fileProcessMutation = useMutation({
     mutationKey: ['fileUploads'],
@@ -24,14 +33,14 @@ const UploadPage: React.FC = () => {
         headers: {
           'Content-Type': file.type,
         },
-        onUploadProgress:(e)=> {
-          const total = e.total ?? 1
+        onUploadProgress: (e) => {
+          const total = e.total ?? 1;
           const completed = Math.round((e.loaded * 100) / total);
           setProgress(completed);
-        }
+        },
       });
-     // console.log(uploadResponse);
-     return uploadResponse.data;
+      // console.log(uploadResponse);
+      return uploadResponse.data;
     },
     onSuccess: () => {
       setPage('download');
@@ -42,21 +51,16 @@ const UploadPage: React.FC = () => {
   });
 
   const onDownload = (filename: string) => {
-    const fileLinks = {
-      job_status: 'completed',
-      body: {
-        filename_musicxml:
-          'https://sagemaker-omr-storage-frankfurt.s3.eu-central-1.amazonaws.com/output/597aba3d-54f9-4757-b962-de0780c40321.musicxml',
-        filename_midi:
-          'https://sagemaker-omr-storage-frankfurt.s3.eu-central-1.amazonaws.com/output/597aba3d-54f9-4757-b962-de0780c40321.mid',
-      },
+    const payload = {
+      filename,
+      url: fileLinks.body.filename_midi,
     };
-    alert('DOWNLOADING: ' + filename);
+    window.ipcRenderer.send('download', payload);
   };
 
-  const uploadNewFile = () => {
-    setPage('upload');
-  };
+  const getFileExtension = (link: string) => {
+    return String(link).split('.').pop()
+  }
 
   return (
     <div className="flex flex-col items-center justify-center h-full w-full gap-4">
@@ -72,7 +76,13 @@ const UploadPage: React.FC = () => {
         <Processing isUploaded={isUploaded} isDone={progress >= 100} />
       )}
       {page === 'download' && (
-        <Download uploadNewFile={uploadNewFile} onDownload={onDownload} />
+        <Download
+          ext={getFileExtension(fileLinks.body.filename_midi)}
+          onDownload={onDownload}
+          uploadNewFile={() => {
+            setPage('upload');
+          }}
+        />
       )}
     </div>
   );
