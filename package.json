@@ -61,5 +61,6 @@
     "vite-plugin-electron-renderer": "^0.14.5",
     "vite-plugin-native": "^2.2.1"
   },
-  "nodeGypRebuild": "true"
+  "nodeGypRebuild": "true",
+  "license":"ISC"
 }

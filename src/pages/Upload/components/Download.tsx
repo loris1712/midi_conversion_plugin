@@ -84,12 +84,14 @@ const Download = ({ ext, onDownload, uploadNewFile }: DownloadProps) => {
                   <p>File downloaded successfully!</p>
                 </div>
               )}
-              <FileNameInput
-                autoFocus
-                disabled={downloadDone}
-                value={filename}
-                onChange={(e) => setFilename(e.target.value)}
-              />
+              {!downloadDone && (
+                <FileNameInput
+                  autoFocus
+                  value={filename}
+                  onChange={(e) => setFilename(e.target.value)}
+                />
+              )}
+
               <div className="flex flex-row items-center justify-between w-full mt-1">
                 <p className="text-[10px]">
                   Saved to: ../Downloads/{filename}.{ext}

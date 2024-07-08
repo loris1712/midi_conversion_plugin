@@ -14,8 +14,8 @@ const App = () => {
   const { isLoading, data, isError, isSuccess } = useQuery({
     queryKey: ['appLoad'],
     queryFn: async ()=> {
-      const email = 'aephisarh@gmail.com';
-      const password = 'TWRFb84zGJz34v3';
+      const email = 'plugin@halbestunde.com';
+      const password = 'Q45A|fmbh#';
       const {data} = await signIn(email, password);
       return data
     }
