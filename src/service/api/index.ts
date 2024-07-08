@@ -29,6 +29,13 @@ export const generatePresignedUploadUrl = (filename: string) => {
   });
 };
 
-export const getResults = (referenceId: string) => {
-    return axiosInstance.get(`/recognize/${referenceId}`);
+export const postUploadedFile = (payload: {
+  filename: string;
+  pdf_image: boolean;
+}) => {
+  return axiosInstance.post('/recognize/presigned-upload', payload);
+};
+
+export const getResults = (inferenceId: string) => {
+    return axiosInstance.get(`/recognize/${inferenceId}`);
 }
