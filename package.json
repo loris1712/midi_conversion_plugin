@@ -26,8 +26,6 @@
     "electron-dl": "^4.0.0",
     "electron-updater": "^6.2.1",
     "helmet": "^7.1.0",
-    "node-addon-api": "^8.0.0",
-    "node-gyp": "^10.1.0",
     "posthog-js": "^1.144.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -61,6 +59,5 @@
     "vite-plugin-electron-renderer": "^0.14.5",
     "vite-plugin-native": "^2.2.1"
   },
-  "nodeGypRebuild": "true",
   "license":"ISC"
 }
