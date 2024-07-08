@@ -39,7 +39,7 @@ const UploadPage: React.FC = () => {
           setProgress(completed);
         },
       });
-      // console.log(uploadResponse);
+      console.log({ uploadResponse });
       return uploadResponse.data;
     },
     onSuccess: () => {

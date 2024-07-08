@@ -37,6 +37,7 @@ function createWindow() {
     minWidth: 980,
     minHeight: 640,
     title: 'Halbestunde',
+    resizable: true,
     icon: path.join(process.env.VITE_PUBLIC, 'icon.png'),
     titleBarStyle: 'hidden',
     webPreferences: {
