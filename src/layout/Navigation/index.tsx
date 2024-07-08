@@ -35,9 +35,9 @@ const NavLinks: NavLinkProp[] = [
 const Navigation = () => {
 
   return (
-    <main className="h-full w-full flex flex-row pt-[28px] relative">
+    <div className="flex flex-1 flex-row h-full w-full">
       <HashRouter>
-        <nav className="flex flex-col w-[50px] items-center border-r border-[#FFFFFF1A] flex-shrink-0 flex-grow-0 relative z-10 bg-black mt-2">
+        <nav className="flex flex-col w-[50px] items-center border-r border-[#FFFFFF1A] flex-shrink-0 flex-grow-0 relative z-10 bg-black">
           <ul className="flex flex-col flex-1">
             {NavLinks.map((route, idx) => (
               <NavItem to={route.path} key={`${route.name}_${idx}`}>
@@ -81,7 +81,7 @@ const Navigation = () => {
           </Routes>
         </div>
       </HashRouter>
-    </main>
+    </div>
   );
 };
 

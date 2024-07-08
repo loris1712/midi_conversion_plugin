@@ -37,15 +37,20 @@ function createWindow() {
     minWidth: 980,
     minHeight: 640,
     title: 'Halbestunde',
-    resizable: true,
+    backgroundColor: '#000000',
     icon: path.join(process.env.VITE_PUBLIC, 'icon.png'),
-    titleBarStyle: 'hidden',
+    titleBarStyle: 'hiddenInset',
+    titleBarOverlay: {
+      height:32,
+    },
     webPreferences: {
       preload: path.join(__dirname, 'preload.mjs'),
       nodeIntegration: true,
       webSecurity: false,
     },
   });
+
+  win.setWindowButtonVisibility(true);
 
   // Test active push message to Renderer-process.
   win.webContents.on('did-finish-load', () => {

@@ -41,7 +41,7 @@ const App = () => {
   }, [])
 
   return (
-    <div className="h-screen w-screen bg-black">
+    <main className='bg-black h-dvh w-dvw flex flex-col flex-1'>
       <AppBar />
       {isLoading && <InitLoading />}
       {!isSuccess && isError && (
@@ -50,7 +50,7 @@ const App = () => {
         </div>
       )}
       {!isLoading && isSuccess && <Navigation />}
-    </div>
+    </main>
   );
 };
 
