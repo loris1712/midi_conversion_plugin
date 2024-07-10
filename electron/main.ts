@@ -118,6 +118,7 @@ autoUpdater.on('update-available', (info) => {
 });
 
 autoUpdater.on('update-downloaded', (info) => {
+  console.log({info})
   win?.webContents.send('update-downloaded', info);
 });
 

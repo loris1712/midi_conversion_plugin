@@ -29,6 +29,21 @@ export const NavItem = styled(NavLink)`
   }
 `;
 
+export const InactiveLink = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 50px;
+  align-items: center;
+  justify-content: center;
+  cursor: not-allowed;
+  svg {
+    fill: rgba(255, 255, 355, 0.6);
+    path {
+      fill: rgba(255, 255, 355, 0.6);
+    }
+  }
+`;
+
 export const HomeIcon = styled(HomeLogo)``;
 export const PianoIcon = styled(PianoLogo)``;
 export const MusicIcon = styled(MusicLogo)``;

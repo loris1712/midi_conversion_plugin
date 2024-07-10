@@ -1,7 +1,14 @@
 import React from "react";
 import { HashRouter, Route, Routes, Navigate } from 'react-router-dom';
 
-import { NavItem, HomeIcon, SettingsIcon, MusicIcon, PianoIcon } from './styles';
+import {
+  NavItem,
+  HomeIcon,
+  SettingsIcon,
+  MusicIcon,
+  PianoIcon,
+  InactiveLink,
+} from './styles';
 import UploadPage from "@pages/Upload";
 import HomePage from "@pages/Home";
 import MusicPage from "@pages/Music";
@@ -12,6 +19,7 @@ interface NavLinkProp {
   name: string,
   path: string,
   icon: React.ReactNode,
+  disabled?: boolean
 }
 
 const NavLinks: NavLinkProp[] = [
@@ -19,16 +27,19 @@ const NavLinks: NavLinkProp[] = [
     name: 'Upload',
     path: '/upload',
     icon: <PianoIcon />,
+    disabled: false,
   },
   {
     name: 'Home',
     path: '/home',
     icon: <HomeIcon />,
+    disabled: true,
   },
   {
     name: 'Music',
     path: '/music',
     icon: <MusicIcon />,
+    disabled: true,
   },
 ];
 
@@ -40,33 +51,31 @@ const Navigation = () => {
         <nav className="flex flex-col w-[50px] items-center border-r border-[#FFFFFF1A] flex-shrink-0 flex-grow-0 relative z-10 bg-black">
           <ul className="flex flex-col flex-1">
             {NavLinks.map((route, idx) => (
-              <NavItem to={route.path} key={`${route.name}_${idx}`}>
-                {({ isActive }) =>
-                  isActive ? (
-                    <span className="active">{route.icon}</span>
-                  ) : (
+              <>
+                {!route.disabled ? (
+                  <NavItem to={route.path} key={`${route.name}_${idx}`}>
+                    {({ isActive }) =>
+                      isActive ? (
+                        <span className="active">{route.icon}</span>
+                      ) : (
+                        <span className="inactive">{route.icon}</span>
+                      )
+                    }
+                  </NavItem>
+                ) : (
+                  <InactiveLink>
                     <span className="inactive">{route.icon}</span>
-                  )
-                }
-              </NavItem>
+                  </InactiveLink>
+                )}
+              </>
             ))}
           </ul>
 
-          <div className="nav-item">
-            <NavItem to="/setting">
-              {({ isActive }) =>
-                isActive ? (
-                  <span className="active">
-                    <SettingsIcon />
-                  </span>
-                ) : (
-                  <span className="inactive">
-                    <SettingsIcon />
-                  </span>
-                )
-              }
-            </NavItem>
-          </div>
+          <InactiveLink>
+            <span className="inactive">
+              <SettingsIcon />
+            </span>
+          </InactiveLink>
         </nav>
         <div className="h-full w-full px-[1rem]">
           <Routes>
