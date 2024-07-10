@@ -50,7 +50,6 @@ function createWindow() {
     },
   });
 
-  win.setWindowButtonVisibility(true);
 
   // Test active push message to Renderer-process.
   win.webContents.on('did-finish-load', () => {
