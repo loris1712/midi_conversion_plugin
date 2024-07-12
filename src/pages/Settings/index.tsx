@@ -26,6 +26,7 @@ const SettingsPage = () => {
   };
 
   const instllUpdates = () => {
+    setFeedback('Installing updates')
     window.ipcRenderer.send('install-update');
     setInstalling(true);
   };
@@ -33,7 +34,7 @@ const SettingsPage = () => {
   return (
     <div className="flex flex-col items-center justify-center h-full w-full gap-4">
       {hasUpdates ? (
-        <Button disabled={installing} color="amber" onClick={instllUpdates}>
+        <Button disabled={installing} className='disabled:bg-accent' color="amber" onClick={instllUpdates}>
           Install updates
         </Button>
       ) : (

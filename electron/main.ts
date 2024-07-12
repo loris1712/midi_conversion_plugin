@@ -128,6 +128,7 @@ ipcMain.on('check-updates',async ()=> {
 });
 
 ipcMain.on('install-update', ()=> {
+  autoUpdater.downloadUpdate();
   autoUpdater.quitAndInstall();
 })
 
