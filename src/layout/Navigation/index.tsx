@@ -1,5 +1,7 @@
 import React from "react";
 import { HashRouter, Route, Routes, Navigate } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
+
 
 import {
   NavItem,
@@ -51,7 +53,7 @@ const Navigation = () => {
         <nav className="flex flex-col w-[50px] items-center border-r border-[#FFFFFF1A] flex-shrink-0 flex-grow-0 relative z-10 bg-black">
           <ul className="flex flex-col flex-1">
             {NavLinks.map((route, idx) => (
-              <>
+              <div key={uuidv4()}>
                 {!route.disabled ? (
                   <NavItem to={route.path} key={`${route.name}_${idx}`}>
                     {({ isActive }) =>
@@ -63,19 +65,27 @@ const Navigation = () => {
                     }
                   </NavItem>
                 ) : (
-                  <InactiveLink>
+                  <InactiveLink key={`${route.name}_${idx}`}>
                     <span className="inactive">{route.icon}</span>
                   </InactiveLink>
                 )}
-              </>
+              </div>
             ))}
           </ul>
 
-          <InactiveLink>
-            <span className="inactive">
-              <SettingsIcon />
-            </span>
-          </InactiveLink>
+          <NavItem to={'/setting'}>
+            {({ isActive }) =>
+              isActive ? (
+                <span className="active">
+                  <SettingsIcon />
+                </span>
+              ) : (
+                <span className="inactive">
+                  <SettingsIcon />
+                </span>
+              )
+            }
+          </NavItem>
         </nav>
         <div className="h-full w-full px-[1rem]">
           <Routes>

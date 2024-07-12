@@ -46,7 +46,7 @@ function createWindow() {
     webPreferences: {
       preload: path.join(__dirname, 'preload.mjs'),
       nodeIntegration: true,
-      webSecurity: false,
+      webSecurity: true,
     },
   });
 
@@ -107,7 +107,6 @@ app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow();
   }
-
   autoUpdater.checkForUpdates();
   win?.webContents.send('check-updates');
 });
@@ -121,5 +120,15 @@ autoUpdater.on('update-downloaded', (info) => {
   console.log({info})
   win?.webContents.send('update-downloaded', info);
 });
+
+// check and install update
+ipcMain.on('check-updates',async ()=> {
+  const results = await autoUpdater.checkForUpdatesAndNotify();
+  win?.webContents.send('check-updates-response', results);
+});
+
+ipcMain.on('install-update', ()=> {
+  autoUpdater.quitAndInstall();
+})
 
 app.whenReady().then(createWindow);
