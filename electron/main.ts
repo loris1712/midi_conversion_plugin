@@ -128,8 +128,13 @@ ipcMain.on('check-updates',async ()=> {
 });
 
 ipcMain.on('install-update', ()=> {
-  autoUpdater.downloadUpdate();
-  autoUpdater.quitAndInstall();
+  setImmediate(() => {
+    app.removeAllListeners('window-all-closed');
+    autoUpdater.quitAndInstall(true, true);
+    if (win != null) {
+      win.close();
+    }
+  });
 })
 
 app.whenReady().then(createWindow);
