@@ -19,6 +19,7 @@
     ],
     "artifactName": "${productName}-Mac-${version}-Installer.${ext}"
   },
+  "afterSign": "./afterSignHook.js",
   "win": {
   "icon":"./public/icon.png",
     "target": [
@@ -44,5 +45,6 @@
       "AppImage"
     ],
     "artifactName": "${productName}-Linux-${version}.${ext}"
-  }
+  },
+
 }
