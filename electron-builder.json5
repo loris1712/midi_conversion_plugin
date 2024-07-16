@@ -4,7 +4,6 @@
   "appId": "plugin.halbestunde",
   "asar": true,
   "productName": "Halbestunde",
-  // "forceCodeSigning": true,
   "directories": {
     "output": "release/${version}"
   },
@@ -14,12 +13,21 @@
   ],
   "mac": {
     "icon":"./public/icon.png",
-    "target": [
-      "dmg"
+    "category": "public.app-category.utilities",
+      "target": [
+        "dmg",
+        "zip"
     ],
-    "artifactName": "${productName}-Mac-${version}-Installer.${ext}"
+    "artifactName": "${productName}-Mac-${version}-Installer.${ext}",
+    "hardenedRuntime": true,
+    "gatekeeperAssess": false,
+    "entitlements": "./app-build/entitlements.mac.plist",
+    "entitlementsInherit": "./app-build/entitlements.mac.plist",
+    "notarize": {
+      "teamId": "2597TZ8WQQ",
+    }
   },
-  "afterSign": "./afterSignHook.js",
+  // "afterSign": "./afterSignHook.ts",
   "win": {
   "icon":"./public/icon.png",
     "target": [

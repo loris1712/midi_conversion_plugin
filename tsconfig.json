@@ -27,7 +27,8 @@
       "@assets/*": ["assets/*"],
       "@pages/*": ["pages/*"],
       "@service/*":["service/*"],
-      "@constants/*": ["constants/*"] 
+      "@constants/*": ["constants/*"] ,
+      "@lib/*": ["lib/*"]
     }
   },
   "include": ["src", "electron"],

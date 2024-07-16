@@ -9,6 +9,7 @@ import Navigation from './layout/Navigation';
 
 const App = () => {
 
+
   const [shouldRestart, setShouldRestart] = useState(false)
 
   const { isLoading, data, isError, isSuccess } = useQuery({

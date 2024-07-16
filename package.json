@@ -1,9 +1,9 @@
 {
   "name": "haalbestunde",
   "private": false,
-  "version": "0.0.6",
+  "version": "0.0.0",
   "type": "module",
-  "description": "",
+  "description": "Turns sheet into MIDI",
   "author": "Halbestunde",
   "main": "dist-electron/main.js",
   "repository": "https://github.com/thearchibold/halbestunde-release",
@@ -23,7 +23,9 @@
     "@tanstack/react-query": "^5.49.2",
     "axios": "^1.7.2",
     "bindings": "^1.5.0",
+    "dotenv": "^16.4.5",
     "electron-dl": "^4.0.0",
+    "electron-notarize": "^1.2.2",
     "electron-updater": "^6.2.1",
     "helmet": "^7.1.0",
     "posthog-js": "^1.144.1",
@@ -39,6 +41,7 @@
     "vite-tsconfig-paths": "^4.3.2"
   },
   "devDependencies": {
+    "@electron-forge/publisher-github": "^7.4.0",
     "@electron/notarize": "^2.3.2",
     "@types/bindings": "^1.5.5",
     "@types/react": "^18.2.64",
