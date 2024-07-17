@@ -3,6 +3,7 @@ import { autoUpdater } from 'electron-updater';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import {download as downloader} from 'electron-dl';
+import isDev from 'electron-is-dev'
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // The built directory structure
@@ -61,8 +62,10 @@ function createWindow() {
     // win.loadFile('dist/index.html')
     win.loadFile(path.join(RENDERER_DIST, 'index.html'));
   }
+   if (isDev) {
+     win.webContents.openDevTools({ mode: 'detach' });
+   }
   try {
-    // console.log(initialzeTest());
   } catch (error) {
     console.log(error);
   }
