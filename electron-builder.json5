@@ -15,9 +15,9 @@
     "icon":"./public/icon.png",
     "category": "public.app-category.utilities",
       "target": [
-        "dmg",
-        "zip"
+        "dmg"
     ],
+    "provisioningProfile": "./app-build/halbestundeplugin.provisionprofile",
     "artifactName": "${productName}-Mac-${version}-Installer.${ext}",
     "hardenedRuntime": true,
     "gatekeeperAssess": false,
@@ -27,7 +27,7 @@
       "teamId": "2597TZ8WQQ",
     }
   },
-  // "afterSign": "./afterSignHook.ts",
+  "afterSign": "./afterSignHook.ts",
   "win": {
   "icon":"./public/icon.png",
     "target": [

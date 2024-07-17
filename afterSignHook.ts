@@ -16,9 +16,9 @@ exports.default = async function notarizing(context) {
 
   // @ts-ignore
   return await notarize({
-    tool: "notarytool",
+    tool: 'notarytool',
     appBundleId: 'plugin.halbestunde',
-    appPath: `${appOutDir}/${appName}.app`,
+    appPath: `/Users/archie/VisualStudioCode/Work/music-plugin/halbestunde-plugin/release/0.0.1/Halbestunde-Mac-0.0.1-Installer.dmg`,
     appleId: appleId,
     appleIdPassword: appleIdPassword,
     teamId: teamId,

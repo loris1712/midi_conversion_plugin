@@ -3,7 +3,6 @@ import { autoUpdater } from 'electron-updater';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import {download as downloader} from 'electron-dl';
-
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // The built directory structure
@@ -63,7 +62,7 @@ function createWindow() {
     win.loadFile(path.join(RENDERER_DIST, 'index.html'));
   }
   try {
-    // console.log(addon.fn());
+    // console.log(initialzeTest());
   } catch (error) {
     console.log(error);
   }

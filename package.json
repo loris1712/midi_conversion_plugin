@@ -1,7 +1,7 @@
 {
   "name": "haalbestunde",
-  "private": false,
-  "version": "0.0.0",
+  "private": true,
+  "version": "0.0.1",
   "type": "module",
   "description": "Turns sheet into MIDI",
   "author": "Halbestunde",
@@ -28,6 +28,7 @@
     "electron-notarize": "^1.2.2",
     "electron-updater": "^6.2.1",
     "helmet": "^7.1.0",
+    "muse-client-js": "^0.0.1",
     "posthog-js": "^1.144.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
