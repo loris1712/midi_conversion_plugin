@@ -1,11 +1,14 @@
+import { initialzeTest } from 'muse-client-js';
 import { app, BrowserWindow, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import {download as downloader} from 'electron-dl';
 import isDev from 'electron-is-dev'
-import { initialzeTest } from 'muse-client-js';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+// @ts-ignore
+
+console.log(initialzeTest());
 
 // The built directory structure
 //
@@ -67,7 +70,6 @@ function createWindow() {
      win.webContents.openDevTools({ mode: 'detach' });
    }
   try {
-    console.log(initialzeTest());
   } catch (error) {
     console.log(error);
   }
