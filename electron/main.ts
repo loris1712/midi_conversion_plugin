@@ -2,24 +2,13 @@ import { app, BrowserWindow, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
-import {download as downloader} from 'electron-dl';
-import isDev from 'electron-is-dev'
+import { download as downloader } from 'electron-dl';
+import isDev from 'electron-is-dev';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-import { createRequire } from 'module';
-const require = createRequire(import.meta.url);
 
-let museSdk: any;
-
-try {
-   museSdk = require('../lib/mac/MuseClientSdk.node');
-}catch(e){
-  console.log("Error loading muse sdk");
-  museSdk = null;
-}
-
+import Muse from '../lib/muse/index';
 
 // @ts-ignore
-
 
 // The built directory structure
 //
@@ -56,7 +45,7 @@ function createWindow() {
     icon: path.join(process.env.VITE_PUBLIC, 'icon.png'),
     titleBarStyle: 'hiddenInset',
     titleBarOverlay: {
-      height:32,
+      height: 32,
     },
     webPreferences: {
       preload: path.join(__dirname, 'preload.mjs'),
@@ -64,7 +53,6 @@ function createWindow() {
       webSecurity: true,
     },
   });
-
 
   // Test active push message to Renderer-process.
   win.webContents.on('did-finish-load', () => {
@@ -77,20 +65,21 @@ function createWindow() {
     // win.loadFile('dist/index.html')
     win.loadFile(path.join(RENDERER_DIST, 'index.html'));
   }
-   if (isDev) {
-     win.webContents.openDevTools({ mode: 'detach' });
-   }
+  if (isDev) {
+    win.webContents.openDevTools({ mode: 'detach' });
+  }
   try {
-    const interval = setInterval(()=> {
-     if(museSdk){
-       const result = museSdk.initializeTestMode(true);
-       // const user = museSdk.
-       console.log({ result });
-       win?.webContents.send('muse-user', result);
-     }else {
-      clearInterval(interval);
-     }
-    }, 5000)
+    const interval = setInterval(() => {
+      const museSdk = new Muse(isDev);
+      if (museSdk.connected) {
+        const userInfo = museSdk.getUserInfo();
+        console.log({ userInfo });
+        const activeSub = museSdk.getActiveSubscription();
+        console.log({ activeSub });
+
+        clearInterval(interval);
+      }
+    }, 5000);
   } catch (error) {
     console.log(error);
   }
@@ -144,17 +133,17 @@ autoUpdater.on('update-available', (info) => {
 });
 
 autoUpdater.on('update-downloaded', (info) => {
-  console.log({info})
+  console.log({ info });
   win?.webContents.send('update-downloaded', info);
 });
 
 // check and install update
-ipcMain.on('check-updates',async ()=> {
+ipcMain.on('check-updates', async () => {
   const results = await autoUpdater.checkForUpdatesAndNotify();
   win?.webContents.send('check-updates-response', results);
 });
 
-ipcMain.on('install-update', ()=> {
+ipcMain.on('install-update', () => {
   setImmediate(() => {
     app.removeAllListeners('window-all-closed');
     autoUpdater.quitAndInstall(true, true);
@@ -162,6 +151,6 @@ ipcMain.on('install-update', ()=> {
       win.close();
     }
   });
-})
+});
 
 app.whenReady().then(createWindow);

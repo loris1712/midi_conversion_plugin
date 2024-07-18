@@ -19,15 +19,10 @@
     ],
     "provisioningProfile": "./app-build/halbestundeplugin.provisionprofile",
     "artifactName": "${productName}-Mac-${version}-Installer.${ext}",
-    "hardenedRuntime": true,
-    "gatekeeperAssess": false,
-    "entitlements": "./app-build/entitlements.mac.plist",
-    "entitlementsInherit": "./app-build/entitlements.mac.plist",
     "notarize": {
       "teamId": "2597TZ8WQQ",
     }
   },
-  "afterSign": "./afterSignHook.ts",
   "win": {
   "icon":"./public/icon.png",
     "target": [
