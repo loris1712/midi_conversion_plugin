@@ -3,14 +3,36 @@
   "$schema": "https://raw.githubusercontent.com/electron-userland/electron-builder/master/packages/app-builder-lib/scheme.json",
   "appId": "plugin.halbestunde",
   "asar": true,
+  "asarUnpack": ["lib"],
   "productName": "Halbestunde",
   "directories": {
     "output": "release/${version}"
   },
   "files": [
     "dist",
-    "dist-electron"
+    "dist-electron",
+    "lib",
+    {
+            "from": "lib",
+            "to": "lib",
+            "filter": ["**/*"]
+        }
   ],
+  "extraFiles": [
+        {
+            "from": "lib",
+            "to": "lib",
+            "filter": ["**/*"]
+        }
+    ],
+  "extraResources": [
+  {
+   "from": "lib",
+    "to": "Contents/Frameworks/",
+    "filter": ["**/*"]
+     }
+  ],
+  
   "mac": {
     "icon":"./public/icon.png",
     "category": "public.app-category.utilities",

@@ -69,17 +69,16 @@ function createWindow() {
     win.webContents.openDevTools({ mode: 'detach' });
   }
   try {
-    const interval = setInterval(() => {
-      const museSdk = new Muse(isDev);
-      if (museSdk.connected) {
-        const userInfo = museSdk.getUserInfo();
-        console.log({ userInfo });
-        const activeSub = museSdk.getActiveSubscription();
-        console.log({ activeSub });
-
-        clearInterval(interval);
-      }
-    }, 5000);
+    const museSdk = new Muse(true);
+    if (museSdk.connected) {
+      const userInfo = museSdk.getUserInfo();
+      console.log({ userInfo });
+      win?.webContents.send('muse-user', userInfo);
+      const activeSub = museSdk.getActiveSubscription();
+      console.log({ activeSub });
+    }else {
+      win?.webContents.send('muse-user', {message: "Connection did not work"});
+    }
   } catch (error) {
     console.log(error);
   }

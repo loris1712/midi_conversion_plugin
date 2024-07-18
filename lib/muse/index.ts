@@ -1,17 +1,23 @@
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
+require('../lib/mac/MuseClientSdk.node');
 
-const museSdk: MuseSdk = require('../lib/mac/MuseClientSdk.node');
+
 
 class Muse {
   handle: any;
   connected: boolean;
+  museSdk: any;
 
   constructor(isDev: boolean) {
     let result;
     if (isDev) {
+      const museSdk: MuseSdk = require('../lib/mac/MuseClientSdk.node');
+      this.museSdk = museSdk;
       result = museSdk.initializeTestMode(true);
     } else {
+      const museSdk: MuseSdk = require('../lib/mac/MuseClientSdk.node');
+      this.museSdk = museSdk;
       result = museSdk.initialize();
     }
     const { status, handle } = result;
@@ -22,13 +28,13 @@ class Muse {
   }
 
   getUserInfo() {
-    const userInfoResult = museSdk.getUserInfo(this.handle);
-    const { status, userInfo } = userInfoResult;
+    const userInfoResult = this.museSdk?.getUserInfo(this.handle);
+    const { userInfo } = userInfoResult ?? {};
     return userInfo;
   }
 
   getActiveSubscription() {
-    const subscriptionResult = museSdk.getActivationStatus();
+    const subscriptionResult = this.museSdk?.getActivationStatus();
     return subscriptionResult;
   }
 }
