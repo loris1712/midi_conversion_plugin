@@ -2045,6 +2045,11 @@
   resolved "https://registry.npmjs.org/@ungap/structured-clone/-/structured-clone-1.2.0.tgz"
   integrity sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==
 
+"@vavite/node-loader@^4.1.1":
+  version "4.1.1"
+  resolved "https://registry.npmjs.org/@vavite/node-loader/-/node-loader-4.1.1.tgz"
+  integrity sha512-3vJ3lnO2yJYE+i7DlZuSc7jUT4z+Fe4yVaxlODHWn1lpkVsXjIz2TfTp6zEJGXZJlhY1SnIzZczfQzA3Gs/NZw==
+
 "@vercel/webpack-asset-relocator-loader@1.7.3":
   version "1.7.3"
   resolved "https://registry.npmjs.org/@vercel/webpack-asset-relocator-loader/-/webpack-asset-relocator-loader-1.7.3.tgz"
@@ -2203,10 +2208,6 @@
   version "4.2.2"
   resolved "https://registry.npmjs.org/@xtuc/long/-/long-4.2.2.tgz"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
-
-"MuseClientSdk.node@link:/Users/archie/VisualStudioCode/Work/music-plugin/halbestunde-plugin/lib/mac/MuseClientSdk.node":
-  version "0.0.0"
-  uid ""
 
 abbrev@^1.0.0:
   version "1.1.1"
@@ -4828,11 +4829,6 @@ ms@2.1.2, ms@^2.0.0:
   version "2.1.2"
   resolved "https://registry.npmjs.org/ms/-/ms-2.1.2.tgz"
   integrity sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==
-
-muse-client-js@^0.0.1:
-  version "0.0.1"
-  resolved "https://registry.npmjs.org/muse-client-js/-/muse-client-js-0.0.1.tgz"
-  integrity sha512-qBPEV8dWjDrkPWe5jbewzApBY/NWEhHh0HdxvPM99/i4tTcmvmJBH7mOFxuyOVDHQ68DqeZ+gSjXacYkwevsQw==
 
 mz@^2.7.0:
   version "2.7.0"

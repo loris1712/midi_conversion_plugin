@@ -1,4 +1,3 @@
-import { initialzeTest } from 'muse-client-js';
 import { app, BrowserWindow, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import { fileURLToPath } from 'node:url';
@@ -6,9 +5,21 @@ import path from 'node:path';
 import {download as downloader} from 'electron-dl';
 import isDev from 'electron-is-dev'
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+
+let museSdk: any;
+
+try {
+   museSdk = require('../lib/mac/MuseClientSdk.node');
+}catch(e){
+  console.log("Error loading muse sdk");
+  museSdk = null;
+}
+
+
 // @ts-ignore
 
-console.log(initialzeTest());
 
 // The built directory structure
 //
@@ -70,6 +81,16 @@ function createWindow() {
      win.webContents.openDevTools({ mode: 'detach' });
    }
   try {
+    const interval = setInterval(()=> {
+     if(museSdk){
+       const result = museSdk.initializeTestMode(true);
+       // const user = museSdk.
+       console.log({ result });
+       win?.webContents.send('muse-user', result);
+     }else {
+      clearInterval(interval);
+     }
+    }, 5000)
   } catch (error) {
     console.log(error);
   }

@@ -46,6 +46,12 @@ const App = () => {
     }
   }, [data]);
 
+  useEffect(()=> {
+    window.ipcRenderer.on('muse-user', (_ev, args)=> {
+      console.log({args})
+    });
+  }, [])
+
   useEffect(() => {
     checkForUpdates();
   }, [checkForUpdates]);
