@@ -24,3 +24,7 @@ window.ipcRenderer.on('main-process-message', (_event, message) => {
 window.ipcRenderer.on('muse-user', (_event, message) => {
   console.log(message);
 });
+
+window.ipcRenderer.on('log', (_event, message) => {
+  console.log(message);
+});

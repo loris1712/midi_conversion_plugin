@@ -36,6 +36,12 @@ let win: BrowserWindow | null;
 autoUpdater.autoDownload = true;
 autoUpdater.autoInstallOnAppQuit = true;
 
+function sendLog(args: any) {
+  try {
+    win?.webContents.send('log', args);
+  } catch (e) {}
+}
+
 function createWindow() {
   win = new BrowserWindow({
     minWidth: 980,
@@ -54,39 +60,43 @@ function createWindow() {
     },
   });
 
-  // Test active push message to Renderer-process.
-  win.webContents.on('did-finish-load', () => {
-    win?.webContents.send('main-process-message', new Date().toLocaleString());
-  });
-
   if (VITE_DEV_SERVER_URL) {
     win.loadURL(VITE_DEV_SERVER_URL);
   } else {
     // win.loadFile('dist/index.html')
     win.loadFile(path.join(RENDERER_DIST, 'index.html'));
   }
-  if (isDev) {
-    win.webContents.openDevTools({ mode: 'detach' });
-  }
-  try {
-    const museSdk = new Muse(true);
-    if (museSdk.connected) {
-      const userInfo = museSdk.getUserInfo();
-      console.log({ userInfo });
-      win?.webContents.send('muse-user', userInfo);
-      const activeSub = museSdk.getActiveSubscription();
-      console.log({ activeSub });
-    }else {
-      win?.webContents.send('muse-user', {message: "Connection did not work"});
+
+  // Test active push message to Renderer-process.
+  win.webContents.on('did-finish-load', () => {
+    win?.webContents.send('main-process-message', new Date().toLocaleString());
+    if (isDev) {
+      win?.webContents.openDevTools({ mode: 'detach' });
     }
-  } catch (error) {
-    console.log(error);
-    win?.webContents.send('muse-user', { message: error });
-  }
+    try {
+      sendLog('init-sdk');
+      const museSdk = new Muse(isDev);
+      sendLog('init-sdk-success');
+      if (museSdk.connected) {
+        sendLog('sdk-connected');
+        const userInfo = museSdk.getUserInfo();
+        win?.webContents.send('muse-user', userInfo);
+        const activeSub = museSdk.getActiveSubscription();
+        console.log({ activeSub });
+      } else {
+        win?.webContents.send('muse-user', {
+          message: 'Connection did not work',
+        });
+      }
+      sendLog('init-sdk-done');
+    } catch (error) {
+      console.log(error);
+      win?.webContents.send('muse-user', { message: error });
+    }
+  });
 }
 
 // ipcMain comms
-
 ipcMain.on('download', async (_event, args) => {
   const downloadPath = app.getPath('downloads');
   const { filename, url, ext } = args;
