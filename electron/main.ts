@@ -81,6 +81,7 @@ function createWindow() {
     }
   } catch (error) {
     console.log(error);
+    win?.webContents.send('muse-user', { message: error });
   }
 }
 

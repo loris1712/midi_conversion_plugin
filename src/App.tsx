@@ -47,8 +47,8 @@ const App = () => {
   }, [data]);
 
   useEffect(()=> {
-    window.ipcRenderer.on('muse-user', (_ev, args)=> {
-      console.log({args})
+    window.ipcRenderer.on('muse-user', (_ev, args) => {
+      console.log({ args });
     });
   }, [])
 
