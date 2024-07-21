@@ -26,3 +26,5 @@ release
 *.sw?
 .env
 out
+notarize.sh
+notarize.sh
