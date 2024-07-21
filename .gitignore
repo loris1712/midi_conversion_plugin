@@ -27,4 +27,4 @@ release
 .env
 out
 notarize.sh
-notarize.sh
+./notarize.sh
