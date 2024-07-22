@@ -9,7 +9,6 @@ import {
   SettingsIcon,
   MusicIcon,
   PianoIcon,
-  InactiveLink,
 } from './styles';
 import UploadPage from "@pages/Upload";
 import HomePage from "@pages/Home";
