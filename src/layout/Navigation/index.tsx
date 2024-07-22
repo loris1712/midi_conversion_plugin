@@ -54,7 +54,7 @@ const Navigation = () => {
           <ul className="flex flex-col flex-1">
             {NavLinks.map((route, idx) => (
               <div key={uuidv4()}>
-                {!route.disabled ? (
+                {!route.disabled && (
                   <NavItem to={route.path} key={`${route.name}_${idx}`}>
                     {({ isActive }) =>
                       isActive ? (
@@ -64,10 +64,6 @@ const Navigation = () => {
                       )
                     }
                   </NavItem>
-                ) : (
-                  <InactiveLink key={`${route.name}_${idx}`}>
-                    <span className="inactive">{route.icon}</span>
-                  </InactiveLink>
                 )}
               </div>
             ))}

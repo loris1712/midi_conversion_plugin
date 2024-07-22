@@ -39,12 +39,17 @@
       "target": [
         "dmg"
     ],
+    "identity": "902E8E8B3A6FE1D1EF4729D19AACE0131FD573A3",
     "provisioningProfile": "./app-build/halbestundeplugin.provisionprofile",
+    "hardenedRuntime": true,
+    "type": "distribution",
+    "gatekeeperAssess": false,
+    "entitlements": "./app-build/entitlements.mac.plist",
+    "entitlementsInherit": "./app-build/entitlements.mac.plist",
     "artifactName": "${productName}-Mac-${version}-Installer.${ext}",
-    "notarize": {
-      "teamId": "2597TZ8WQQ",
-    }
+    "notarize": true
   },
+  "afterSign": "./afterSignHook.ts",
   "win": {
   "icon":"./public/icon.png",
     "target": [

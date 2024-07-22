@@ -1,10 +1,12 @@
 require('dotenv').config();
 const { notarize } = require('electron-notarize');
+const path = require('path');
+
+const package = require('./package.json');
 
 const appleId = process.env.APPLE_ID;
 const appleIdPassword = process.env.APPLE_ID_PASSWORD;
 const teamId = process.env.APPLE_TEAM_ID;
-
 
 exports.default = async function notarizing(context) {
   const { electronPlatformName, appOutDir } = context;
@@ -12,13 +14,22 @@ exports.default = async function notarizing(context) {
     return;
   }
 
-  const appName = context.packager.appInfo.productFilename;
+  console.log('afterSign hook triggered', context);
+
+  let appId = 'plugin.halbestunde';
+
+  let appPath = path.join(
+    context.appOutDir,
+    `${context.packager.appInfo.productFilename}.app`,
+  );
+
+  console.log(`Notarizing ${appId} found at ${appPath}`);
 
   // @ts-ignore
   return await notarize({
     tool: 'notarytool',
-    appBundleId: 'plugin.halbestunde',
-    appPath: `/Users/archie/VisualStudioCode/Work/music-plugin/halbestunde-plugin/release/0.0.1/Halbestunde-Mac-0.0.1-Installer.dmg`,
+    appBundleId: appId,
+    appPath: appPath,
     appleId: appleId,
     appleIdPassword: appleIdPassword,
     teamId: teamId,
