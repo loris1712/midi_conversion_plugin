@@ -1,6 +1,10 @@
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
-require('../lib/mac/MuseClientSdk.node');
+
+let node_path = '../lib/mac/MuseClientSdk.node';
+if (process.platform == 'win32')
+  node_path ='../lib/win/MuseClientSdk.node';
+require(node_path);
 
 
 
@@ -12,11 +16,11 @@ class Muse {
   constructor(isDev: boolean) {
     let result;
     if (isDev) {
-      const museSdk: MuseSdk = require('../lib/mac/MuseClientSdk.node');
+      const museSdk: MuseSdk = require(node_path);
       this.museSdk = museSdk;
       result = museSdk.initializeTestMode(true);
     } else {
-      const museSdk: MuseSdk = require('../lib/mac/MuseClientSdk.node');
+      const museSdk: MuseSdk = require(node_path);
       this.museSdk = museSdk;
       result = museSdk.initialize();
     }
