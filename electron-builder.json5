@@ -51,6 +51,7 @@
   },
   "afterSign": "./afterSignHook.ts",
   "win": {
+  "verifyUpdateCodeSignature":false,
   "icon":"./public/icon.png",
     "target": [
       {
