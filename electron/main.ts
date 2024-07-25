@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain } from 'electron';
+import { app, BrowserWindow, ipcMain, Menu } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
@@ -49,6 +49,8 @@ function createWindow() {
     title: 'Halbestunde',
     backgroundColor: '#000000',
     icon: path.join(process.env.VITE_PUBLIC, 'icon.png'),
+    frame: false,
+    autoHideMenuBar: true,
     titleBarStyle: 'hiddenInset',
     titleBarOverlay: {
       height: 32,
@@ -57,6 +59,7 @@ function createWindow() {
       preload: path.join(__dirname, 'preload.mjs'),
       nodeIntegration: true,
       webSecurity: true,
+      devTools: isDev,
     },
   });
 
