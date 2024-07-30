@@ -1,10 +1,9 @@
-import { app, BrowserWindow, ipcMain, Menu } from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { download as downloader } from 'electron-dl';
 import isDev from 'electron-is-dev';
-import bytenode from 'bytenode'
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 import Muse from '../lib/muse/index';
@@ -138,7 +137,7 @@ app.on('activate', () => {
   win?.webContents.send('check-updates');
 });
 
-autoUpdater.on('update-available', (info) => {
+autoUpdater.on('update-available', () => {
   autoUpdater.downloadUpdate();
 });
 

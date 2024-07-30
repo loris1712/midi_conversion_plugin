@@ -16,8 +16,7 @@ const App = () => {
   const { isLoading, data, isError, isSuccess } = useQuery({
     queryKey: ['appLoad'],
     queryFn: async () => {
-    
-       const data = await signIn();
+       const { data } = await signIn();
       return data;
     },
   });
@@ -39,10 +38,10 @@ const App = () => {
 
   useEffect(() => {
     if (data) {
-      // const { IdToken } = data;
-      //  if (IdToken) {
-       //  saveAuthToken(IdToken);
-      // }
+      const { IdToken } = data;
+      if (IdToken) {
+         saveAuthToken(IdToken);
+     }
     }
   }, [data]);
 
