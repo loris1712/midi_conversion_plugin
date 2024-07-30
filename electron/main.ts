@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { download as downloader } from 'electron-dl';
 import isDev from 'electron-is-dev';
+import bytenode from 'bytenode'
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 import Muse from '../lib/muse/index';
@@ -57,7 +58,6 @@ function createWindow() {
     },
     webPreferences: {
       preload: path.join(__dirname, 'preload.mjs'),
-      nodeIntegration: true,
       webSecurity: true,
       devTools: isDev,
     },
@@ -85,7 +85,7 @@ function createWindow() {
         const userInfo = museSdk.getUserInfo();
         win?.webContents.send('muse-user', userInfo);
         const activeSub = museSdk.getActiveSubscription();
-        console.log({ activeSub });
+        win?.webContents.send('muse-sub', activeSub)
       } else {
         win?.webContents.send('muse-user', {
           message: 'Connection did not work',
@@ -93,7 +93,6 @@ function createWindow() {
       }
       sendLog('init-sdk-done');
     } catch (error) {
-      console.log(error);
       win?.webContents.send('muse-user', { message: error });
     }
   });
@@ -103,7 +102,6 @@ function createWindow() {
 ipcMain.on('download', async (_event, args) => {
   const downloadPath = app.getPath('downloads');
   const { filename, url, ext } = args;
-  console.log({ filename, url, ext });
   const currentWindow = BrowserWindow.getFocusedWindow();
   const filePath = `${filename}.${ext}`;
   if (currentWindow) {
@@ -141,12 +139,10 @@ app.on('activate', () => {
 });
 
 autoUpdater.on('update-available', (info) => {
-  console.log({ info });
   autoUpdater.downloadUpdate();
 });
 
 autoUpdater.on('update-downloaded', (info) => {
-  console.log({ info });
   win?.webContents.send('update-downloaded', info);
 });
 

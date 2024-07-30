@@ -14,16 +14,12 @@ exports.default = async function notarizing(context) {
     return;
   }
 
-  console.log('afterSign hook triggered', context);
-
   let appId = 'plugin.halbestunde';
 
   let appPath = path.join(
     context.appOutDir,
     `${context.packager.appInfo.productFilename}.app`,
   );
-
-  console.log(`Notarizing ${appId} found at ${appPath}`);
 
   // @ts-ignore
   return await notarize({
