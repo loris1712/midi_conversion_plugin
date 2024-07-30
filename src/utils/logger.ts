@@ -1,10 +1,8 @@
-import isDev from 'electron-is-dev';
-
 
 export const log = (data: any) => {
-    if(isDev){
-        console.log(data)
-    }else {
-        // send to server
+    if (process.env.NODE_ENV === 'development') {
+      console.log(data);
+    } else {
+      // send to server
     }
 }
