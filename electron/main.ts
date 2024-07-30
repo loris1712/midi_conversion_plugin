@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain } from 'electron';
+import { app, BrowserWindow, ipcMain, Menu } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
@@ -43,24 +43,36 @@ function sendLog(args: any) {
 }
 
 function createWindow() {
+  try{
+    Menu.setApplicationMenu(null);
+  }catch(e){
+    // ignore
+  }
   win = new BrowserWindow({
     minWidth: 980,
     minHeight: 640,
     title: 'Halbestunde',
     backgroundColor: '#000000',
+    autoHideMenuBar: true,
     icon: path.join(process.env.VITE_PUBLIC, 'icon.png'),
     frame: false,
-    autoHideMenuBar: true,
     titleBarStyle: 'hiddenInset',
     titleBarOverlay: {
       height: 32,
     },
     webPreferences: {
       preload: path.join(__dirname, 'preload.mjs'),
-      webSecurity: true,
       devTools: isDev,
     },
   });
+
+  // remove default menu
+  try{
+   win.setMenuBarVisibility(false);
+   win?.removeMenu();
+  }catch(e){
+    // ignore
+  }
 
   if (VITE_DEV_SERVER_URL) {
     win.loadURL(VITE_DEV_SERVER_URL);
