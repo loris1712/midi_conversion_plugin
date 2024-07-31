@@ -8,8 +8,6 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 import Muse from '../lib/muse/index';
 
-// @ts-ignore
-
 // The built directory structure
 //
 // ├─┬─┬ dist
@@ -55,7 +53,6 @@ function createWindow() {
     backgroundColor: '#000000',
     autoHideMenuBar: true,
     icon: path.join(process.env.VITE_PUBLIC, 'icon.png'),
-    frame: false,
     titleBarStyle: 'hiddenInset',
     titleBarOverlay: {
       height: 32,
