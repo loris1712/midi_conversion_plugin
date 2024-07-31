@@ -1,4 +1,5 @@
 import { Button } from '@radix-ui/themes';
+import { log } from '@utils/logger';
 import { useEffect, useState } from 'react';
 
 const SettingsPage = () => {
@@ -9,7 +10,7 @@ const SettingsPage = () => {
 
   useEffect(()=> {
     window.ipcRenderer.on('check-updates-response', (_ev, result) => {
-      console.log(result);
+      log(result);
       if(result){
         setFeedback('Updates available, install now?');
         setHasUpdates(true);

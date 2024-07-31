@@ -5,8 +5,7 @@ import react from '@vitejs/plugin-react'
 import tsconfigPaths from 'vite-tsconfig-paths'
 import svgr from 'vite-plugin-svgr'; 
 import native from 'vite-plugin-native';
-import { nodeLoaderPlugin } from "@vavite/node-loader/plugin";
-
+import { bytecodePlugin } from 'electron-vite';
 
 
 // https://vitejs.dev/config/
@@ -15,6 +14,7 @@ export default defineConfig({
   plugins: [
     react(),
     tsconfigPaths(),
+    bytecodePlugin(),
     svgr({
       svgrOptions: {
         exportType: 'named',

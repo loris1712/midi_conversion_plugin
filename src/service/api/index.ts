@@ -14,11 +14,8 @@ axiosInstance.interceptors.request.use(
   },
 );
 
-export const signIn = (email: string, password: string) => {
-  return axios.post(
-    'https://omr.external.api.halbestunde.com/service-auth/auth/signin',
-    { email, password },
-  );
+export const signIn = () => {
+  return axios.get('https://halbestunde.netlify.app/api/auth');
 };
 
 export const generatePresignedUploadUrl = (filename: string) => {

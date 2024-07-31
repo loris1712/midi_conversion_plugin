@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain } from 'electron';
+import { app, BrowserWindow, ipcMain, Menu } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
@@ -43,22 +43,36 @@ function sendLog(args: any) {
 }
 
 function createWindow() {
+  try{
+    Menu.setApplicationMenu(null);
+  }catch(e){
+    // ignore
+  }
   win = new BrowserWindow({
     minWidth: 980,
     minHeight: 640,
     title: 'Halbestunde',
     backgroundColor: '#000000',
+    autoHideMenuBar: true,
     icon: path.join(process.env.VITE_PUBLIC, 'icon.png'),
+    frame: false,
     titleBarStyle: 'hiddenInset',
     titleBarOverlay: {
       height: 32,
     },
     webPreferences: {
       preload: path.join(__dirname, 'preload.mjs'),
-      nodeIntegration: true,
-      webSecurity: true,
+      devTools: isDev,
     },
   });
+
+  // remove default menu
+  try{
+   win.setMenuBarVisibility(false);
+   win?.removeMenu();
+  }catch(e){
+    // ignore
+  }
 
   if (VITE_DEV_SERVER_URL) {
     win.loadURL(VITE_DEV_SERVER_URL);
@@ -82,7 +96,7 @@ function createWindow() {
         const userInfo = museSdk.getUserInfo();
         win?.webContents.send('muse-user', userInfo);
         const activeSub = museSdk.getActiveSubscription();
-        console.log({ activeSub });
+        win?.webContents.send('muse-sub', activeSub)
       } else {
         win?.webContents.send('muse-user', {
           message: 'Connection did not work',
@@ -90,7 +104,6 @@ function createWindow() {
       }
       sendLog('init-sdk-done');
     } catch (error) {
-      console.log(error);
       win?.webContents.send('muse-user', { message: error });
     }
   });
@@ -100,7 +113,6 @@ function createWindow() {
 ipcMain.on('download', async (_event, args) => {
   const downloadPath = app.getPath('downloads');
   const { filename, url, ext } = args;
-  console.log({ filename, url, ext });
   const currentWindow = BrowserWindow.getFocusedWindow();
   const filePath = `${filename}.${ext}`;
   if (currentWindow) {
@@ -137,13 +149,11 @@ app.on('activate', () => {
   win?.webContents.send('check-updates');
 });
 
-autoUpdater.on('update-available', (info) => {
-  console.log({ info });
+autoUpdater.on('update-available', () => {
   autoUpdater.downloadUpdate();
 });
 
 autoUpdater.on('update-downloaded', (info) => {
-  console.log({ info });
   win?.webContents.send('update-downloaded', info);
 });
 
