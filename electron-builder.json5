@@ -19,20 +19,12 @@
         }
   ],
   "extraFiles": [
-        {
-            "from": "lib",
-            "to": "lib",
-            "filter": ["**/*"]
-        }
-    ],
-  "extraResources": [
-  {
-   "from": "lib",
-    "to": "Contents/Frameworks/",
-    "filter": ["**/*"]
-     }
+    {
+      "from": "lib",
+      "to": "lib",
+      "filter": ["**/*"]
+    }
   ],
-  
   "mac": {
     "icon":"./public/icon.png",
     "category": "public.app-category.utilities",
@@ -40,7 +32,6 @@
         "dmg"
     ],
     "identity": "902E8E8B3A6FE1D1EF4729D19AACE0131FD573A3",
-    "provisioningProfile": "./app-build/halbestundeplugin.provisionprofile",
     "hardenedRuntime": true,
     "type": "distribution",
     "gatekeeperAssess": false,
