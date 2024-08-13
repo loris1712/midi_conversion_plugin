@@ -38,7 +38,7 @@
     "entitlements": "./app-build/entitlements.mac.plist",
     "entitlementsInherit": "./app-build/entitlements.mac.plist",
     "artifactName": "${productName}-Mac-${version}-Installer.${ext}",
-    "notarize": true
+    "notarize": false
   },
   "afterSign": "./afterSignHook.ts",
   "win": {

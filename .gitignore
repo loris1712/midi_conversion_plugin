@@ -28,3 +28,4 @@ release
 out
 notarize.sh
 ./notarize.sh
+release-muse-out
