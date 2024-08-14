@@ -92,7 +92,7 @@ function createWindow() {
         sendLog('sdk-connected');
         const userInfo = museSdk.getUserInfo();
         win?.webContents.send('muse-user', userInfo);
-        const activeSub = museSdk.getActiveSubscription();
+        const activeSub = museSdk.getActivationStatus();
         win?.webContents.send('muse-sub', activeSub)
       } else {
         win?.webContents.send('muse-user', {

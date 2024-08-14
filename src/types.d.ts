@@ -7,7 +7,7 @@ declare module '*.svg' {
 
 declare interface MuseSdk {
   initializeTestMode: (val: boolean) => { status: any; handle: any };
-  initialize: () => { status: any; handle: any };
+  initializeElectron: (path: any) => { status: any; handle: any };
   finalize: () => any;
   getUserInfo: (handle: any) => any;
   getSku: () => any;

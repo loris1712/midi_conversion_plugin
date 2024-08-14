@@ -18,11 +18,11 @@ class Muse {
     if (isDev) {
       const museSdk: MuseSdk = require(node_path);
       this.museSdk = museSdk;
-      result = museSdk.initializeTestMode(true);
+      result = museSdk.initializeElectron(process.execPath);
     } else {
       const museSdk: MuseSdk = require(node_path);
       this.museSdk = museSdk;
-      result = museSdk.initialize();
+      result = museSdk.initializeElectron(process.execPath);
     }
     const { status, handle } = result;
     this.connected = status === 0;
@@ -31,15 +31,14 @@ class Muse {
     }
   }
 
+  getActivationStatus() {
+    const subscriptionResult = this.museSdk?.getActivationStatus();
+    return subscriptionResult;
+  }
   getUserInfo() {
     const userInfoResult = this.museSdk?.getUserInfo(this.handle);
     const { userInfo } = userInfoResult ?? {};
     return userInfo;
-  }
-
-  getActiveSubscription() {
-    const subscriptionResult = this.museSdk?.getActivationStatus();
-    return subscriptionResult;
   }
 }
 
