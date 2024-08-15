@@ -17,7 +17,7 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "publish": "",
-    "rebuild": "electron-builder install-app-deps",
+    "postinstall": "electron-builder install-app-deps",
     "rebuild-sqlite3": "electron-rebuild -f -w sqlite3"
   },
   "dependencies": {
@@ -29,10 +29,10 @@
     "dotenv": "^16.4.5",
     "electron-dl": "^4.0.0",
     "electron-notarize": "^1.2.2",
-    "electron-rebuild": "^3.2.9",
     "electron-updater": "^6.2.1",
     "electron-vite": "^2.3.0",
     "helmet": "^7.1.0",
+    "node-addon-api": "^8.1.0",
     "posthog-js": "^1.144.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -64,6 +64,7 @@
     "electron-builder": "^24.13.3",
     "electron-builder-notarize": "^1.5.2",
     "electron-is-dev": "^3.0.1",
+    "electron-rebuild": "^3.2.9",
     "eslint": "^8.57.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",

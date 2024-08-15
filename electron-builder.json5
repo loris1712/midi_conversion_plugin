@@ -11,20 +11,9 @@
   "files": [
     "dist",
     "dist-electron",
-    "lib",
-    "db",
     "node_modules/**/*",
     "public/**/*",
-    {
-            "from": "lib",
-            "to": "lib",
-            "filter": ["**/*"]
-    },
-    {
-            "from": "db",
-            "to": "db",
-            "filter": ["**/*"]
-    }
+    "lib/**/*",
   ],
   "extraResources": [
     "./db.sqlite3"
@@ -39,7 +28,7 @@
   "mac": {
     "icon":"./public/icon.png",
     "category": "public.app-category.utilities",
-      "target": [
+    "target": [
       {
         "target": "zip",
         "arch": [
