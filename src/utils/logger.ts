@@ -1,7 +1,7 @@
 
-export const log = (optionalParams: any) => {
+export const log = (...args : any) => {
   if (process.env.NODE_ENV === 'development') {
-    console.log(optionalParams);
+    console.log(...args);
   } else {
     // send to server
   }

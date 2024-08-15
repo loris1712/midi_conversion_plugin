@@ -17,7 +17,8 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "publish": "",
-    "rebuild": "electron-rebuild -f --use-electron-clang"
+    "rebuild": "electron-builder install-app-deps",
+    "rebuild-sqlite3": "electron-rebuild -f -w sqlite3"
   },
   "dependencies": {
     "@radix-ui/themes": "^3.1.1",
@@ -28,6 +29,7 @@
     "dotenv": "^16.4.5",
     "electron-dl": "^4.0.0",
     "electron-notarize": "^1.2.2",
+    "electron-rebuild": "^3.2.9",
     "electron-updater": "^6.2.1",
     "electron-vite": "^2.3.0",
     "helmet": "^7.1.0",
@@ -38,6 +40,7 @@
     "react-router-dom": "^6.24.1",
     "react-use": "^17.5.0",
     "sharp": "^0.33.4",
+    "sqlite3": "^5.1.7",
     "styled-components": "^6.1.11",
     "uuid": "^10.0.0",
     "vite-plugin-svgr": "^4.2.0",

@@ -26,9 +26,10 @@
       "@components/*": ["components/*"],
       "@assets/*": ["assets/*"],
       "@pages/*": ["pages/*"],
-      "@service/*":["service/*"],
+      "@service/*": ["service/*"],
       "@constants/*": ["constants/*"],
-      "@utils/*": ["utils/*"]
+      "@utils/*": ["utils/*"],
+      "@lib/*": ["lib/*"]
     }
   },
   "include": ["src", "electron"],

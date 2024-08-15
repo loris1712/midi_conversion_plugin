@@ -12,11 +12,22 @@
     "dist",
     "dist-electron",
     "lib",
+    "db",
+    "node_modules/**/*",
+    "public/**/*",
     {
             "from": "lib",
             "to": "lib",
             "filter": ["**/*"]
-        }
+    },
+    {
+            "from": "db",
+            "to": "db",
+            "filter": ["**/*"]
+    }
+  ],
+  "extraResources": [
+    "./db.sqlite3"
   ],
   "extraFiles": [
     {
@@ -29,7 +40,12 @@
     "icon":"./public/icon.png",
     "category": "public.app-category.utilities",
       "target": [
-        "zip"
+      {
+        "target": "zip",
+        "arch": [
+          "universal"
+        ]
+      }
     ],
     "identity": "902E8E8B3A6FE1D1EF4729D19AACE0131FD573A3",
     "hardenedRuntime": true,

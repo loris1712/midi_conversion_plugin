@@ -5,6 +5,7 @@ import path from 'node:path';
 import { download as downloader } from 'electron-dl';
 import isDev from 'electron-is-dev';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+import { initDB } from '../lib/db/index';
 
 import Muse from '../lib/muse/index';
 
@@ -47,8 +48,8 @@ function createWindow() {
     // ignore
   }
   win = new BrowserWindow({
-    minWidth: 980,
-    minHeight: 640,
+    minWidth: 780,
+    minHeight: 440,
     title: 'Halbestunde',
     backgroundColor: '#000000',
     autoHideMenuBar: true,
@@ -60,6 +61,7 @@ function createWindow() {
     webPreferences: {
       preload: path.join(__dirname, 'preload.mjs'),
       devTools: isDev,
+      nodeIntegration: true
     },
   });
 
@@ -80,6 +82,7 @@ function createWindow() {
 
   // Test active push message to Renderer-process.
   win.webContents.on('did-finish-load', () => {
+    initDB('Halbestunde', 'v1');
     win?.webContents.send('main-process-message', new Date().toLocaleString());
     if (isDev) {
       win?.webContents.openDevTools({ mode: 'detach' });
