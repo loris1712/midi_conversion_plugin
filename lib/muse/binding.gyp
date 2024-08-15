@@ -17,7 +17,8 @@
             "copies": [
               {
                 "destination": "<(module_root_dir)/win",
-                "files": ["<(module_root_dir)/MuseClientSDK/bin/win64/MuseClientSdk.1.0.2.lib"]
+                "files": ["<(module_root_dir)/MuseClientSDK/bin/win64/MuseClientSdk.1.0.2.lib",
+                          "<(module_root_dir)/MuseClientSDK/bin/win64/MuseClientSdk.1.0.2.dll"]
               }
             ],
             "msvs_settings": {

@@ -2,7 +2,7 @@ import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 
 let node_path = '../lib/muse/mac/MuseClientSdk.node';
-if (process.platform == 'win32') node_path = '../lib/muse/muse-win-v2/MuseClientSdk.node';
+if (process.platform == 'win32') node_path = '../lib/muse/win/MuseClientSdk.node';
 require(node_path);
 
 class Muse {
