@@ -44,6 +44,12 @@ class Muse {
   finalize() {
     this.museSdk?.finalize();
   }
+  getIsAllowed(){
+    const userInfo = this.getUserInfo();
+    const activeSub = this.getActivationStatus();
+    const subOption = this.getSubscriptionOption();
+    return { userInfo, activeSub, subOption };
+  }
 }
 
 export default Muse;

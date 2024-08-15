@@ -6,7 +6,7 @@ import { download as downloader } from 'electron-dl';
 import isDev from 'electron-is-dev';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-import Muse from '../lib/muse/index';
+import Authenticate from '../lib/muse/index';
 import "../lib/native-addon"
 
 // The built directory structure
@@ -86,27 +86,25 @@ function createWindow() {
     if (isDev) {
       win?.webContents.openDevTools({ mode: 'detach' });
     }
-    let museSdk;
+    let auth;
     try {
-      sendLog('init-sdk');
-      museSdk = new Muse(isDev);
-      sendLog('init-sdk-success');
-      if (museSdk.connected) {
-        sendLog('sdk-connected');
-        const userInfo = museSdk.getUserInfo();
-        const activeSub = museSdk.getActivationStatus();
-        const subOption = museSdk.getSubscriptionOption();
-        win?.webContents.send('muse-user', { userInfo, activeSub, subOption });
+      sendLog('init');
+      auth = new Authenticate(isDev);
+      sendLog('success');
+      if (auth.connected) {
+        sendLog('auth-connected');
+        const isAllowed = auth.getIsAllowed();
+        win?.webContents.send('muse-user', isAllowed);
       } else {
         win?.webContents.send('muse-user-error', {
           message: 'Connection did not work',
         });
       }
-      sendLog('init-sdk-done');
+      sendLog('init-done');
     } catch (error) {
       win?.webContents.send('muse-user-error', { message: error });
     } finally {
-      museSdk?.finalize();
+      auth?.finalize();
     }
   });
 }
