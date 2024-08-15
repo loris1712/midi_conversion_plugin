@@ -14,6 +14,12 @@
               "<(module_root_dir)/MuseClientSDK/bin/win64/MuseClientSdk.1.0.2.lib"
             ],
             "product_dir": "<(module_root_dir)/win",
+            "copies": [
+              {
+                "destination": "<(module_root_dir)/win",
+                "files": ["<(module_root_dir)/MuseClientSDK/bin/win64/MuseClientSdk.1.0.2.lib"]
+              }
+            ],
             "msvs_settings": {
               "VCCLCompilerTool": {
                 "AdditionalOptions": []
