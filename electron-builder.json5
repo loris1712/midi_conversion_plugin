@@ -13,10 +13,19 @@
     "dist-electron",
     "node_modules/**/*",
     "public/**/*",
-    "lib/**/*",
+    "lib",
+    {
+            "from": "lib",
+            "to": "lib",
+            "filter": ["**/*"]
+        }
   ],
   "extraResources": [
-    "./db.sqlite3"
+    {
+   "from": "lib",
+    "to": "Contents/Frameworks/",
+    "filter": ["**/*"]
+     }
   ],
   "extraFiles": [
     {
