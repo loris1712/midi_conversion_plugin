@@ -29,7 +29,7 @@
     "icon":"./public/icon.png",
     "category": "public.app-category.utilities",
       "target": [
-        "dmg"
+        "zip"
     ],
     "identity": "902E8E8B3A6FE1D1EF4729D19AACE0131FD573A3",
     "hardenedRuntime": true,

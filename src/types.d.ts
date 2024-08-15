@@ -14,3 +14,16 @@ declare interface MuseSdk {
   getSubscriptionOption: () => any;
   getActivationStatus: () => any;
 }
+
+declare interface MuseResonse {
+  userInfo: {
+    uuid: string;
+  };
+  activeSub: {
+    status: number;
+    activationStatus: number;
+  };
+  subOption: {
+    status: number;
+  };
+}

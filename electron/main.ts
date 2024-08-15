@@ -41,9 +41,9 @@ function sendLog(args: any) {
 }
 
 function createWindow() {
-  try{
+  try {
     Menu.setApplicationMenu(null);
-  }catch(e){
+  } catch (e) {
     // ignore
   }
   win = new BrowserWindow({
@@ -64,10 +64,10 @@ function createWindow() {
   });
 
   // remove default menu
-  try{
-   win.setMenuBarVisibility(false);
-   win?.removeMenu();
-  }catch(e){
+  try {
+    win.setMenuBarVisibility(false);
+    win?.removeMenu();
+  } catch (e) {
     // ignore
   }
 
@@ -84,24 +84,27 @@ function createWindow() {
     if (isDev) {
       win?.webContents.openDevTools({ mode: 'detach' });
     }
+    let museSdk;
     try {
       sendLog('init-sdk');
-      const museSdk = new Muse(isDev);
+      museSdk = new Muse(isDev);
       sendLog('init-sdk-success');
       if (museSdk.connected) {
         sendLog('sdk-connected');
         const userInfo = museSdk.getUserInfo();
-        win?.webContents.send('muse-user', userInfo);
         const activeSub = museSdk.getActivationStatus();
-        win?.webContents.send('muse-sub', activeSub)
+        const subOption = museSdk.getSubscriptionOption();
+        win?.webContents.send('muse-user', { userInfo, activeSub, subOption });
       } else {
-        win?.webContents.send('muse-user', {
+        win?.webContents.send('muse-user-error', {
           message: 'Connection did not work',
         });
       }
       sendLog('init-sdk-done');
     } catch (error) {
-      win?.webContents.send('muse-user', { message: error });
+      win?.webContents.send('muse-user-error', { message: error });
+    } finally {
+      museSdk?.finalize();
     }
   });
 }

@@ -7,11 +7,14 @@ import { saveAuthToken } from '@service/local';
 import AppBar from './components/AppBar';
 import Navigation from './layout/Navigation';
 import { log } from '@utils/logger';
+import NotAllowed from '@components/NotAllowed';
+import { enableMuseChecks } from './constants';
 
 const App = () => {
 
 
-  const [shouldRestart, setShouldRestart] = useState(false)
+  const [shouldRestart, setShouldRestart] = useState(false);
+  const [userActive, setUserActive] = useState(true)
 
   const { isLoading, data, isError, isSuccess } = useQuery({
     queryKey: ['appLoad'],
@@ -47,7 +50,20 @@ const App = () => {
 
   useEffect(()=> {
     window.ipcRenderer.on('muse-user', (_ev, args) => {
-      log({ args });
+      const {
+        userInfo,
+        activeSub,
+        subOption,
+      }: MuseResonse = args;
+      //userId = userInfo.uuid;
+      //subOption = subOption.status
+      //activationStatus = activeSub.activationStatus
+      log({ userInfo, activeSub, subOption });
+      setUserActive(activeSub.status === 0 && !activeSub.activationStatus);
+    });
+    window.ipcRenderer.on('muse-user-error', (_ev, args)=> {
+      log(args);
+      setUserActive(false)
     });
   }, [])
 
@@ -70,6 +86,7 @@ const App = () => {
           Restart to install updates
         </div>
       )}
+      {enableMuseChecks && !userActive ? <NotAllowed /> : null}
     </main>
   );
 };
