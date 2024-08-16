@@ -1,9 +1,10 @@
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 
+import {MuseSdk} from './types'
+
 let node_path = '../lib/muse/mac/MuseClientSdk.node';
 if (process.platform == 'win32') node_path = '../lib/muse/win/MuseClientSdk.node';
-require(node_path);
 
 class Muse {
   handle: any;
@@ -29,8 +30,7 @@ class Muse {
   }
 
   getActivationStatus() {
-    const subscriptionResult = this.museSdk?.getActivationStatus(this.handle);
-    return subscriptionResult;
+    return this.museSdk?.getActivationStatus(this.handle);
   }
   getUserInfo() {
     const userInfoResult = this.museSdk?.getUserInfo(this.handle);
@@ -38,8 +38,7 @@ class Muse {
     return userInfo;
   }
   getSubscriptionOption() {
-    const subscriptionOption = this.museSdk?.getSubscriptionOption(this.handle);
-    return subscriptionOption;
+    return  this.museSdk?.getSubscriptionOption(this.handle);
   }
   finalize() {
     this.museSdk?.finalize();

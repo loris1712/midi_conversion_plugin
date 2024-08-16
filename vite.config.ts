@@ -6,15 +6,28 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 import svgr from 'vite-plugin-svgr'; 
 import native from 'vite-plugin-native';
 import { bytecodePlugin } from 'electron-vite';
+import { obfuscator as obs } from 'rollup-obfuscator';
+import obfuscator  from 'rollup-plugin-obfuscator';
+
 
 
 // https://vitejs.dev/config/
 export default defineConfig({
   assetsInclude: ['**/*.node'],
+  build: {
+    rollupOptions: {
+      plugins: [bytecodePlugin(), obs(), obfuscator()],
+      output: {
+        manualChunks: {},
+      },
+    },
+  },
   plugins: [
     react(),
     tsconfigPaths(),
     bytecodePlugin(),
+    obs(), 
+    obfuscator(),
     svgr({
       svgrOptions: {
         exportType: 'named',
@@ -30,6 +43,7 @@ export default defineConfig({
         entry: 'electron/main.ts',
         vite: {
           plugins: [
+            obs(), obfuscator(),
             native({
               forceCopyIfUnbuilt: true,
             }),

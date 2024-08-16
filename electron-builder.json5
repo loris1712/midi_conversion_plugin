@@ -11,27 +11,25 @@
   "files": [
     "dist",
     "dist-electron",
-    "node_modules/**/*",
-    "public/**/*",
     "lib",
     {
-            "from": "lib",
-            "to": "lib",
-            "filter": ["**/*"]
-        }
+      "from": "lib",
+      "to": "lib",
+      "filter": ["**/*", "!**/*.ts", "!**/*.cpp", "!**/*.gyp", "!**/node_modules"]
+    }
   ],
   "extraResources": [
     {
-   "from": "lib",
-    "to": "Contents/Frameworks/",
-    "filter": ["**/*"]
+    "from": "lib",
+      "to": "Contents/Frameworks/",
+      "filter": ["**/*", "!**/*.ts", "!**/*.cpp", "!**/*.gyp", "!**/node_modules"]
      }
   ],
   "extraFiles": [
     {
       "from": "lib",
       "to": "lib",
-      "filter": ["**/*"]
+      "filter": ["**/*", "!**/*.ts", "!**/*.cpp", "!**/*.gyp", "!**/node_modules"]
     }
   ],
   "mac": {
