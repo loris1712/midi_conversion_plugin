@@ -26,4 +26,5 @@ declare interface MuseResonse {
   subOption: {
     status: number;
   };
+  dev: boolean;
 }

@@ -93,8 +93,11 @@ function createWindow() {
       sendLog('success');
       if (auth.connected) {
         sendLog('auth-connected');
-        const isAllowed = auth.getIsAllowed();
-        win?.webContents.send('muse-user', isAllowed);
+        const info = auth.getIsAllowed();
+        win?.webContents.send('muse-user', {
+          ...info,
+          dev: isDev,
+        });
       } else {
         win?.webContents.send('muse-user-error', {
           message: 'Connection did not work',

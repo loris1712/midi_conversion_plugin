@@ -11,15 +11,13 @@ import NotAllowed from '@components/NotAllowed';
 import { enableMuseChecks } from './constants';
 
 const App = () => {
-
-
   const [shouldRestart, setShouldRestart] = useState(false);
-  const [userActive, setUserActive] = useState(true)
+  const [userActive, setUserActive] = useState(true);
 
   const { isLoading, data, isError, isSuccess } = useQuery({
     queryKey: ['appLoad'],
     queryFn: async () => {
-       const { data } = await signIn();
+      const { data } = await signIn();
       return data;
     },
   });
@@ -30,7 +28,7 @@ const App = () => {
     });
 
     window.ipcRenderer.on('update-available', (info) => {
-      log({info})
+      log({ info });
     });
 
     window.ipcRenderer.on('update-downloaded', () => {
@@ -43,29 +41,30 @@ const App = () => {
     if (data) {
       const { IdToken } = data;
       if (IdToken) {
-         saveAuthToken(IdToken);
-     }
+        saveAuthToken(IdToken);
+      }
     }
   }, [data]);
 
-  useEffect(()=> {
+  useEffect(() => {
     window.ipcRenderer.on('muse-user', (_ev, args) => {
-      const {
-        userInfo,
-        activeSub,
-        subOption,
-      }: MuseResonse = args;
+      const { userInfo, activeSub, dev }: MuseResonse = args;
       //userId = userInfo.uuid;
       //subOption = subOption.status
       //activationStatus = activeSub.activationStatus
-      log({ userInfo, activeSub, subOption });
-      setUserActive(activeSub.status === 0 && !activeSub.activationStatus);
+      const allow =
+        !!userInfo?.uuid &&
+        activeSub.status === 0 &&
+        activeSub.activationStatus === 1;
+      if (!dev) {
+        setUserActive(allow);
+      }
     });
-    window.ipcRenderer.on('muse-user-error', (_ev, args)=> {
+    window.ipcRenderer.on('muse-user-error', (_ev, args) => {
       log(args);
-      setUserActive(false)
+      setUserActive(false);
     });
-  }, [])
+  }, []);
 
   useEffect(() => {
     checkForUpdates();
