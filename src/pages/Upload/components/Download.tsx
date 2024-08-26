@@ -7,22 +7,23 @@ import Modal from '@components/Modal';
 import { FileNameInput } from './styles';
 import CircleLoader from '@components/Loaders/CircleLoader';
 
+type fileLink = 'midi' | 'mscz';
 interface DownloadProps {
-  ext?: string;
   uploadNewFile: () => void;
-  onDownload: (filename: string) => void;
+  onDownload: (filename: string, type: fileLink | null) => void;
 }
 
-const Download = ({ ext, onDownload, uploadNewFile }: DownloadProps) => {
+const Download = ({ onDownload, uploadNewFile }: DownloadProps) => {
   const [showDownloadModal, setShowDownloadModal] = useState(false);
   const [filename, setFilename] = useState('');
   const [downloadProgress, setDownloadProgress] = useState(0);
   const [downloadDone, setDownloadDone] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<fileLink | null>('midi');
 
   useEffect(() => {
     window.ipcRenderer.on('download-progress', (_event, args) => {
       const { percent } = args;
-      if(percent > 0){
+      if (percent > 0) {
         setDownloadProgress(Math.floor(Number(percent) * 100));
       }
     });
@@ -85,16 +86,59 @@ const Download = ({ ext, onDownload, uploadNewFile }: DownloadProps) => {
                 </div>
               )}
               {!downloadDone && (
-                <FileNameInput
-                  autoFocus
-                  value={filename}
-                  onChange={(e) => setFilename(e.target.value)}
-                />
+                <div className="flex flex-col gap-[1rem] w-full">
+                  <div className="grid grid-cols-2">
+                    <label
+                      htmlFor="midi"
+                      className="flex flex-row items-center gap-2 text-[12px]"
+                    >
+                      <input
+                        name="midi"
+                        checked={selectedFile === 'midi'}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setSelectedFile('midi');
+                          } else {
+                            setSelectedFile(null);
+                          }
+                        }}
+                        type="checkbox"
+                        className=" checked:bg-amber-500"
+                      />{' '}
+                      Midi File
+                    </label>
+
+                    <label
+                      htmlFor="mscz"
+                      className="flex flex-row items-center gap-2 text-[12px]"
+                    >
+                      <input
+                        name="mscz"
+                        checked={selectedFile === 'mscz'}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setSelectedFile('mscz');
+                          } else {
+                            setSelectedFile(null);
+                          }
+                        }}
+                        type="checkbox"
+                        className=" checked:bg-amber-500"
+                      />{' '}
+                      MSCZ File
+                    </label>
+                  </div>
+                  <FileNameInput
+                    autoFocus
+                    value={filename}
+                    onChange={(e) => setFilename(e.target.value)}
+                  />
+                </div>
               )}
 
               <div className="flex flex-row items-center justify-between w-full mt-1">
                 <p className="text-[10px]">
-                  Saved to: ../Downloads/{filename}.{ext}
+                  Saved to: ../Downloads/{filename}.{selectedFile}
                 </p>
                 {isDownloading && (
                   <p className="text-[10px]">{downloadProgress}%</p>
@@ -115,10 +159,10 @@ const Download = ({ ext, onDownload, uploadNewFile }: DownloadProps) => {
               </Button>
             ) : (
               <Button
-                disabled={!filename.length || isDownloading}
+                disabled={!filename.length || isDownloading || !selectedFile}
                 onClick={() => {
                   setDownloadProgress(1);
-                  onDownload(filename);
+                  onDownload(filename, selectedFile);
                 }}
                 className="bg-accent text-black px-8"
               >

@@ -101,6 +101,7 @@ function createWindow() {
       } else {
         win?.webContents.send('muse-user-error', {
           message: 'Connection did not work',
+          dev: isDev
         });
       }
       sendLog('init-done');

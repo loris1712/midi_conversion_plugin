@@ -61,8 +61,10 @@ const App = () => {
       }
     });
     window.ipcRenderer.on('muse-user-error', (_ev, args) => {
-      log(args);
-      setUserActive(false);
+      const { dev, message } = args;
+      if (!dev) {
+        setUserActive(false);
+      }
     });
   }, []);
 

@@ -4,21 +4,22 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import FileUpload from './components/FileUpload';
 import Processing from './components/Processing';
 import Download from './components/Download';
-import { generatePresignedUploadUrl, getResults, postUploadedFile } from '@service/api';
+import {
+  generatePresignedUploadUrl,
+  getResults,
+  postUploadedFile,
+} from '@service/api';
 
 type PAGE = 'upload' | 'processing' | 'download';
 
 const UploadPage: React.FC = () => {
-
-  const timeoutId = useRef<any>(null)
+  const timeoutId = useRef<any>(null);
 
   const [page, setPage] = useState<PAGE>('upload');
   const [progress, setProgress] = useState(0);
   const [isUploaded, setIsUploaded] = useState(false);
-  const [fileLinks, setFileLinks] = useState<any>({})
+  const [fileLinks, setFileLinks] = useState<any>({});
   const [inferenceId, setInferenceId] = useState();
-
-
 
   const fileProcessMutation = useMutation({
     mutationKey: ['fileUploads'],
@@ -38,33 +39,36 @@ const UploadPage: React.FC = () => {
       });
       const uploadResponse = await postUploadedFile({
         filename,
-        pdf_image: file.type.includes("pdf"),
+        pdf_image: file.type.includes('pdf'),
       });
 
       return uploadResponse.data;
     },
     onSuccess: (data) => {
       setInferenceId(data?.inference_id);
-    }
+    },
   });
 
-  const {refetch, data: results, isError: referenceError} = useQuery({
-    queryKey:[inferenceId],
-    queryFn: async ()=> {
-      if(inferenceId){
+  const {
+    refetch,
+    data: results,
+    isError: referenceError,
+  } = useQuery({
+    queryKey: [inferenceId],
+    queryFn: async () => {
+      if (inferenceId) {
         const response = await getResults(inferenceId);
         return response.data;
       }
-      return null
-    }
+      return null;
+    },
   });
-
 
   useEffect(() => {
     if (inferenceId && results && results?.job_status === 'running') {
-      timeoutId.current = setInterval(()=> {
-        refetch()
-      }, 3000)
+      timeoutId.current = setInterval(() => {
+        refetch();
+      }, 3000);
     }
     if (results?.job_status === 'completed') {
       setFileLinks(results);
@@ -73,19 +77,25 @@ const UploadPage: React.FC = () => {
     }
   }, [inferenceId, results, refetch]);
 
-  const onDownload = (filename: string) => {
+  const onDownload = (filename: string, fileType: any) => {
     // other file type : filename_musicxml
+    // get the selected file
+    const file =
+      fileType === 'midi'
+        ? fileLinks.body.filename_midi
+        : fileLinks.body.filename_mscz;
+    const ext = getFileExtension(file);
     const payload = {
       filename,
-      url: fileLinks.body.filename_midi,
-      ext: getFileExtension(fileLinks.body.filename_midi),
+      url: file,
+      ext: ext,
     };
-    window.ipcRenderer.send('download', payload);
+   window.ipcRenderer.send('download', payload);
   };
 
   const getFileExtension = (link: string) => {
-    return String(link).split('.').pop()
-  }
+    return String(link).split('.').pop();
+  };
 
   return (
     <div className="flex flex-col items-center justify-center h-full w-full gap-4">
@@ -109,7 +119,6 @@ const UploadPage: React.FC = () => {
       )}
       {page === 'download' && (
         <Download
-          ext={getFileExtension(fileLinks.body.filename_midi)}
           onDownload={onDownload}
           uploadNewFile={() => {
             setPage('upload');
