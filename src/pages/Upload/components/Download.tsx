@@ -7,18 +7,33 @@ import Modal from '@components/Modal';
 import { FileNameInput } from './styles';
 import CircleLoader from '@components/Loaders/CircleLoader';
 
-type fileLink = 'midi' | 'mscz';
 interface DownloadProps {
   uploadNewFile: () => void;
-  onDownload: (filename: string, type: fileLink | null) => void;
+  onDownload: (filename: string, type: FileType) => void;
 }
+
+
+const FILE_TYPES = [
+  {
+    name: 'MiDi',
+    type: 'midi' as FileType,
+  },
+  {
+    name: 'Muse XML',
+    type: 'mscz' as FileType,
+  },
+  {
+    name: 'XML',
+    type: 'xml' as FileType,
+  },
+];
 
 const Download = ({ onDownload, uploadNewFile }: DownloadProps) => {
   const [showDownloadModal, setShowDownloadModal] = useState(false);
   const [filename, setFilename] = useState('');
   const [downloadProgress, setDownloadProgress] = useState(0);
   const [downloadDone, setDownloadDone] = useState(false);
-  const [selectedFile, setSelectedFile] = useState<fileLink | null>('midi');
+  const [selectedFile, setSelectedFile] = useState<fileLink>('midi');
 
   useEffect(() => {
     window.ipcRenderer.on('download-progress', (_event, args) => {
@@ -88,45 +103,26 @@ const Download = ({ onDownload, uploadNewFile }: DownloadProps) => {
               {!downloadDone && (
                 <div className="flex flex-col gap-[1rem] w-full">
                   <div className="grid grid-cols-2">
-                    <label
-                      htmlFor="midi"
-                      className="flex flex-row items-center gap-2 text-[12px]"
-                    >
-                      <input
-                        name="midi"
-                        checked={selectedFile === 'midi'}
-                        onChange={(e) => {
-                          if (e.target.checked) {
-                            setSelectedFile('midi');
-                          } else {
-                            setSelectedFile(null);
-                          }
-                        }}
-                        type="checkbox"
-                        className=" checked:bg-amber-500"
-                      />{' '}
-                      Midi File
-                    </label>
-
-                    <label
-                      htmlFor="mscz"
-                      className="flex flex-row items-center gap-2 text-[12px]"
-                    >
-                      <input
-                        name="mscz"
-                        checked={selectedFile === 'mscz'}
-                        onChange={(e) => {
-                          if (e.target.checked) {
-                            setSelectedFile('mscz');
-                          } else {
-                            setSelectedFile(null);
-                          }
-                        }}
-                        type="checkbox"
-                        className=" checked:bg-amber-500"
-                      />{' '}
-                      MSCZ File
-                    </label>
+                    {FILE_TYPES.map((type) => (
+                      <label
+                        key={type.type}
+                        htmlFor={type.type}
+                        className="flex flex-row items-center gap-2 text-[12px]"
+                      >
+                        <input
+                          name={type.type}
+                          checked={selectedFile === type.type}
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              setSelectedFile(type.type);
+                            }
+                          }}
+                          type="checkbox"
+                          className=" checked:bg-amber-500"
+                        />{' '}
+                        {type.name}
+                      </label>
+                    ))}
                   </div>
                   <FileNameInput
                     autoFocus

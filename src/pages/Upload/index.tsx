@@ -71,26 +71,31 @@ const UploadPage: React.FC = () => {
       }, 3000);
     }
     if (results?.job_status === 'completed') {
+      console.log({ results });
       setFileLinks(results);
       setPage('download');
       clearInterval(timeoutId.current);
     }
   }, [inferenceId, results, refetch]);
 
-  const onDownload = (filename: string, fileType: any) => {
+  const onDownload = (filename: string, fileType: FileType) => {
     // other file type : filename_musicxml
     // get the selected file
-    const file =
-      fileType === 'midi'
-        ? fileLinks.body.filename_midi
-        : fileLinks.body.filename_mscz;
+    let file;
+    if (fileType === 'midi') {
+      file = fileLinks.body.filename_midi;
+    } else if (fileType === 'mscz') {
+      file = fileLinks.body.filename_mscz;
+    } else if (fileType === 'xml') {
+      file = fileLinks.body.filename_musicxml;
+    }
     const ext = getFileExtension(file);
     const payload = {
       filename,
       url: file,
       ext: ext,
     };
-   window.ipcRenderer.send('download', payload);
+    window.ipcRenderer.send('download', payload);
   };
 
   const getFileExtension = (link: string) => {
