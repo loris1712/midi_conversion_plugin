@@ -102,7 +102,7 @@ const Download = ({ onDownload, uploadNewFile }: DownloadProps) => {
               )}
               {!downloadDone && (
                 <div className="flex flex-col gap-[1rem] w-full">
-                  <div className="grid grid-cols-2">
+                  <div className="grid grid-cols-2 gap-2">
                     {FILE_TYPES.map((type) => (
                       <label
                         key={type.type}
