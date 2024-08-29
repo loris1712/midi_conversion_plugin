@@ -71,7 +71,6 @@ const UploadPage: React.FC = () => {
       }, 3000);
     }
     if (results?.job_status === 'completed') {
-      console.log({ results });
       setFileLinks(results);
       setPage('download');
       clearInterval(timeoutId.current);
@@ -82,12 +81,12 @@ const UploadPage: React.FC = () => {
     // other file type : filename_musicxml
     // get the selected file
     let file;
-    if (fileType === 'midi') {
-      file = fileLinks.body.filename_midi;
+    if (fileType === 'mid') {
+      file = fileLinks.body.result_midi;
     } else if (fileType === 'mscz') {
-      file = fileLinks.body.filename_mscz;
+      file = fileLinks.body.result_mscz;
     } else if (fileType === 'xml') {
-      file = fileLinks.body.filename_musicxml;
+      file = fileLinks.body.result_xml;
     }
     const ext = getFileExtension(file);
     const payload = {

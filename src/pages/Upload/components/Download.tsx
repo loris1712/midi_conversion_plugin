@@ -16,7 +16,7 @@ interface DownloadProps {
 const FILE_TYPES = [
   {
     name: 'MiDi',
-    type: 'midi' as FileType,
+    type: 'mid' as FileType,
   },
   {
     name: 'Muse XML',
@@ -33,7 +33,7 @@ const Download = ({ onDownload, uploadNewFile }: DownloadProps) => {
   const [filename, setFilename] = useState('');
   const [downloadProgress, setDownloadProgress] = useState(0);
   const [downloadDone, setDownloadDone] = useState(false);
-  const [selectedFile, setSelectedFile] = useState<fileLink>('midi');
+  const [selectedFile, setSelectedFile] = useState<FileType>('mid');
 
   useEffect(() => {
     window.ipcRenderer.on('download-progress', (_event, args) => {
@@ -44,6 +44,10 @@ const Download = ({ onDownload, uploadNewFile }: DownloadProps) => {
     });
 
     window.ipcRenderer.on('download-complete', () => {
+      setDownloadDone(true);
+    });
+
+    window.ipcRenderer.on('download-error', () => {
       setDownloadDone(true);
     });
   }, []);

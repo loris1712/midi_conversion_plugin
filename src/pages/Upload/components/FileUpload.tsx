@@ -4,6 +4,8 @@ import { useDropzone } from 'react-dropzone';
 import { ReactComponent as UploadIcon } from '@assets/upload.svg';
 import { Button } from '@radix-ui/themes';
 
+import { v4 as uuidv4 } from 'uuid';
+
 
 interface FileUploadProps {
     // eslint-disable-next-line no-unused-vars
@@ -14,7 +16,14 @@ const FileUpload = ({ onUpload }: FileUploadProps) => {
   const [files, setFiles] = useState<File>();
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
-    setFiles(acceptedFiles[0]);
+    const file = acceptedFiles[0];
+    const ext = file.name.split('.')[1];
+    const newname = `${uuidv4()}.${ext}`;
+    const renamefile = new File([file], newname, {
+      type: file.type,
+      lastModified: file.lastModified,
+    });
+    setFiles(renamefile);
   }, []);
 
   const { getRootProps, getInputProps } = useDropzone({

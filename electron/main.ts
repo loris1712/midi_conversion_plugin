@@ -120,7 +120,8 @@ ipcMain.on('download', async (_event, args) => {
   const currentWindow = BrowserWindow.getFocusedWindow();
   const filePath = `${filename}.${ext}`;
   if (currentWindow) {
-    await downloader(currentWindow, url, {
+    try{
+      await downloader(currentWindow, url, {
       directory: downloadPath,
       filename: filePath,
       onTotalProgress: (progress) => {
@@ -130,6 +131,11 @@ ipcMain.on('download', async (_event, args) => {
         win?.webContents.send('download-complete', {});
       },
     });
+    }catch(e){
+      win?.webContents.send('download-error', {});
+    }finally{
+
+    }
   }
 });
 

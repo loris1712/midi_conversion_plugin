@@ -5,7 +5,7 @@ declare module '*.svg' {
   export default src;
 }
 
-declare type FileType = 'midi' | 'mscz' | 'xml';
+declare type FileType = 'mid' | 'mscz' | 'xml';
 
 
 declare interface MuseResonse {
