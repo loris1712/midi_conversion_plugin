@@ -12,7 +12,7 @@ import { enableMuseChecks } from './constants';
 
 const App = () => {
   const [shouldRestart, setShouldRestart] = useState(false);
-  const [userActive, setUserActive] = useState(true);
+  const [userActive] = useState(true);
 
   const { isLoading, data, isError, isSuccess } = useQuery({
     queryKey: ['appLoad'],
