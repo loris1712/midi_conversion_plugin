@@ -6,7 +6,6 @@ import { download as downloader } from 'electron-dl';
 import isDev from 'electron-is-dev';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-import Authenticate from '../lib/muse/index';
 import "../lib/native-addon"
 
 // The built directory structure
@@ -85,30 +84,6 @@ function createWindow() {
     win?.webContents.send('main-process-message', new Date().toLocaleString());
     if (isDev) {
       win?.webContents.openDevTools({ mode: 'detach' });
-    }
-    let auth;
-    try {
-      sendLog('init');
-      auth = new Authenticate(isDev);
-      sendLog('success');
-      if (auth.connected) {
-        sendLog('auth-connected');
-        const info = auth.getIsAllowed();
-        win?.webContents.send('muse-user', {
-          ...info,
-          dev: isDev,
-        });
-      } else {
-        win?.webContents.send('muse-user-error', {
-          message: 'Connection did not work',
-          dev: isDev
-        });
-      }
-      sendLog('init-done');
-    } catch (error) {
-      win?.webContents.send('muse-user-error', { message: error });
-    } finally {
-      auth?.finalize();
     }
   });
 }

@@ -46,27 +46,6 @@ const App = () => {
     }
   }, [data]);
 
-  useEffect(() => {
-    window.ipcRenderer.on('muse-user', (_ev, args) => {
-      const { userInfo, activeSub, dev }: MuseResonse = args;
-      //userId = userInfo.uuid;
-      //subOption = subOption.status
-      //activationStatus = activeSub.activationStatus
-      const allow =
-        !!userInfo?.uuid &&
-        activeSub.status === 0 &&
-        activeSub.activationStatus === 1;
-      if (!dev) {
-        setUserActive(allow);
-      }
-    });
-    window.ipcRenderer.on('muse-user-error', (_ev, args) => {
-      const { dev, message } = args;
-      if (!dev) {
-        setUserActive(false);
-      }
-    });
-  }, []);
 
   useEffect(() => {
     checkForUpdates();

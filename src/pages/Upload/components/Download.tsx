@@ -19,10 +19,6 @@ const FILE_TYPES = [
     type: 'mid' as FileType,
   },
   {
-    name: 'Muse XML',
-    type: 'mscz' as FileType,
-  },
-  {
     name: 'XML',
     type: 'xml' as FileType,
   },
