@@ -1,12 +1,11 @@
 import { app, BrowserWindow, ipcMain, Menu } from 'electron';
 import { autoUpdater } from 'electron-updater';
+import * as Sentry from '@sentry/electron/main';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { download as downloader } from 'electron-dl';
 import isDev from 'electron-is-dev';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
-import "../lib/native-addon"
 
 // The built directory structure
 //
@@ -33,6 +32,11 @@ let win: BrowserWindow | null;
 // auto updater
 autoUpdater.autoDownload = true;
 autoUpdater.autoInstallOnAppQuit = true;
+
+// init sentry
+Sentry.init({
+  dsn: 'https://ed67aaa611f771150f1aa779a7f66925@o416101.ingest.us.sentry.io/4508151376642048',
+});
 
 function sendLog(args: any) {
   try {
