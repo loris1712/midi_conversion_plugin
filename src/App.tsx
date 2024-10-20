@@ -9,10 +9,17 @@ import Navigation from './layout/Navigation';
 import { log } from '@utils/logger';
 import NotAllowed from '@components/NotAllowed';
 import { enableMuseChecks } from './constants';
+import posthog from 'posthog-js';
+
 
 const App = () => {
   const [shouldRestart, setShouldRestart] = useState(false);
   const [userActive, setUserActive] = useState(true);
+
+  posthog.init('phc_6SAY5JblXxvIU6zzkcoYDInjcBVBn0lW08HjvLm6HVB', {
+    api_host: 'https://us.i.posthog.com',
+    person_profiles: 'identified_only',
+  });
 
   const { isLoading, data, isError, isSuccess } = useQuery({
     queryKey: ['appLoad'],
@@ -49,10 +56,13 @@ const App = () => {
   useEffect(() => {
     window.ipcRenderer.on('muse-user', (_ev, args) => {
       const { userInfo, activeSub, dev }: MuseResonse = args;
-      log({ userInfo, activeSub, dev });
       //userId = userInfo.uuid;
       //subOption = subOption.status
       //activationStatus = activeSub.activationStatus
+      posthog.capture('halbestunde_muse_user_info', {
+        userInfo,
+        activeSub,
+      });
       const allow =
         !!userInfo?.uuid &&
         activeSub.status === 0 &&

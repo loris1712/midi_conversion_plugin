@@ -33,7 +33,7 @@
     "electron-vite": "^2.3.0",
     "helmet": "^7.1.0",
     "node-addon-api": "^8.1.0",
-    "posthog-js": "^1.144.1",
+    "posthog-js": "^1.174.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-dropzone": "^14.2.3",
