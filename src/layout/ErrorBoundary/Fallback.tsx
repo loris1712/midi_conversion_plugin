@@ -5,7 +5,7 @@ import * as Sentry from '@sentry/electron/renderer';
 
 const Fallback = ({ error, resetErrorBoundary }: any) => {
   useEffect(() => {
-    Sentry.captureEvent(error);
+    Sentry.captureException(error);
   }, [error]);
   return (
     <div
