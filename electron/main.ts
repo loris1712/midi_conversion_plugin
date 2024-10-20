@@ -6,6 +6,8 @@ import { download as downloader } from 'electron-dl';
 import isDev from 'electron-is-dev';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
+import Authenticate from '../lib/muse/index';
+
 // The built directory structure
 //
 // ├─┬─┬ dist
@@ -59,7 +61,7 @@ function createWindow() {
     webPreferences: {
       preload: path.join(__dirname, 'preload.mjs'),
       devTools: isDev,
-      nodeIntegration: true
+      nodeIntegration: true,
     },
   });
 
@@ -84,6 +86,31 @@ function createWindow() {
     if (isDev) {
       win?.webContents.openDevTools({ mode: 'detach' });
     }
+    let auth;
+    try {
+      sendLog('init');
+      auth = new Authenticate(isDev);
+      sendLog('success');
+      if (auth.connected) {
+        sendLog('auth-connected');
+        const info = auth.getIsAllowed();
+        win?.webContents.send('muse-user', {
+          ...info,
+          dev: isDev,
+        });
+      } else {
+        win?.webContents.send('muse-user-error', {
+          message: 'Connection did not work',
+          dev: isDev,
+        });
+      }
+      sendLog('init-done');
+    } catch (error) {
+      win?.webContents.send('muse-user-error', { message: error });
+      Sentry.captureException(error);
+    } finally {
+      auth?.finalize();
+    }
   });
 }
 
@@ -94,22 +121,21 @@ ipcMain.on('download', async (_event, args) => {
   const currentWindow = BrowserWindow.getFocusedWindow();
   const filePath = `${filename}.${ext}`;
   if (currentWindow) {
-    try{
+    try {
       await downloader(currentWindow, url, {
-      directory: downloadPath,
-      filename: filePath,
-      onTotalProgress: (progress) => {
-        win?.webContents.send('download-progress', progress);
-      },
-      onCompleted: () => {
-        win?.webContents.send('download-complete', {});
-      },
-    });
-    }catch(e){
-      Sentry.captureException(e)
+        directory: downloadPath,
+        filename: filePath,
+        onTotalProgress: (progress) => {
+          win?.webContents.send('download-progress', progress);
+        },
+        onCompleted: () => {
+          win?.webContents.send('download-complete', {});
+        },
+      });
+    } catch (e) {
+      Sentry.captureException(e);
       win?.webContents.send('download-error', {});
-    }finally{
-
+    } finally {
     }
   }
 });
