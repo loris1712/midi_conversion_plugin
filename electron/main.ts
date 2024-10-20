@@ -1,13 +1,10 @@
 import { app, BrowserWindow, ipcMain, Menu } from 'electron';
-import { autoUpdater } from 'electron-updater';
+import * as Sentry from '@sentry/electron/main';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { download as downloader } from 'electron-dl';
 import isDev from 'electron-is-dev';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
-import Authenticate from '../lib/muse/index';
-import "../lib/native-addon"
 
 // The built directory structure
 //
@@ -31,9 +28,10 @@ process.env.VITE_PUBLIC = VITE_DEV_SERVER_URL
 
 let win: BrowserWindow | null;
 
-// auto updater
-autoUpdater.autoDownload = true;
-autoUpdater.autoInstallOnAppQuit = true;
+// init sentry
+Sentry.init({
+  dsn: 'https://ed67aaa611f771150f1aa779a7f66925@o416101.ingest.us.sentry.io/4508151376642048',
+});
 
 function sendLog(args: any) {
   try {
@@ -82,33 +80,9 @@ function createWindow() {
 
   // Test active push message to Renderer-process.
   win.webContents.on('did-finish-load', () => {
-    win?.webContents.send('main-process-message', new Date().toLocaleString());
+    sendLog(new Date().toLocaleString());
     if (isDev) {
       win?.webContents.openDevTools({ mode: 'detach' });
-    }
-    let auth;
-    try {
-      sendLog('init');
-      auth = new Authenticate(isDev);
-      sendLog('success');
-      if (auth.connected) {
-        sendLog('auth-connected');
-        const info = auth.getIsAllowed();
-        win?.webContents.send('muse-user', {
-          ...info,
-          dev: isDev,
-        });
-      } else {
-        win?.webContents.send('muse-user-error', {
-          message: 'Connection did not work',
-          dev: isDev
-        });
-      }
-      sendLog('init-done');
-    } catch (error) {
-      win?.webContents.send('muse-user-error', { message: error });
-    } finally {
-      auth?.finalize();
     }
   });
 }
@@ -132,6 +106,7 @@ ipcMain.on('download', async (_event, args) => {
       },
     });
     }catch(e){
+      Sentry.captureException(e)
       win?.webContents.send('download-error', {});
     }finally{
 
@@ -155,28 +130,11 @@ app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow();
   }
-  autoUpdater.checkForUpdates();
-  win?.webContents.send('check-updates');
-});
-
-autoUpdater.on('update-available', () => {
-  autoUpdater.downloadUpdate();
-});
-
-autoUpdater.on('update-downloaded', (info) => {
-  win?.webContents.send('update-downloaded', info);
-});
-
-// check and install update
-ipcMain.on('check-updates', async () => {
-  const results = await autoUpdater.checkForUpdatesAndNotify();
-  win?.webContents.send('check-updates-response', results);
 });
 
 ipcMain.on('install-update', () => {
   setImmediate(() => {
     app.removeAllListeners('window-all-closed');
-    autoUpdater.quitAndInstall(true, true);
     if (win != null) {
       win.close();
     }
