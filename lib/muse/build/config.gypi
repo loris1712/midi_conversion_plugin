@@ -5,9 +5,7 @@
     "default_configuration": "Release",
     "defines": [],
     "include_dirs": [],
-    "libraries": [],
-    "msbuild_toolset": "v143",
-    "msvs_windows_target_platform_version": "10.0.22621.0"
+    "libraries": []
   },
   "variables": {
     "arm_fpu": "neon",
@@ -416,10 +414,9 @@
     "v8_trace_maps": 0,
     "v8_use_siphash": 1,
     "want_separate_host_toolset": 1,
-    "nodedir": "C:\\Users\\Archie\\AppData\\Local\\node-gyp\\Cache\\30.0.1",
-    "python": "C:\\Users\\Archie\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+    "nodedir": "/Users/archie/.electron-gyp/Library/Caches/node-gyp/30.0.1",
+    "python": "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
     "standalone_static_library": 1,
-    "msbuild_path": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Preview\\MSBuild\\Current\\Bin\\MSBuild.exe",
     "target": "30.0.1"
   }
 }
