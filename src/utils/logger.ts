@@ -1,8 +1,9 @@
+import * as Sentry from '@sentry/electron/renderer';
 
-export const log = (...args : any) => {
+export const log = (...args: any) => {
   if (process.env.NODE_ENV === 'development') {
     console.log(...args);
   } else {
-    // send to server
+    Sentry.captureEvent({ ...args });
   }
 };
