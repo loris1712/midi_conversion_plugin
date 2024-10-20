@@ -1,6 +1,9 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { useCallback, useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import * as Sentry from '@sentry/electron/renderer';
+import posthog from 'posthog-js';
+
 import InitLoading from '@components/InitLoading';
 import { signIn } from '@service/api';
 import { saveAuthToken } from '@service/local';
@@ -9,7 +12,6 @@ import Navigation from './layout/Navigation';
 import { log } from '@utils/logger';
 import NotAllowed from '@components/NotAllowed';
 import { enableMuseChecks } from './constants';
-import posthog from 'posthog-js';
 
 
 const App = () => {
@@ -75,6 +77,7 @@ const App = () => {
       const { dev } = args;
       if (!dev) {
         setUserActive(false);
+        Sentry.captureException({ ...args });
       }
     });
   }, []);
