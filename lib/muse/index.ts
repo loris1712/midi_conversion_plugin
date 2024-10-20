@@ -1,6 +1,3 @@
-import { createRequire } from 'module';
-const require = createRequire(import.meta.url);
-
 import {MuseSdk} from './types'
 
 let node_path = '../lib/muse/mac/MuseClientSdk.node';
@@ -13,14 +10,12 @@ class Muse {
 
   constructor(isDev: boolean) {
     let result;
+    const museSdk: MuseSdk = require?.(node_path);
+    this.museSdk = museSdk;
     if (isDev) {
-      const museSdk: MuseSdk = require(node_path);
-      this.museSdk = museSdk;
-      result = museSdk.initializeTestMode(true);
+      result = this.museSdk.initializeTestMode(true);
     } else {
-      const museSdk: MuseSdk = require(node_path);
-      this.museSdk = museSdk;
-      result = museSdk.initializeElectron(process.execPath);
+      result = this.museSdk.initializeElectron(process.execPath);
     }
     const { status, handle } = result;
     this.connected = status === 0;

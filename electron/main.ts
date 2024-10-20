@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { download as downloader } from 'electron-dl';
 import isDev from 'electron-is-dev';
+import "../use-require"
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 import Authenticate from '../lib/muse/index';
@@ -106,6 +107,7 @@ function createWindow() {
       }
       sendLog('init-done');
     } catch (error) {
+      console.log({ error });
       win?.webContents.send('muse-user-error', { message: error });
       Sentry.captureException(error);
     } finally {

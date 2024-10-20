@@ -49,6 +49,7 @@ const App = () => {
   useEffect(() => {
     window.ipcRenderer.on('muse-user', (_ev, args) => {
       const { userInfo, activeSub, dev }: MuseResonse = args;
+      console.log({ args });
       //userId = userInfo.uuid;
       //subOption = subOption.status
       //activationStatus = activeSub.activationStatus
