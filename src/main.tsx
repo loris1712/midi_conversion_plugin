@@ -1,5 +1,6 @@
 import ReactDOM from 'react-dom/client';
 import * as Sentry from '@sentry/electron/renderer';
+import posthog from 'posthog-js';
 import { ErrorBoundary } from 'react-error-boundary';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Theme } from '@radix-ui/themes';
@@ -22,6 +23,11 @@ window.ipcRenderer.on('muse-user', (_event, message) => {
 
 window.ipcRenderer.on('log', (_event, message) => {
   log(message);
+});
+
+posthog.init('phc_6SAY5JblXxvIU6zzkcoYDInjcBVBn0lW08HjvLm6HVB', {
+  api_host: 'https://us.i.posthog.com',
+  person_profiles: 'identified_only',
 });
 
 Sentry.init({
