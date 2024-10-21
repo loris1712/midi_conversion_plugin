@@ -7,4 +7,7 @@ export const EVENTS = {
   APP_LOAD: 'app_load',
   USER_INFO: 'user_info',
   USER_UNAUTHORIZED: 'user_unauthorized',
+  FILE_DOWNLOAD: 'file_download',
+  FILE_UPLOAD: 'file_upload',
+  FILE_SELECT: 'file_selected'
 };

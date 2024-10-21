@@ -1,5 +1,6 @@
 import { app, BrowserWindow, ipcMain, Menu } from 'electron';
 import * as Sentry from '@sentry/electron/main';
+import { PostHog } from 'posthog-node';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { download as downloader } from 'electron-dl';
@@ -35,6 +36,12 @@ let win: BrowserWindow | null;
 Sentry.init({
   dsn: 'https://ed67aaa611f771150f1aa779a7f66925@o416101.ingest.us.sentry.io/4508151376642048',
 });
+
+// init posthog
+const posthog = new PostHog(
+    'phc_6SAY5JblXxvIU6zzkcoYDInjcBVBn0lW08HjvLm6HVB',
+    { host: 'https://us.i.posthog.com' }
+)
 
 function sendLog(args: any) {
   try {
@@ -90,16 +97,23 @@ function createWindow() {
     let auth;
     try {
       sendLog('init');
+      posthog.capture('muse_sdk_init');
       auth = new Authenticate(isDev);
+      posthog.capture('muse_sdk_auth_success');
       sendLog('success');
       if (auth.connected) {
         sendLog('auth-connected');
         const info = auth.getIsAllowed();
+        posthog.capture('muse_sdk_auth_info', info);
         win?.webContents.send('muse-user', {
           ...info,
           dev: isDev,
         });
       } else {
+        posthog.capture('muse_sdk_connection_error');
+        Sentry.captureException({
+          message:"Unable to establish connection"
+        });
         win?.webContents.send('muse-user-error', {
           message: 'Connection did not work',
           dev: isDev,
@@ -145,7 +159,8 @@ ipcMain.on('download', async (_event, args) => {
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
-app.on('window-all-closed', () => {
+app.on('window-all-closed', async () => {
+  await posthog.shutdown();
   if (process.platform !== 'darwin') {
     app.quit();
     win = null;

@@ -72,9 +72,9 @@ const App = () => {
     });
     window.ipcRenderer.on('muse-user-error', (_ev, args) => {
       const { dev } = args;
+      Sentry.captureException({ ...args });
       if (!dev) {
         setUserActive(false);
-        Sentry.captureException({ ...args });
       }
     });
   }, []);
