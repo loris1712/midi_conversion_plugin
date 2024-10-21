@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
+import posthog from 'posthog-js';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import FileUpload from './components/FileUpload';
 import Processing from './components/Processing';
@@ -9,6 +10,7 @@ import {
   getResults,
   postUploadedFile,
 } from '@service/api';
+import { EVENTS } from '@constants/index';
 
 type PAGE = 'upload' | 'processing' | 'download';
 
@@ -94,6 +96,7 @@ const UploadPage: React.FC = () => {
       url: file,
       ext: ext,
     };
+    posthog.capture(`halbestunde_${EVENTS.FILE_DOWNLOAD}`, payload);
     window.ipcRenderer.send('download', payload);
   };
 
@@ -108,6 +111,7 @@ const UploadPage: React.FC = () => {
           onUpload={(files) => {
             setPage('processing');
             fileProcessMutation.mutate(files);
+            posthog.capture(`halbestunde_${EVENTS.FILE_UPLOAD}`, {});
           }}
         />
       )}

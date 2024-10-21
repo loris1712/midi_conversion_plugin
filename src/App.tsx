@@ -11,17 +11,11 @@ import AppBar from './components/AppBar';
 import Navigation from './layout/Navigation';
 import { log } from '@utils/logger';
 import NotAllowed from '@components/NotAllowed';
-import { enableMuseChecks } from './constants';
-
+import { enableMuseChecks, EVENTS } from './constants';
 
 const App = () => {
   const [shouldRestart, setShouldRestart] = useState(false);
   const [userActive, setUserActive] = useState(true);
-
-  posthog.init('phc_6SAY5JblXxvIU6zzkcoYDInjcBVBn0lW08HjvLm6HVB', {
-    api_host: 'https://us.i.posthog.com',
-    person_profiles: 'identified_only',
-  });
 
   const { isLoading, data, isError, isSuccess } = useQuery({
     queryKey: ['appLoad'],
@@ -56,12 +50,15 @@ const App = () => {
   }, [data]);
 
   useEffect(() => {
+    posthog.capture(`halbestunde_muse_${EVENTS.APP_INIT}`, {
+      time: new Date(),
+    });
     window.ipcRenderer.on('muse-user', (_ev, args) => {
       const { userInfo, activeSub, dev }: MuseResonse = args;
       //userId = userInfo.uuid;
       //subOption = subOption.status
       //activationStatus = activeSub.activationStatus
-      posthog.capture('halbestunde_muse_user_info', {
+      posthog.capture(`halbestunde_muse_${EVENTS.USER_INFO}`, {
         userInfo,
         activeSub,
       });
@@ -75,9 +72,9 @@ const App = () => {
     });
     window.ipcRenderer.on('muse-user-error', (_ev, args) => {
       const { dev } = args;
+      Sentry.captureException({ ...args });
       if (!dev) {
         setUserActive(false);
-        Sentry.captureException({ ...args });
       }
     });
   }, []);

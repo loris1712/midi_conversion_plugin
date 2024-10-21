@@ -1,10 +1,11 @@
 import { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
-
+import posthog from 'posthog-js';
 import { ReactComponent as UploadIcon } from '@assets/upload.svg';
 import { Button } from '@radix-ui/themes';
 
 import { v4 as uuidv4 } from 'uuid';
+import { EVENTS } from '@constants/index';
 
 
 interface FileUploadProps {
@@ -22,6 +23,9 @@ const FileUpload = ({ onUpload }: FileUploadProps) => {
     const renamefile = new File([file], newname, {
       type: file.type,
       lastModified: file.lastModified,
+    });
+    posthog.capture(`halbestunde_${EVENTS.FILE_SELECT}`, {
+      type: file.type,
     });
     setFiles(renamefile);
   }, []);
