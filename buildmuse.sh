@@ -1,8 +1,6 @@
 #!/bin/bash
 echo "CD INTO MUSE"
 cd lib/muse
-echo "REMOVE OLD BUILD"
-rm -rf build
 echo "CONFIGURE"
 node-gyp configure
 echo "BUILD"
