@@ -18,7 +18,7 @@ const FileUpload = ({ onUpload }: FileUploadProps) => {
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     const file = acceptedFiles[0];
-    const ext = file.name.split('.')[1];
+    const ext = file.name.split('.').pop();
     const newname = `${uuidv4()}.${ext}`;
     const renamefile = new File([file], newname, {
       type: file.type,
