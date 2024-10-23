@@ -19,9 +19,13 @@ const FILE_TYPES = [
     type: 'mid' as FileType,
   },
   {
+    name: 'Muse',
+    type: 'mscz' as FileType,
+  },
+  {
     name: 'XML',
     type: 'xml' as FileType,
-  },
+  }
 ];
 
 const Download = ({ onDownload, uploadNewFile }: DownloadProps) => {
