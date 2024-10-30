@@ -172,7 +172,7 @@ ipcMain.on('download', async (_event, args) => {
       });
     } catch (e) {
       Sentry.captureException(e);
-      win?.webContents.send('download-error', {});
+      win?.webContents.send('download-error', e);
     } finally {
     }
   }

@@ -9,12 +9,10 @@ import { signIn } from '@service/api';
 import { saveAuthToken } from '@service/local';
 import AppBar from './components/AppBar';
 import Navigation from './layout/Navigation';
-import { log } from '@utils/logger';
 import NotAllowed from '@components/NotAllowed';
 import { enableMuseChecks, EVENTS } from './constants';
 
 const App = () => {
-  const [shouldRestart, setShouldRestart] = useState(false);
   const [userActive, setUserActive] = useState(true);
 
   const { isLoading, data, isError, isSuccess } = useQuery({
@@ -25,20 +23,6 @@ const App = () => {
     },
   });
 
-  const checkForUpdates = useCallback(() => {
-    window.ipcRenderer.on('check-updates', () => {
-      log('CHECKING FOR UPDATES');
-    });
-
-    window.ipcRenderer.on('update-available', (info) => {
-      log({ info });
-    });
-
-    window.ipcRenderer.on('update-downloaded', () => {
-      log('UPDATES DOWNLOADED');
-      setShouldRestart(true);
-    });
-  }, []);
 
   useEffect(() => {
     if (data) {
@@ -79,9 +63,6 @@ const App = () => {
     });
   }, []);
 
-  useEffect(() => {
-    checkForUpdates();
-  }, [checkForUpdates]);
 
   return (
     <main className="bg-black h-dvh w-dvw flex flex-col flex-1 relative">
@@ -93,11 +74,6 @@ const App = () => {
         </div>
       )}
       {!isLoading && isSuccess && <Navigation />}
-      {shouldRestart && (
-        <div className="fixed bottom-3 right-3 bg-red-500 rounded-md w-fit whitespace-nowrap p-2">
-          Restart to install updates
-        </div>
-      )}
       {enableMuseChecks && !userActive ? <NotAllowed /> : null}
     </main>
   );

@@ -5,6 +5,7 @@ import { ReactComponent as ErrorIcon } from '@assets/icon-error.svg';
 import { Button } from '@radix-ui/themes';
 
 interface ProcessingProps {
+  progress?: number;
   isError?: boolean;
   isUploaded?: boolean;
   isDone?: boolean;
@@ -12,6 +13,7 @@ interface ProcessingProps {
 }
 
 const Processing = ({
+  progress,
   isUploaded,
   isError,
   uploadNewFile,
@@ -42,6 +44,9 @@ const Processing = ({
               <>
                 <p>Uploading</p>
                 <img src={loadingBar} />
+                <p className="font-medium text-[14px] text-center">
+                  {progress}%
+                </p>
               </>
             )}
           </>

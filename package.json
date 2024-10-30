@@ -47,7 +47,8 @@
     "styled-components": "^6.1.11",
     "uuid": "^10.0.0",
     "vite-plugin-svgr": "^4.2.0",
-    "vite-tsconfig-paths": "^4.3.2"
+    "vite-tsconfig-paths": "^4.3.2",
+    "zustand": "^5.0.0"
   },
   "devDependencies": {
     "@electron-forge/publisher-github": "^7.4.0",

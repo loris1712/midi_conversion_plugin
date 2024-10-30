@@ -12,7 +12,6 @@ interface DownloadProps {
   onDownload: (filename: string, type: FileType) => void;
 }
 
-
 const FILE_TYPES = [
   {
     name: 'MiDi',
@@ -25,11 +24,12 @@ const FILE_TYPES = [
   {
     name: 'XML',
     type: 'xml' as FileType,
-  }
+  },
 ];
 
 const Download = ({ onDownload, uploadNewFile }: DownloadProps) => {
   const [showDownloadModal, setShowDownloadModal] = useState(false);
+  const [downloadError, setDownloadError] = useState(false);
   const [filename, setFilename] = useState('');
   const [downloadProgress, setDownloadProgress] = useState(0);
   const [downloadDone, setDownloadDone] = useState(false);
@@ -48,7 +48,8 @@ const Download = ({ onDownload, uploadNewFile }: DownloadProps) => {
     });
 
     window.ipcRenderer.on('download-error', () => {
-      setDownloadDone(true);
+      setDownloadDone(false);
+      setDownloadError(true);
     });
   }, []);
 
@@ -147,8 +148,9 @@ const Download = ({ onDownload, uploadNewFile }: DownloadProps) => {
             </div>
           }
           buttons={
-            downloadDone ? (
+            <div className="flex flex-row gap-4">
               <Button
+                variant='outline'
                 disabled={!filename.length}
                 onClick={() => {
                   setShowDownloadModal(false);
@@ -157,7 +159,6 @@ const Download = ({ onDownload, uploadNewFile }: DownloadProps) => {
               >
                 Okay
               </Button>
-            ) : (
               <Button
                 disabled={!filename.length || isDownloading || !selectedFile}
                 onClick={() => {
@@ -169,7 +170,7 @@ const Download = ({ onDownload, uploadNewFile }: DownloadProps) => {
                 {isDownloading && <CircleLoader />}
                 Save
               </Button>
-            )
+            </div>
           }
         />
       )}

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import posthog from 'posthog-js';
 import { useMutation, useQuery } from '@tanstack/react-query';
@@ -11,16 +11,17 @@ import {
   postUploadedFile,
 } from '@service/api';
 import { EVENTS } from '@constants/index';
+import { getFileExtension } from '@utils/helpers';
+import { useFileStore, useProcessingStateStore } from 'store';
 
-type PAGE = 'upload' | 'processing' | 'download';
 
 const UploadPage: React.FC = () => {
-  const timeoutId = useRef<any>(null);
 
-  const [page, setPage] = useState<PAGE>('upload');
+  const {state, setState, results, setResults} = useProcessingStateStore(state => state);
+  const timeoutId = useRef<any>(null);
+  const {file} = useFileStore()
   const [progress, setProgress] = useState(0);
   const [isUploaded, setIsUploaded] = useState(false);
-  const [fileLinks, setFileLinks] = useState<any>({});
   const [inferenceId, setInferenceId] = useState();
 
   const fileProcessMutation = useMutation({
@@ -53,7 +54,7 @@ const UploadPage: React.FC = () => {
 
   const {
     refetch,
-    data: results,
+    data:resultBody,
     isError: referenceError,
   } = useQuery({
     queryKey: [inferenceId],
@@ -67,72 +68,79 @@ const UploadPage: React.FC = () => {
   });
 
   useEffect(() => {
-    if (inferenceId && results && results?.job_status === 'running') {
+    if (inferenceId && resultBody && resultBody?.job_status === 'running') {
       timeoutId.current = setInterval(() => {
         refetch();
       }, 3000);
-    }
-    if (results?.job_status === 'completed') {
-      setFileLinks(results);
-      setPage('download');
+    } else if (resultBody?.job_status === 'completed') {
+      setResults(resultBody);
+      setState('download');
       clearInterval(timeoutId.current);
     }
-  }, [inferenceId, results, refetch]);
+  }, [inferenceId, resultBody, refetch]);
 
-  const onDownload = (filename: string, fileType: FileType) => {
-    // other file type : filename_musicxml
-    // get the selected file
-    let file;
-    if (fileType === 'mid') {
-      file = fileLinks.body.result_midi;
-    } else if (fileType === 'mscz') {
-      file = fileLinks.body.result_mscz;
-    } else if (fileType === 'xml') {
-      file = fileLinks.body.result_xml;
-    }
-    const ext = getFileExtension(file);
-    const payload = {
-      filename,
-      url: file,
-      ext: ext,
-    };
-    posthog.capture(`halbestunde_${EVENTS.FILE_DOWNLOAD}`, payload);
-    window.ipcRenderer.send('download', payload);
-  };
+  
 
-  const getFileExtension = (link: string) => {
-    return String(link).split('.').pop();
-  };
+  const onDownload = useCallback(
+    (filename: string, fileType: FileType) => {
+      // other file type : filename_musicxml
+      // get the selected file
+      let file;
+      if (fileType === 'mid') {
+        file = results.body.result_midi;
+      } else if (fileType === 'mscz') {
+        file = results.body.result_mscz;
+      } else if (fileType === 'xml') {
+        file = results.body.result_xml;
+      }
+      const ext = getFileExtension(file);
+      const payload = {
+        filename,
+        url: file,
+        ext: ext,
+      };
+      posthog.capture(`halbestunde_${EVENTS.FILE_DOWNLOAD}`, payload);
+      window.ipcRenderer.send('download', payload);
+    },
+    [getFileExtension, results],
+  );
+
+  const CurrentView = {
+    upload: (
+      <FileUpload
+        onUpload={() => {
+          if (file) {
+            setState('processing');
+            fileProcessMutation.mutate(file);
+            posthog.capture(`halbestunde_${EVENTS.FILE_UPLOAD}`, {});
+          }
+        }}
+      />
+    ),
+    download: (
+      <Download
+        onDownload={onDownload}
+        uploadNewFile={() => {
+          setState('upload');
+        }}
+      />
+    ),
+    processing: (
+      <Processing
+        progress={progress}
+        isError={referenceError || fileProcessMutation.isError}
+        uploadNewFile={() => {
+          setState('upload');
+        }}
+        isUploaded={isUploaded}
+      />
+    ),
+  }[state];
+
 
   return (
     <div className="flex flex-col items-center justify-center h-full w-full gap-4">
-      {page === 'upload' && (
-        <FileUpload
-          onUpload={(files) => {
-            setPage('processing');
-            fileProcessMutation.mutate(files);
-            posthog.capture(`halbestunde_${EVENTS.FILE_UPLOAD}`, {});
-          }}
-        />
-      )}
-      {page === 'processing' && (
-        <Processing
-          isError={referenceError || fileProcessMutation.isError}
-          uploadNewFile={() => {
-            setPage('upload');
-          }}
-          isUploaded={isUploaded}
-          isDone={progress >= 100}
-        />
-      )}
-      {page === 'download' && (
-        <Download
-          onDownload={onDownload}
-          uploadNewFile={() => {
-            setPage('upload');
-          }}
-        />
-      )}
+      {CurrentView}
     </div>
   );
 };
