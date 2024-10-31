@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { ReactComponent as DownloadLogo } from '@assets/download-icon.svg';
 
 
 export const FileNameInput = styled.input`
@@ -11,3 +12,6 @@ export const FileNameInput = styled.input`
   width: 100%;
   font-size: 14px;
 `;
+
+
+export const DownloadIcon = styled(DownloadLogo)``;

@@ -4,16 +4,23 @@ import { Button } from "@radix-ui/themes";
 export const GradientButton = styled(Button)`
   width: fit-content;
   height: fit-content;
-  padding: 10px 24px 10px 24px;
+  padding: 12px 24px 12px 24px;
   gap: 12px;
   border-radius: 10px;
   background: linear-gradient(264.94deg, #28d0ac -5.57%, #2797c1 100%);
   font-size: 16px;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 16px;
   text-align: center;
   color: rgba(21, 37, 86, 1);
   cursor: pointer;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+
+  @media screen and (max-width: 780px) {
+    padding: 8px 18px 8px 16px;
+    gap: 8px;
+    font-size: 14px;
+  }
 `;
 
 export const RoundButton = styled.button`
@@ -49,4 +56,5 @@ export const OriginalTag = styled(Tag)`
 
 export const ConvertedTag = styled(Tag)`
   background-color: #182c2a;
+  color: rgba(40, 208, 172, 1);
 `;

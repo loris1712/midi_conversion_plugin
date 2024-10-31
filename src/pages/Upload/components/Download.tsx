@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Button, Flex, Grid } from '@radix-ui/themes';
+import { Button, Flex } from '@radix-ui/themes';
+import { DownloadIcon } from './styles';
 import PDFViewer from 'pdf-viewer-reactjs';
 
 
@@ -80,6 +81,7 @@ const Download = ({ onDownload, uploadNewFile }: DownloadProps) => {
               setShowDownloadModal(true);
             }}
           >
+            <DownloadIcon/>
             Download
           </GradientButton>
         </Flex>
@@ -178,7 +180,7 @@ const Download = ({ onDownload, uploadNewFile }: DownloadProps) => {
               >
                 Okay
               </Button>
-              <Button
+              <GradientButton
                 disabled={!filename.length || isDownloading || !selectedFile}
                 onClick={() => {
                   setDownloadProgress(1);
@@ -188,7 +190,7 @@ const Download = ({ onDownload, uploadNewFile }: DownloadProps) => {
               >
                 {isDownloading && <CircleLoader />}
                 Save
-              </Button>
+              </GradientButton>
             </div>
           }
         />
