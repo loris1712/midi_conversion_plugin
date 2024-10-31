@@ -13,7 +13,7 @@ const Modal = ({ content, buttons, title, onClose }: ModalProps) => (
     <div className="ml-[50px] h-fit w-full max-w-[380px] bg-[#262626] p-4 rounded-md flex flex-col gap-6">
       <div className="flex flex-row items-center justify-between">
         <h4 className="font-extrabold">{title}</h4>
-        <Button radius="full" color="red" variant="soft" onClick={onClose}>
+        <Button className="cursor-pointer" radius="full" color="red" variant="soft" onClick={onClose}>
           X
         </Button>
       </div>
