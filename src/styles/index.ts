@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Button } from "@radix-ui/themes";
 
 export const GradientButton = styled(Button)`
-  width: fit-content;
+  min-height: fit-content;
   height: fit-content;
   padding: 12px 24px 12px 24px;
   gap: 12px;
@@ -16,6 +16,30 @@ export const GradientButton = styled(Button)`
   cursor: pointer;
   font-family: 'Plus Jakarta Sans', sans-serif;
 
+  @media screen and (max-width: 780px) {
+    padding: 10px 16px 10px 16px;
+    gap: 8px;
+    font-size: 14px;
+  }
+`;
+
+export const GradientOutlineButton = styled(Button)`
+  width: fit-content;
+  height: fit-content;
+  gap: 12px;
+  border-radius: 10px;
+  border-image: linear-gradient(264.94deg, #28d0ac -5.57%, #2797c1 100%);
+  border-style: solid;
+  border-width: 1px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 16px;
+  text-align: center;
+  color: #ffffff;
+  cursor: pointer;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  border-image-slice: 1;
+  background-color: transparent;
   @media screen and (max-width: 780px) {
     padding: 8px 18px 8px 16px;
     gap: 8px;

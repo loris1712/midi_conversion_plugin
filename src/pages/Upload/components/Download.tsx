@@ -9,7 +9,7 @@ import Modal from '@components/Modal';
 
 import { FileNameInput } from './styles';
 import CircleLoader from '@components/Loaders/CircleLoader';
-import { ConvertedTag, GradientButton, OriginalTag, RoundButton } from 'styles';
+import { ConvertedTag, GradientButton, GradientOutlineButton, OriginalTag, RoundButton } from 'styles';
 import useProcessingStateStore from '@store/useProcessingStateStore';
 
 interface DownloadProps {
@@ -119,7 +119,7 @@ const Download = ({ onDownload, uploadNewFile }: DownloadProps) => {
           }}
           title="Save As"
           content={
-            <div className="flex flex-col items-start gap-1">
+            <div className="flex flex-col items-start gap-1 p-2">
               {downloadDone && (
                 <div className="flex flex-row items-center gap-2 mb-4">
                   <CheckIcon className="h-[20px] w-[20px]" />
@@ -169,24 +169,14 @@ const Download = ({ onDownload, uploadNewFile }: DownloadProps) => {
             </div>
           }
           buttons={
-            <div className="flex flex-row gap-4">
-              <Button
-                variant="outline"
-                disabled={!filename.length}
-                onClick={() => {
-                  setShowDownloadModal(false);
-                }}
-                className="bg-accent text-black px-8 disabled:bg-black/10"
-              >
-                Okay
-              </Button>
+            <div className="flex flex-row gap-4 justify-start">
               <GradientButton
                 disabled={!filename.length || isDownloading || !selectedFile}
                 onClick={() => {
                   setDownloadProgress(1);
                   onDownload(filename, selectedFile);
                 }}
-                className="bg-accent text-black px-8"
+                className=""
               >
                 {isDownloading && <CircleLoader />}
                 Save
