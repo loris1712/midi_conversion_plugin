@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react';
+import { Button, Flex, Grid } from '@radix-ui/themes';
+import PDFViewer from 'pdf-viewer-reactjs';
 
-import { Button } from '@radix-ui/themes';
+
 import { ReactComponent as CheckIcon } from '@assets/done-check.svg';
 import Modal from '@components/Modal';
 
 import { FileNameInput } from './styles';
 import CircleLoader from '@components/Loaders/CircleLoader';
+import { ConvertedTag, GradientButton, OriginalTag, RoundButton } from 'styles';
+import useProcessingStateStore from '@store/useProcessingStateStore';
 
 interface DownloadProps {
   uploadNewFile: () => void;
@@ -28,6 +32,13 @@ const FILE_TYPES = [
 ];
 
 const Download = ({ onDownload, uploadNewFile }: DownloadProps) => {
+
+    const { results } = useProcessingStateStore(
+      (state) => state,
+    );
+
+    console.log({ results });
+
   const [showDownloadModal, setShowDownloadModal] = useState(false);
   const [downloadError, setDownloadError] = useState(false);
   const [filename, setFilename] = useState('');
@@ -57,40 +68,48 @@ const Download = ({ onDownload, uploadNewFile }: DownloadProps) => {
 
   return (
     <>
-      <div className="h-full w-full flex flex-col items-center justify-center gap-8">
-        <div className="flex flex-col p-5 bg-[#262626] items-center justify-center gap-2 rounded-[8px] min-w-[376px] w-fit min-h-[171px] h-fit max-w-[400px]">
-          <CheckIcon className="h-[38px]" />
-          {!downloadDone && (
-            <p className="font-medium text-[14px] text-center">
-              The conversion is complete. You can download the converted file.
-            </p>
-          )}
-        </div>
-        <div className="grid grid-cols-2 gap-4">
-          <Button
-            style={{
-              borderColor: 'var(--accent)!important',
-            }}
-            variant="outline"
-            color="yellow"
-            className="text-accent border-accent p-4 h-[42px]"
-            onClick={uploadNewFile}
-          >
-            CONVERT NEW FILE
-          </Button>
-
-          <Button
-            disabled={downloadDone}
-            variant="solid"
-            className="p-4 h-[42px] bg-accent text-black"
+      <div className="h-full w-full flex flex-col gap-6 py-4 mb-4">
+        <Flex className="flex flex-row px-6 items-center justify-between py-2">
+          <Flex direction={'row'} align={'center'} gap={'4'}>
+            <RoundButton></RoundButton>
+            <span className="text-white">Page 1/10</span>
+            <RoundButton></RoundButton>
+          </Flex>
+          <GradientButton
             onClick={() => {
               setShowDownloadModal(true);
             }}
           >
-            DOWNLOAD
-          </Button>
+            Download
+          </GradientButton>
+        </Flex>
+
+        <div className="mx-6 grid grid-cols-2 gap-4">
+          <div className="flex flex-col gap-4">
+            <OriginalTag>Original</OriginalTag>
+            <div className="flex max-h-[400px] flex-col items-center bg-white rounded-[12px]">
+              {results?.body?.source_preview_file && (
+                <img
+                  className="h-full"
+                  src={results?.body?.source_preview_file}
+                />
+              )}
+            </div>
+          </div>
+          <Flex direction={'column'} gap={'4'} className="h-full">
+            <ConvertedTag>Converted</ConvertedTag>
+            <div className="h-full w-full flex flex-col items-center bg-white rounded-[12px] overflow-hidden">
+              {results?.body?.result_preview_pdf && (
+                <img
+                  className="h-full"
+                  src={results?.body?.result_preview_pdf}
+                />
+              )}
+            </div>
+          </Flex>
         </div>
       </div>
+
       {showDownloadModal && (
         <Modal
           onClose={() => {
@@ -150,7 +169,7 @@ const Download = ({ onDownload, uploadNewFile }: DownloadProps) => {
           buttons={
             <div className="flex flex-row gap-4">
               <Button
-                variant='outline'
+                variant="outline"
                 disabled={!filename.length}
                 onClick={() => {
                   setShowDownloadModal(false);

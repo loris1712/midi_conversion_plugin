@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import * as Sentry from '@sentry/electron/renderer';
 import posthog from 'posthog-js';
@@ -65,7 +65,7 @@ const App = () => {
 
 
   return (
-    <main className="bg-black h-dvh w-dvw flex flex-col flex-1 relative">
+    <main className="bg-black h-[100vh] w-dvw flex flex-col flex-1 relative overflow-hidden">
       <AppBar />
       {isLoading && <InitLoading />}
       {!isSuccess && isError && (

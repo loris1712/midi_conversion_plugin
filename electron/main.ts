@@ -62,7 +62,7 @@ function createWindow() {
   }
   win = new BrowserWindow({
     minWidth: 780,
-    minHeight: 440,
+    minHeight: 620,
     title: 'Halbestunde',
     backgroundColor: '#000000',
     autoHideMenuBar: true,

@@ -5,15 +5,15 @@ import { v4 as uuidv4 } from 'uuid';
 
 import {
   NavItem,
-  HomeIcon,
   SettingsIcon,
-  MusicIcon,
   PianoIcon,
+  PlusIcon
 } from './styles';
 import UploadPage from "@pages/Upload";
 import HomePage from "@pages/Home";
 import MusicPage from "@pages/Music";
 import SettingsPage from "@pages/Settings";
+import useProcessingStateStore from "@store/useProcessingStateStore";
 
 
 interface NavLinkProp {
@@ -29,60 +29,45 @@ const NavLinks: NavLinkProp[] = [
     path: '/upload',
     icon: <PianoIcon />,
     disabled: false,
-  },
-  {
-    name: 'Home',
-    path: '/home',
-    icon: <HomeIcon />,
-    disabled: true,
-  },
-  {
-    name: 'Music',
-    path: '/music',
-    icon: <MusicIcon />,
-    disabled: true,
-  },
+  }
 ];
 
 const Navigation = () => {
 
+  const {setState} = useProcessingStateStore(store => store)
+
   return (
     <div className="flex flex-1 flex-row h-full w-full">
       <HashRouter>
-        <nav className="flex flex-col w-[50px] items-center border-r border-[#FFFFFF1A] flex-shrink-0 flex-grow-0 relative z-10 bg-black">
-          <ul className="flex flex-col flex-1">
-            {NavLinks.map((route, idx) => (
-              <div key={uuidv4()}>
-                {!route.disabled && (
-                  <NavItem to={route.path} key={`${route.name}_${idx}`}>
-                    {({ isActive }) =>
-                      isActive ? (
-                        <span className="active">{route.icon}</span>
-                      ) : (
-                        <span className="inactive">{route.icon}</span>
-                      )
-                    }
-                  </NavItem>
-                )}
-              </div>
-            ))}
+        <nav className="flex h-full flex-col w-[60px] py-4 items-center justify-between flex-shrink-0 flex-grow-0 relative z-10 bg-[#222525]">
+          <ul className="flex flex-col">
+            <NavItem
+              onClick={() => {
+                setState('upload');
+              }}
+              to={'/upload'}
+            >
+              <PianoIcon />
+            </NavItem>
           </ul>
 
-          <NavItem to={'/setting'}>
-            {({ isActive }) =>
-              isActive ? (
-                <span className="active">
-                  <SettingsIcon />
-                </span>
-              ) : (
-                <span className="inactive">
-                  <SettingsIcon />
-                </span>
-              )
-            }
-          </NavItem>
+          <ul>
+            <NavItem
+              onClick={() => {
+                setState('upload');
+              }}
+              to={'/upload'}
+            >
+              <PlusIcon />
+            </NavItem>
+            <NavItem to={'/setting'}>
+              <span className="active">
+                <SettingsIcon />
+              </span>
+            </NavItem>
+          </ul>
         </nav>
-        <div className="h-full w-full px-[1rem]">
+        <div className="h-full w-full bg-[#171a1a]">
           <Routes>
             <Route
               path="*"

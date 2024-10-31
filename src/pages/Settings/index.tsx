@@ -1,6 +1,7 @@
 import { Button } from '@radix-ui/themes';
 import { log } from '@utils/logger';
 import { useEffect, useState } from 'react';
+import { GradientButton } from 'styles';
 
 const SettingsPage = () => {
 
@@ -35,13 +36,13 @@ const SettingsPage = () => {
   return (
     <div className="flex flex-col items-center justify-center h-full w-full gap-4">
       {hasUpdates ? (
-        <Button disabled={installing} className='disabled:bg-accent' color="amber" onClick={instllUpdates}>
+        <GradientButton disabled={installing} className='disabled:bg-accent'  onClick={instllUpdates}>
           Install updates
-        </Button>
+        </GradientButton>
       ) : (
-        <Button color="amber" onClick={checkForUpdates}>
+        <GradientButton onClick={checkForUpdates}>
           Check for updates
-        </Button>
+        </GradientButton>
       )}
       <p className='text-[12px] h-[14px]'>{feedback}</p>
     </div>

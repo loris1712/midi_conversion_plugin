@@ -1,9 +1,11 @@
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
-import { ReactComponent as PianoLogo } from '@assets/piano.svg';
 import { ReactComponent as HomeLogo } from '@assets/home.svg';
 import { ReactComponent as MusicLogo } from '@assets/music.svg';
 import { ReactComponent as SettingLogo } from '@assets/settings.svg';
+import { ReactComponent as AppLogo } from '@assets/app-icon.svg';
+import { ReactComponent as PlusIconSvg } from '@assets/plus-icon.svg';
+
 
 export const NavItem = styled(NavLink)`
   display: flex;
@@ -13,9 +15,9 @@ export const NavItem = styled(NavLink)`
   justify-content: center;
   .active {
     svg {
-      fill: #f5b40a;
+      fill: rgba(40, 208, 172, 1);
       path {
-        fill: #f5b40a;
+        fill: rgba(40, 208, 172, 1);
       }
     }
   }
@@ -45,6 +47,7 @@ export const InactiveLink = styled.div`
 `;
 
 export const HomeIcon = styled(HomeLogo)``;
-export const PianoIcon = styled(PianoLogo)``;
+export const PianoIcon = styled(AppLogo)``;
 export const MusicIcon = styled(MusicLogo)``;
 export const SettingsIcon = styled(SettingLogo)``;
+export const PlusIcon = styled(PlusIconSvg)``;

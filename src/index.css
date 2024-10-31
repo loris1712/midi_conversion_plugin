@@ -36,6 +36,11 @@ body {
   place-items: center;
 }
 
+.pdf-container{
+  background:red;
+  height: 100%!important;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

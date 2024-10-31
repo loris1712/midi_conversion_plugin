@@ -8,6 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { EVENTS } from '@constants/index';
 import { getFileExtension } from '@utils/helpers';
 import { useFileStore } from 'store';
+import { GradientButton } from 'styles';
 
 
 interface FileUploadProps {
@@ -56,14 +57,14 @@ const FileUpload = ({ onUpload }: FileUploadProps) => {
       </div>
 
       {!!file?.name && (
-        <Button
+        <GradientButton
           onClick={() => {
             onUpload()
           }}
           className="bg-accent border-accent/70 rounded-[5px] text-[#121212]"
         >
           CONVERT
-        </Button>
+        </GradientButton>
       )}
     </>
   );
