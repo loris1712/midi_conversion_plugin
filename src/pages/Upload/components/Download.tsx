@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
-import { Button, Flex } from '@radix-ui/themes';
+import {  Flex } from '@radix-ui/themes';
 import { DownloadIcon } from './styles';
 import PDFViewer from 'pdf-viewer-reactjs';
 
-
+import { RightChevron, LeftChevron } from '@styles/index';
 import { ReactComponent as CheckIcon } from '@assets/done-check.svg';
 import Modal from '@components/Modal';
 
 import { FileNameInput } from './styles';
 import CircleLoader from '@components/Loaders/CircleLoader';
-import { ConvertedTag, GradientButton, GradientOutlineButton, OriginalTag, RoundButton } from 'styles';
+import { ConvertedTag, GradientButton, OriginalTag, RoundButton } from 'styles';
 import useProcessingStateStore from '@store/useProcessingStateStore';
 
 interface DownloadProps {
@@ -72,9 +72,13 @@ const Download = ({ onDownload, uploadNewFile }: DownloadProps) => {
       <div className="h-full w-full flex flex-col gap-6 py-4 mb-4">
         <Flex className="flex flex-row px-6 items-center justify-between py-2">
           <Flex direction={'row'} align={'center'} gap={'4'}>
-            <RoundButton></RoundButton>
-            <span className="text-white">Page 1/10</span>
-            <RoundButton></RoundButton>
+            <RoundButton>
+              <LeftChevron/>
+            </RoundButton>
+            <span className="text-white">Page 1/1</span>
+            <RoundButton>
+              <RightChevron/>
+            </RoundButton>
           </Flex>
           <GradientButton
             onClick={() => {

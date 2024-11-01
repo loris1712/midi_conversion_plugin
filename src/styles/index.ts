@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Button } from "@radix-ui/themes";
+import {ReactComponent as Chevron} from '@assets/chevron-icon.svg'
 
 export const GradientButton = styled(Button)`
   min-height: fit-content;
@@ -13,8 +14,15 @@ export const GradientButton = styled(Button)`
   line-height: 16px;
   text-align: center;
   color: rgba(21, 37, 86, 1);
-  cursor: pointer;
   font-family: 'Plus Jakarta Sans', sans-serif;
+  cursor: pointer;
+  &:active {
+    opacity: 0.8;
+  }
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
 
   @media screen and (max-width: 780px) {
     padding: 10px 16px 10px 16px;
@@ -47,18 +55,6 @@ export const GradientOutlineButton = styled(Button)`
   }
 `;
 
-export const RoundButton = styled.button`
-  width: 24px;
-  height: 24px;
-  gap: 10px;
-  border-radius: 40px;
-  opacity: 1;
-  background-color: rgba(40, 208, 172, 1);
-  &:disabled{
-    opacity: 0.4;
-  }
-`;
-
 export const Tag = styled.span`
   width: fit-content;
   min-height: 28px;
@@ -81,4 +77,37 @@ export const OriginalTag = styled(Tag)`
 export const ConvertedTag = styled(Tag)`
   background-color: #182c2a;
   color: rgba(40, 208, 172, 1);
+`;
+
+export const RightChevron = styled(Chevron)``;
+export const LeftChevron = styled(Chevron)`
+  rotate: 180deg;
+`;
+
+export const RoundButton = styled.button`
+  width: 24px;
+  height: 24px;
+  gap: 10px;
+  border-radius: 40px;
+  opacity: 1;
+  background-color: rgba(40, 208, 172, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  &:active {
+    opacity: 0.8;
+  }
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+  ${RightChevron} {
+    fill: #000;
+    height: 16px;
+  }
+  ${LeftChevron} {
+    fill: #000;
+    height: 16px;
+  }
 `;
