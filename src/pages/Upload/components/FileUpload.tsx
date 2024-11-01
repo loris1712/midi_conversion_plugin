@@ -63,7 +63,7 @@ const FileUpload = ({ onUpload }: FileUploadProps) => {
           }}
           className="bg-accent border-accent/70 rounded-[5px] text-[#121212]"
         >
-          CONVERT
+          Convert
         </GradientButton>
       )}
     </>

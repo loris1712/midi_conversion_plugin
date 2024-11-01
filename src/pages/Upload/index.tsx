@@ -18,6 +18,7 @@ import { useFileStore, useProcessingStateStore } from 'store';
 const UploadPage: React.FC = () => {
 
   const {state, setState, results, setResults} = useProcessingStateStore(state => state);
+  
   const timeoutId = useRef<any>(null);
   const {file} = useFileStore()
   const [progress, setProgress] = useState(0);
@@ -27,9 +28,9 @@ const UploadPage: React.FC = () => {
   const fileProcessMutation = useMutation({
     mutationKey: ['fileUploads'],
     mutationFn: async (file: File) => {
+      setIsUploaded(true);
       const { data } = await generatePresignedUploadUrl(file.name);
       const { url, filename } = data;
-      setIsUploaded(true);
       await axios.put(url, file, {
         headers: {
           'Content-Type': file.type,
@@ -61,6 +62,7 @@ const UploadPage: React.FC = () => {
     queryFn: async () => {
       if (inferenceId) {
         const response = await getResults(inferenceId);
+        setResults(response.data);
         return response.data;
       }
       return null;
@@ -73,8 +75,6 @@ const UploadPage: React.FC = () => {
         refetch();
       }, 3000);
     } else if (resultBody?.job_status === 'completed') {
-      setResults(resultBody);
-      setState('download');
       clearInterval(timeoutId.current);
     }
   }, [inferenceId, resultBody, refetch]);
@@ -117,14 +117,6 @@ const UploadPage: React.FC = () => {
         }}
       />
     ),
-    download: (
-      <Download
-        onDownload={onDownload}
-        uploadNewFile={() => {
-          setState('upload');
-        }}
-      />
-    ),
     processing: (
       <Processing
         progress={progress}
@@ -133,6 +125,14 @@ const UploadPage: React.FC = () => {
           setState('upload');
         }}
         isUploaded={isUploaded}
+      />
+    ),
+    download: (
+      <Download
+        onDownload={onDownload}
+        uploadNewFile={() => {
+          setState('upload');
+        }}
       />
     ),
   }[state];

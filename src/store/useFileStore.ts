@@ -3,14 +3,14 @@ import {create} from 'zustand'
 
 type Store = {
   file: File | null;
-  setFile: (file: File) => void;
+  setFile: (file: File | null) => void;
 };
 
 const useFileStore = create<Store>()(
   persist(
     (set) => ({
       file: null,
-      setFile: (file: File) =>
+      setFile: (file: File | null) =>
         set((store) => ({
           ...store,
           file,

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import {  Flex } from '@radix-ui/themes';
+import {  Flex, Radio } from '@radix-ui/themes';
 import { DownloadIcon } from './styles';
 import PDFViewer from 'pdf-viewer-reactjs';
 
@@ -32,20 +32,18 @@ const FILE_TYPES = [
   },
 ];
 
-const Download = ({ onDownload, uploadNewFile }: DownloadProps) => {
+const Download = ({ onDownload }: DownloadProps) => {
 
     const { results } = useProcessingStateStore(
       (state) => state,
     );
-
-    console.log({ results });
-
   const [showDownloadModal, setShowDownloadModal] = useState(false);
   const [downloadError, setDownloadError] = useState(false);
   const [filename, setFilename] = useState('');
   const [downloadProgress, setDownloadProgress] = useState(0);
   const [downloadDone, setDownloadDone] = useState(false);
   const [selectedFile, setSelectedFile] = useState<FileType>('mid');
+  
 
   useEffect(() => {
     window.ipcRenderer.on('download-progress', (_event, args) => {
@@ -73,11 +71,11 @@ const Download = ({ onDownload, uploadNewFile }: DownloadProps) => {
         <Flex className="flex flex-row px-6 items-center justify-between py-2">
           <Flex direction={'row'} align={'center'} gap={'4'}>
             <RoundButton>
-              <LeftChevron/>
+              <LeftChevron />
             </RoundButton>
             <span className="text-white">Page 1/1</span>
             <RoundButton>
-              <RightChevron/>
+              <RightChevron />
             </RoundButton>
           </Flex>
           <GradientButton
@@ -85,29 +83,29 @@ const Download = ({ onDownload, uploadNewFile }: DownloadProps) => {
               setShowDownloadModal(true);
             }}
           >
-            <DownloadIcon/>
+            <DownloadIcon />
             Download
           </GradientButton>
         </Flex>
 
-        <div className="mx-6 grid grid-cols-2 gap-4">
-          <div className="flex flex-col gap-4">
+        <div className="mx-6 grid grid-cols-2 gap-4 h-full">
+          <Flex direction={'column'} gap={'4'} className="h-full">
             <OriginalTag>Original</OriginalTag>
-            <div className="flex max-h-[400px] flex-col items-center bg-white rounded-[12px]">
+            <div className="h-full w-full flex flex-col items-center bg-white rounded-[12px] overflow-hidden">
               {results?.body?.source_preview_file && (
                 <img
-                  className="h-full"
+                  className="h-full w-auto object-cover"
                   src={results?.body?.source_preview_file}
                 />
               )}
             </div>
-          </div>
+          </Flex>
           <Flex direction={'column'} gap={'4'} className="h-full">
             <ConvertedTag>Converted</ConvertedTag>
             <div className="h-full w-full flex flex-col items-center bg-white rounded-[12px] overflow-hidden">
               {results?.body?.result_preview_pdf && (
                 <img
-                  className="h-full"
+                  className="h-full w-auto object-contain"
                   src={results?.body?.result_preview_pdf}
                 />
               )}
@@ -137,18 +135,18 @@ const Download = ({ onDownload, uploadNewFile }: DownloadProps) => {
                       <label
                         key={type.type}
                         htmlFor={type.type}
-                        className="flex flex-row items-center gap-2 text-[12px]"
+                        className="flex flex-row items-center gap-2 text-[15px] font-jakarta"
                       >
-                        <input
-                          name={type.type}
+                        <Radio
+                          value={type.type}
                           checked={selectedFile === type.type}
+                          name={type.name}
+                          color="cyan"
                           onChange={(e) => {
                             if (e.target.checked) {
                               setSelectedFile(type.type);
                             }
                           }}
-                          type="checkbox"
-                          className=" checked:bg-amber-500"
                         />{' '}
                         {type.name}
                       </label>
