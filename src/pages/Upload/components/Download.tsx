@@ -63,7 +63,7 @@ const Download = ({ onDownload }: DownloadProps) => {
     });
   }, []);
 
-  const isDownloading = downloadProgress > 0;
+  const isDownloading = downloadProgress > 0 && downloadProgress < 100;
 
   return (
     <>
