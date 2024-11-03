@@ -91,10 +91,10 @@ const Download = ({ onDownload }: DownloadProps) => {
         <div className="mx-6 grid grid-cols-2 gap-4 h-full">
           <Flex direction={'column'} gap={'4'} className="h-full">
             <OriginalTag>Original</OriginalTag>
-            <div className="h-full w-full flex flex-col items-center bg-white rounded-[12px] overflow-hidden">
+            <div className="pdf-container">
               {results?.body?.source_preview_file && (
                 <img
-                  className="h-full w-auto object-cover"
+                  className="object-contain h-full w-full"
                   src={results?.body?.source_preview_file}
                 />
               )}
@@ -102,10 +102,10 @@ const Download = ({ onDownload }: DownloadProps) => {
           </Flex>
           <Flex direction={'column'} gap={'4'} className="h-full">
             <ConvertedTag>Converted</ConvertedTag>
-            <div className="h-full w-full flex flex-col items-center bg-white rounded-[12px] overflow-hidden">
+            <div className="pdf-container">
               {results?.body?.result_preview_pdf && (
                 <img
-                  className="h-full w-auto object-contain"
+                  className="object-contain h-full w-full"
                   src={results?.body?.result_preview_pdf}
                 />
               )}

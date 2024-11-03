@@ -40,14 +40,14 @@ const Navigation = () => {
   return (
     <div className="flex flex-1 flex-row h-full w-full">
       <HashRouter>
-        <nav className="flex h-full flex-col w-[60px] py-4 items-center justify-between flex-shrink-0 flex-grow-0 relative z-10 bg-[#222525]">
-          <ul className="flex flex-col">
+        <nav className="flex h-full flex-col min-w-[60px] w-[72px] max-w-[8vw] items-center justify-between flex-shrink-0 flex-grow-0 relative z-10 bg-[#222525]">
+          <ul className="flex flex-col mt-4">
             <NavItem onClick={newUpload} to={'/upload'}>
               <PianoIcon />
             </NavItem>
           </ul>
 
-          <ul>
+          <ul className='mb-4'>
             <NavItem onClick={newUpload} to={'/upload'}>
               <PlusIcon />
             </NavItem>
@@ -58,7 +58,7 @@ const Navigation = () => {
             </NavItem>
           </ul>
         </nav>
-        <div className="h-full w-full bg-[#171a1a]">
+        <div className="h-full w-full overflow-hidden bg-[#171a1a]">
           <Routes>
             <Route
               path="*"

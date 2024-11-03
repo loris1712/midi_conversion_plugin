@@ -38,9 +38,10 @@ body {
   place-items: center;
 }
 
-.pdf-container{
-  background:red;
-  height: 100%!important;
+@layer components {
+  .pdf-container{
+    @apply h-[70vh] w-full flex flex-col items-center bg-white rounded-[12px] overflow-auto;
+  }
 }
 
 @media (prefers-color-scheme: light) {

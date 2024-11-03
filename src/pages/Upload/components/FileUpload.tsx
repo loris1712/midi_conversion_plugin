@@ -10,14 +10,13 @@ import { getFileExtension } from '@utils/helpers';
 import { useFileStore } from 'store';
 import { GradientButton } from 'styles';
 
-
 interface FileUploadProps {
-    // eslint-disable-next-line no-unused-vars
-    onUpload: () => void
+  // eslint-disable-next-line no-unused-vars
+  onUpload: () => void;
 }
 
 const FileUpload = ({ onUpload }: FileUploadProps) => {
-    const { file, setFile } = useFileStore((state) => state);
+  const { file, setFile } = useFileStore((state) => state);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     const selectedFile = acceptedFiles[0];
@@ -36,10 +35,19 @@ const FileUpload = ({ onUpload }: FileUploadProps) => {
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     maxFiles: 1,
-    accept: {}
+    accept: {},
   });
   return (
-    <>
+    <div className="h-full w-full p-4 flex flex-col items-center justify-center">
+      <GradientButton
+        disabled={!file?.name}
+        onClick={() => {
+          onUpload();
+        }}
+        className="absolute top-[48px] right-[32px]"
+      >
+        Convert
+      </GradientButton>
       <div
         {...getRootProps()}
         className="p-[56px] max-w-[500px] w-full cursor-pointer border border-dashed border-uploadBorder rounded-[10px] flex flex-col items-center justify-end gap-4"
@@ -55,18 +63,7 @@ const FileUpload = ({ onUpload }: FileUploadProps) => {
           </p>
         </div>
       </div>
-
-      {!!file?.name && (
-        <GradientButton
-          onClick={() => {
-            onUpload()
-          }}
-          className="bg-accent border-accent/70 rounded-[5px] text-[#121212]"
-        >
-          Convert
-        </GradientButton>
-      )}
-    </>
+    </div>
   );
 };
 
