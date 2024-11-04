@@ -11,16 +11,17 @@ import {
   postUploadedFile,
 } from '@service/api';
 import { EVENTS } from '@constants/index';
-import { getFileExtension } from '@utils/helpers';
 import { useFileStore, useProcessingStateStore } from 'store';
 
-
 const UploadPage: React.FC = () => {
+  const { state, setState, results, setResults } = useProcessingStateStore(
+    (state) => state,
+  );
 
-  const {state, setState, results, setResults} = useProcessingStateStore(state => state);
-  
+  console.log({ state });
+
   const timeoutId = useRef<any>(null);
-  const {file} = useFileStore()
+  const { file } = useFileStore();
   const [progress, setProgress] = useState(0);
   const [isUploaded, setIsUploaded] = useState(false);
   const [inferenceId, setInferenceId] = useState();
@@ -55,7 +56,7 @@ const UploadPage: React.FC = () => {
 
   const {
     refetch,
-    data:resultBody,
+    data: resultBody,
     isError: referenceError,
   } = useQuery({
     queryKey: [inferenceId],
@@ -79,32 +80,7 @@ const UploadPage: React.FC = () => {
     }
   }, [inferenceId, resultBody, refetch]);
 
-  
-
-  const onDownload = useCallback(
-    (filename: string, fileType: FileType) => {
-      // other file type : filename_musicxml
-      // get the selected file
-      let file;
-      if (fileType === 'mid') {
-        file = results.body.result_midi;
-      } else if (fileType === 'mscz') {
-        file = results.body.result_mscz;
-      } else if (fileType === 'xml') {
-        file = results.body.result_xml;
-      }
-      const ext = getFileExtension(file);
-      const payload = {
-        filename,
-        url: file,
-        ext: ext,
-      };
-      posthog.capture(`halbestunde_${EVENTS.FILE_DOWNLOAD}`, payload);
-      window.ipcRenderer.send('download', payload);
-    },
-    [getFileExtension, results],
-  );
-
+ 
   const CurrentView = {
     upload: (
       <FileUpload
@@ -128,15 +104,9 @@ const UploadPage: React.FC = () => {
       />
     ),
     download: (
-      <Download
-        onDownload={onDownload}
-        uploadNewFile={() => {
-          setState('upload');
-        }}
-      />
+      <Download />
     ),
   }[state];
-
 
   return (
     <div className="flex flex-col items-center justify-center h-full w-full gap-4">

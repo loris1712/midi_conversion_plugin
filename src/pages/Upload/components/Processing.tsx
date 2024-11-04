@@ -1,12 +1,11 @@
-import loadingBar from '@assets/loading.gif';
-import { ReactComponent as LoadingRing } from '@assets/loading.svg';
+
 import { ReactComponent as ErrorIcon } from '@assets/icon-error.svg';
 import { ReactComponent as DoneIcon } from '@assets/done-check-icon.svg';
 
 import { Button } from '@radix-ui/themes';
 import { GradientButton, Loader } from '@styles/index';
 import useProcessingStateStore from '@store/useProcessingStateStore';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 
 interface ProcessingProps {
   progress?: number;
