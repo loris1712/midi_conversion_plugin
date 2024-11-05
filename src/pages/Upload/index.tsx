@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import posthog from 'posthog-js';
 import { useMutation, useQuery } from '@tanstack/react-query';
@@ -14,7 +14,7 @@ import { EVENTS } from '@constants/index';
 import { useFileStore, useProcessingStateStore } from 'store';
 
 const UploadPage: React.FC = () => {
-  const { state, setState, results, setResults } = useProcessingStateStore(
+  const { state, setState, setResults } = useProcessingStateStore(
     (state) => state,
   );
 

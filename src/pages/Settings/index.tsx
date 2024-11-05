@@ -1,4 +1,3 @@
-import { Button } from '@radix-ui/themes';
 import { log } from '@utils/logger';
 import { useEffect, useState } from 'react';
 import { GradientButton } from 'styles';

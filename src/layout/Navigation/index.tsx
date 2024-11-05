@@ -1,6 +1,5 @@
 import React from 'react';
 import { HashRouter, Route, Routes, Navigate } from 'react-router-dom';
-import { v4 as uuidv4 } from 'uuid';
 
 import { NavItem, SettingsIcon, PianoIcon, PlusIcon } from './styles';
 import UploadPage from '@pages/Upload';
@@ -17,14 +16,6 @@ interface NavLinkProp {
   disabled?: boolean;
 }
 
-const NavLinks: NavLinkProp[] = [
-  {
-    name: 'Upload',
-    path: '/upload',
-    icon: <PianoIcon />,
-    disabled: false,
-  },
-];
 
 const Navigation = () => {
   const { setState, setResults } = useProcessingStateStore((store) => store);
