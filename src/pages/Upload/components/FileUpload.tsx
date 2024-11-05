@@ -39,10 +39,10 @@ const FileUpload = ({ onUpload }: FileUploadProps) => {
     accept: {},
   });
   return (
-    <div className="h-full w-full p-[4vw] flex flex-col items-center justify-center">
+    <div className="h-full w-full p-[4vw] flex flex-col items-center justify-center gap-4">
       <div
         {...getRootProps()}
-        className="p-[56px] max-w-[500px] w-full cursor-pointer border border-dashed border-uploadBorder rounded-[10px] flex flex-col items-center justify-end gap-4"
+        className="p-[8vh] max-w-[60vw] w-full cursor-pointer border border-dashed border-uploadBorder rounded-[10px] flex flex-col items-center justify-end gap-4"
       >
         <input {...getInputProps()} />
         <UploadIcon />
@@ -54,16 +54,7 @@ const FileUpload = ({ onUpload }: FileUploadProps) => {
             Image or PDF(multiple pages works as well)
           </p>
           {!!filename && (
-            <div className='flex flex-col items-center gap-4 mt-4'>
-              <GradientButton
-                disabled={!file?.name}
-                onClick={() => {
-                  onUpload();
-                }}
-                className='w-[220px]'
-              >
-                Convert
-              </GradientButton>
+            <div className="flex flex-col items-center gap-4">
               <span className="font-bold text-primaryBlue text-[12px]">
                 {filename}
               </span>
@@ -71,6 +62,15 @@ const FileUpload = ({ onUpload }: FileUploadProps) => {
           )}
         </div>
       </div>
+      <GradientButton
+        disabled={!file?.name}
+        onClick={() => {
+          onUpload();
+        }}
+        className=""
+      >
+        Convert
+      </GradientButton>
     </div>
   );
 };
