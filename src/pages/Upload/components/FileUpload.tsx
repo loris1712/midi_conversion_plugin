@@ -17,9 +17,11 @@ interface FileUploadProps {
 
 const FileUpload = ({ onUpload }: FileUploadProps) => {
   const { file, setFile } = useFileStore((state) => state);
+  const [filename, setFilename] = useState('')
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     const selectedFile = acceptedFiles[0];
+    setFilename(selectedFile.name);
     const ext = getFileExtension(selectedFile.name);
     const newname = `${uuidv4()}.${ext}`;
     const renamefile = new File([selectedFile], newname, {
@@ -38,16 +40,7 @@ const FileUpload = ({ onUpload }: FileUploadProps) => {
     accept: {},
   });
   return (
-    <div className="h-full w-full p-4 flex flex-col items-center justify-center">
-      <GradientButton
-        disabled={!file?.name}
-        onClick={() => {
-          onUpload();
-        }}
-        className="absolute top-[48px] right-[32px]"
-      >
-        Convert
-      </GradientButton>
+    <div className="h-full w-full p-[4vw] flex flex-col items-center justify-center">
       <div
         {...getRootProps()}
         className="p-[56px] max-w-[500px] w-full cursor-pointer border border-dashed border-uploadBorder rounded-[10px] flex flex-col items-center justify-end gap-4"
@@ -61,6 +54,22 @@ const FileUpload = ({ onUpload }: FileUploadProps) => {
           <p className="text-[14px] font-[400] text-center">
             Image or PDF(multiple pages works as well)
           </p>
+          {!!filename && (
+            <div className='flex flex-col items-center gap-4 mt-4'>
+              <GradientButton
+                disabled={!file?.name}
+                onClick={() => {
+                  onUpload();
+                }}
+                className='w-[220px]'
+              >
+                Convert
+              </GradientButton>
+              <span className="font-bold text-primaryBlue text-[12px]">
+                {filename}
+              </span>
+            </div>
+          )}
         </div>
       </div>
     </div>

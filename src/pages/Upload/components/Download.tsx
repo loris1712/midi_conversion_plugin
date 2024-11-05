@@ -1,8 +1,8 @@
-import { useEffect, useState, useCallback, useMemo } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { Flex, Radio } from '@radix-ui/themes';
 import { DownloadIcon } from './styles';
-import PDFViewer from 'pdf-viewer-reactjs';
 import posthog from 'posthog-js';
+import toast from 'react-hot-toast';
 
 import { RightChevron, LeftChevron } from '@styles/index';
 import { ReactComponent as CheckIcon } from '@assets/done-check.svg';
@@ -12,9 +12,9 @@ import { FileNameInput } from './styles';
 import CircleLoader from '@components/Loaders/CircleLoader';
 import { ConvertedTag, GradientButton, OriginalTag, RoundButton } from 'styles';
 import useProcessingStateStore from '@store/useProcessingStateStore';
-import { getFileExtension, isFileAvailable, isPDF } from '@utils/helpers';
+import {  getFileExtension, isFileAvailable, isPDF } from '@utils/helpers';
 import { EVENTS } from '@constants/index';
-import toast from 'react-hot-toast';
+import PdfRenderer from '@components/PdfRenderer';
 
 const FILE_TYPES = [
   {
@@ -69,7 +69,7 @@ const Download = () => {
         posthog.capture(`halbestunde_${EVENTS.FILE_DOWNLOAD}`, payload);
         window.ipcRenderer.send('download', payload);
       }else {
-        toast('File not ready for download, try in 5 secs', {
+        toast('File not ready for download, try again in 5 secs', {
           icon: '⌛️',
         });
       }
@@ -137,13 +137,12 @@ const Download = () => {
         <div className="mx-6 grid grid-cols-2 gap-4 h-full">
           <Flex direction={'column'} gap={'4'} className="h-full">
             <OriginalTag>Original</OriginalTag>
-            <div className="pdf-container">
+            <div className="pdf-container bg-white">
               {isPDF(sourceFile) ? (
-                <PDFViewer
-                  getMaxPageCount={(pageCount) => setTotalPages(pageCount)}
-                  document={{
-                    url: sourceFile,
-                  }}
+                <PdfRenderer
+                  pageNumber={pdfPage}
+                  url={sourceFile}
+                  setTotalPages={setTotalPages}
                 />
               ) : (
                 <img
@@ -155,12 +154,11 @@ const Download = () => {
           </Flex>
           <Flex direction={'column'} gap={'4'} className="h-full">
             <ConvertedTag>Converted</ConvertedTag>
-            <div className="pdf-container bg-black">
-              <PDFViewer
-                getMaxPageCount={(pageCount) => setTotalPages(pageCount)}
-                document={{
-                  url: resultPdf,
-                }}
+            <div className="pdf-container bg-white">
+              <PdfRenderer
+                pageNumber={pdfPage}
+                url={resultPdf}
+                setTotalPages={setTotalPages}
               />
             </div>
           </Flex>
@@ -246,4 +244,4 @@ const Download = () => {
   );
 };
 
-export default Download;
+export default React.memo(Download);
