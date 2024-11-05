@@ -1,4 +1,3 @@
-import React from 'react';
 import { HashRouter, Route, Routes, Navigate } from 'react-router-dom';
 
 import { NavItem, SettingsIcon, PianoIcon, PlusIcon } from './styles';
@@ -8,13 +7,6 @@ import MusicPage from '@pages/Music';
 import SettingsPage from '@pages/Settings';
 import useProcessingStateStore from '@store/useProcessingStateStore';
 import useFileStore from '@store/useFileStore';
-
-interface NavLinkProp {
-  name: string;
-  path: string;
-  icon: React.ReactNode;
-  disabled?: boolean;
-}
 
 
 const Navigation = () => {
