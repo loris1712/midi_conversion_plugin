@@ -1,11 +1,10 @@
-
+import { useMemo } from 'react';
 import { ReactComponent as ErrorIcon } from '@assets/icon-error.svg';
 import { ReactComponent as DoneIcon } from '@assets/done-check-icon.svg';
 
 import { Button } from '@radix-ui/themes';
 import { GradientButton, Loader } from '@styles/index';
 import useProcessingStateStore from '@store/useProcessingStateStore';
-import { useEffect, useMemo } from 'react';
 
 interface ProcessingProps {
   progress?: number;
@@ -20,9 +19,11 @@ const Processing = ({
   isError,
   uploadNewFile,
 }: ProcessingProps) => {
-
-  const { setState, results } = useProcessingStateStore(state => state);
-  const isReadyToDownload = useMemo(() => results?.job_status === 'completed', [results]);
+  const { setState, results } = useProcessingStateStore((state) => state);
+  const isReadyToDownload = useMemo(
+    () => results?.job_status === 'completed',
+    [results],
+  );
 
   return (
     <div className="h-full w-full flex flex-col items-center justify-center">
