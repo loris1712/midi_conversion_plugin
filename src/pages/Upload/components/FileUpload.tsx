@@ -22,15 +22,15 @@ const FileUpload = ({ onUpload }: FileUploadProps) => {
     const selectedFile = acceptedFiles[0];
     setFilename(selectedFile.name);
     const ext = getFileExtension(selectedFile.name);
-    const newname = `${uuidv4()}.${ext}`;
-    const renamefile = new File([selectedFile], newname, {
+    const newName = `${uuidv4()}.${ext}`;
+    const renameFile = new File([selectedFile], newName, {
       type: selectedFile.type,
       lastModified: selectedFile.lastModified,
     });
     posthog.capture(`halbestunde_${EVENTS.FILE_SELECT}`, {
       type: selectedFile.type,
     });
-    setFile(renamefile);
+    setFile(renameFile);
   }, []);
 
   const { getRootProps, getInputProps } = useDropzone({
