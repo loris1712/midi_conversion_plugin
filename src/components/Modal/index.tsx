@@ -6,8 +6,8 @@ interface ModalProps {
 }
 
 const Modal = ({ content, buttons, title, onClose }: ModalProps) => (
-  <div className="fixed h-screen w-screen top-0 left-0 right-0 bottom-0 bg-black/55 flex flex-col items-center justify-center">
-    <div className="ml-[50px] h-fit w-full max-w-[415px] bg-[#262626] p-4 rounded-[20px] flex flex-col gap-6">
+  <div className="fixed h-screen w-screen top-0 left-0 right-0 bottom-0 bg-black/55 flex flex-col items-center justify-center z-[10000]">
+    <div className="ml-[50px] h-fit w-full max-w-[415px] bg-[#262626] p-4 rounded-[20px] flex flex-col gap-6 absolute z-[10000]">
       <div className="flex flex-row items-center justify-between">
         <h4 className="font-extrabold">{title}</h4>
         <button
