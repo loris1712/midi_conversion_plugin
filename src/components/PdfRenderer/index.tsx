@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{ useMemo } from 'react';
 import { pdfjs } from 'react-pdf';
 import styled from 'styled-components';
 import { Document, Page } from 'react-pdf';
@@ -13,7 +13,8 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
 interface Props {
   url: string;
   setTotalPages: any;
-  pageNumber: number
+  pageNumber: number;
+  onLoadSuccess?: any
 }
 
 const PDFDocumentWrapper = styled.div`
@@ -22,19 +23,33 @@ const PDFDocumentWrapper = styled.div`
     height: fit-content !important;
   }
 `;
-const PdfRenderer = ({ url, setTotalPages, pageNumber }: Props) => (
-  <PDFDocumentWrapper>
-    <Document
-      file={{
-        url: url,
-      }}
-      loading={<span className="text-black p-4">Loading</span>}
-      noData={<span className="text-black p-4">File not found</span>}
-      onLoadSuccess={({ numPages }) => setTotalPages(numPages)}
-    >
-      <Page pageNumber={pageNumber} />
-    </Document>
-  </PDFDocumentWrapper>
-);
+const PdfRenderer = ({
+  url,
+  setTotalPages,
+  pageNumber,
+  onLoadSuccess,
+}: Props) => {
+  const file = useMemo(() => url, [url]);
+  return (
+    <PDFDocumentWrapper>
+      <Document
+        file={{
+          url: file,
+        }}
+        loading={<span className="text-black p-4">Loading</span>}
+        noData={<span className="text-black p-4">File not found</span>}
+        onLoadSuccess={({ numPages }) => {
+          setTotalPages(numPages);
+          onLoadSuccess?.();
+        }}
+      >
+        <Page pageNumber={pageNumber} />
+      </Document>
+    </PDFDocumentWrapper>
+  );
+};
 
-export default React.memo(PdfRenderer, (prev, next) => prev.url === next.url);
+export default React.memo(
+  PdfRenderer,
+  (prev, next) => prev.pageNumber === next.pageNumber,
+);

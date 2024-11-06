@@ -18,7 +18,6 @@ const UploadPage: React.FC = () => {
     (state) => state,
   );
 
-  console.log({ state });
 
   const timeoutId = useRef<any>(null);
   const { file } = useFileStore();

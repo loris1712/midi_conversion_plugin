@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
-import { Flex, Radio } from '@radix-ui/themes';
+import { Flex, Checkbox } from '@radix-ui/themes';
 import { DownloadIcon } from './styles';
 import posthog from 'posthog-js';
 import toast from 'react-hot-toast';
@@ -34,7 +34,7 @@ const FILE_TYPES = [
 const Download = () => {
   const { results } = useProcessingStateStore((state) => state);
 
-  const [pdfPage, setPdfPage] = useState(1);
+  const [pdfPage, setPdfPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [showDownloadModal, setShowDownloadModal] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
@@ -159,6 +159,7 @@ const Download = () => {
                 pageNumber={pdfPage}
                 url={resultPdf}
                 setTotalPages={setTotalPages}
+                onLoadSuccess={() => setPdfPage(1)}
               />
             </div>
           </Flex>
@@ -172,10 +173,10 @@ const Download = () => {
           }}
           title="Save As"
           content={
-            <div className="flex flex-col items-start gap-1 p-2">
+            <div className="flex flex-col items-start gap-1 p-2 w-full">
               {downloadDone && (
-                <div className="flex flex-row items-center gap-2 mb-4">
-                  <CheckIcon className="h-[20px] w-[20px]" />
+                <div className="flex flex-col justify-center items-center gap-2 mb-4 w-full">
+                  <CheckIcon className="h-[40px] w-[40px]" />
                   <p>File downloaded successfully!</p>
                 </div>
               )}
@@ -186,17 +187,18 @@ const Download = () => {
                       <label
                         key={type.type}
                         htmlFor={type.type}
-                        className="flex flex-row items-center gap-2 text-[15px] font-jakarta"
+                        onClick={() => {
+                          setSelectedFile(type.type);
+                        }}
+                        className="flex flex-row items-center gap-2 text-[15px] font-jakarta cursor-pointer"
                       >
-                        <Radio
+                        <Checkbox
                           value={type.type}
                           checked={selectedFile === type.type}
                           name={type.name}
                           color="cyan"
-                          onChange={(e) => {
-                            if (e.target.checked) {
-                              setSelectedFile(type.type);
-                            }
+                          onCheckedChange={() => {
+                            setSelectedFile(type.type);
                           }}
                         />{' '}
                         {type.name}
@@ -211,9 +213,13 @@ const Download = () => {
                 </div>
               )}
 
-              <div className="flex flex-row items-center justify-between w-full mt-1">
-                <p className="text-[10px]">
-                  Saved to: ../Downloads/{filename}.{selectedFile}
+              <div
+                className={
+                  'flex flex-row items-center justify-between w-full mt-1'
+                }
+              >
+                <p className="text-[12px] text-center w-full text-primaryGreen">
+                  Save to: ../Downloads/{filename}.{selectedFile}
                 </p>
                 {isDownloading && (
                   <p className="text-[10px]">{downloadProgress}%</p>
