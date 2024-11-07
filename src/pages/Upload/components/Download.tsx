@@ -34,8 +34,8 @@ const FILE_TYPES = [
 const Download = () => {
   const { results } = useProcessingStateStore((state) => state);
 
-  const [pdfPage, setPdfPage] = useState(0);
-  const [totalPages, setTotalPages] = useState(0);
+  const [pdfPage, setPdfPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const [showDownloadModal, setShowDownloadModal] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
   const [filename, setFilename] = useState('');
@@ -159,7 +159,6 @@ const Download = () => {
                 pageNumber={pdfPage}
                 url={resultPdf}
                 setTotalPages={setTotalPages}
-                onLoadSuccess={() => setPdfPage(1)}
               />
             </div>
           </Flex>

@@ -28,7 +28,7 @@
     "is_debug": 0,
     "libdir": "lib",
     "llvm_version": "13.0",
-    "napi_build_version": "9",
+    "napi_build_version": "0",
     "node_builtin_shareable_builtins": [
       "deps/cjs-module-lexer/lexer.js",
       "deps/cjs-module-lexer/dist/lexer.js",
@@ -404,6 +404,14 @@
     "want_separate_host_toolset": 0,
     "xcode_version": "13.0",
     "nodedir": "/Users/archie/Library/Caches/node-gyp/20.3.0",
-    "standalone_static_library": 1
+    "standalone_static_library": 1,
+    "fallback_to_build": "true",
+    "update_binary": "true",
+    "module": "/Users/archie/VisualStudioCode/Work/music-plugin/halbestunde-plugin/node_modules/canvas/build/Release/canvas.node",
+    "module_name": "canvas",
+    "module_path": "/Users/archie/VisualStudioCode/Work/music-plugin/halbestunde-plugin/node_modules/canvas/build/Release",
+    "napi_version": "9",
+    "node_abi_napi": "napi",
+    "node_napi_label": "electron-v30.5"
   }
 }
