@@ -415,7 +415,6 @@
     "v8_use_siphash": 1,
     "want_separate_host_toolset": 1,
     "nodedir": "/Users/archie/.electron-gyp/Library/Caches/node-gyp/30.0.1",
-    "python": "/Applications/Xcode.app/Contents/Developer/usr/bin/python3",
     "standalone_static_library": 1,
     "target": "30.0.1"
   }

@@ -9,6 +9,7 @@ const appleIdPassword = process.env.APPLE_ID_PASSWORD;
 const teamId = process.env.APPLE_TEAM_ID;
 
 exports.default = async function notarizing(context) {
+  console.log("NOTARIZING")
   const { electronPlatformName, appOutDir } = context;
   if (electronPlatformName !== 'darwin') {
     return;
@@ -22,7 +23,8 @@ exports.default = async function notarizing(context) {
   );
 
   // @ts-ignore
-  return await notarize({
+  try {
+    return await notarize({
     tool: 'notarytool',
     appBundleId: appId,
     appPath: appPath,
@@ -30,4 +32,8 @@ exports.default = async function notarizing(context) {
     appleIdPassword: appleIdPassword,
     teamId: teamId,
   });
+  }catch(e){
+    console.log(e)
+    return null;
+  }
 };
