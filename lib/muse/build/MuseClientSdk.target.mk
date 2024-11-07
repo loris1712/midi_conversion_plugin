@@ -3,12 +3,12 @@
 TOOLSET := target
 TARGET := MuseClientSdk
 ### Generated for copy rule.
-/Users/archie/VisualStudioCode/Work/music-plugin/halbestunde-plugin/lib/muse/mac/libMuseClientSdk.1.0.2.dylib: TOOLSET := $(TOOLSET)
-/Users/archie/VisualStudioCode/Work/music-plugin/halbestunde-plugin/lib/muse/mac/libMuseClientSdk.1.0.2.dylib: /Users/archie/VisualStudioCode/Work/music-plugin/halbestunde-plugin/lib/muse/MuseClientSDK/bin/macos_universal/libMuseClientSdk.1.0.2.dylib FORCE_DO_CMD
+/Users/archie/VisualStudioCode/tutorials/halbestunde-plugin/lib/muse/mac/libMuseClientSdk.1.0.2.dylib: TOOLSET := $(TOOLSET)
+/Users/archie/VisualStudioCode/tutorials/halbestunde-plugin/lib/muse/mac/libMuseClientSdk.1.0.2.dylib: /Users/archie/VisualStudioCode/tutorials/halbestunde-plugin/lib/muse/MuseClientSDK/bin/macos_universal/libMuseClientSdk.1.0.2.dylib FORCE_DO_CMD
 	$(call do_cmd,copy)
 
-all_deps += /Users/archie/VisualStudioCode/Work/music-plugin/halbestunde-plugin/lib/muse/mac/libMuseClientSdk.1.0.2.dylib
-binding_gyp_MuseClientSdk_target_copies = /Users/archie/VisualStudioCode/Work/music-plugin/halbestunde-plugin/lib/muse/mac/libMuseClientSdk.1.0.2.dylib
+all_deps += /Users/archie/VisualStudioCode/tutorials/halbestunde-plugin/lib/muse/mac/libMuseClientSdk.1.0.2.dylib
+binding_gyp_MuseClientSdk_target_copies = /Users/archie/VisualStudioCode/tutorials/halbestunde-plugin/lib/muse/mac/libMuseClientSdk.1.0.2.dylib
 
 DEFS_Debug := \
 	'-DNODE_GYP_MODULE_NAME=MuseClientSdk' \
@@ -37,7 +37,8 @@ CFLAGS_Debug := \
 	-O0 \
 	-gdwarf-2 \
 	-mmacosx-version-min=10.15 \
-	-arch x86_64 \
+	-arch \
+	x86_64 \
 	-Wall \
 	-Wendif-labels \
 	-W \
@@ -73,7 +74,7 @@ INCS_Debug := \
 	-I/Users/archie/.electron-gyp/Library/Caches/node-gyp/30.0.1/deps/uv/include \
 	-I/Users/archie/.electron-gyp/Library/Caches/node-gyp/30.0.1/deps/zlib \
 	-I/Users/archie/.electron-gyp/Library/Caches/node-gyp/30.0.1/deps/v8/include \
-	-I/Users/archie/VisualStudioCode/Work/music-plugin/halbestunde-plugin/lib/muse/MuseClientSDK/include
+	-I/Users/archie/VisualStudioCode/tutorials/halbestunde-plugin/lib/muse/MuseClientSDK/include
 
 DEFS_Release := \
 	'-DNODE_GYP_MODULE_NAME=MuseClientSdk' \
@@ -100,7 +101,8 @@ CFLAGS_Release := \
 	-O3 \
 	-gdwarf-2 \
 	-mmacosx-version-min=10.15 \
-	-arch x86_64 \
+	-arch \
+	x86_64 \
 	-Wall \
 	-Wendif-labels \
 	-W \
@@ -136,7 +138,7 @@ INCS_Release := \
 	-I/Users/archie/.electron-gyp/Library/Caches/node-gyp/30.0.1/deps/uv/include \
 	-I/Users/archie/.electron-gyp/Library/Caches/node-gyp/30.0.1/deps/zlib \
 	-I/Users/archie/.electron-gyp/Library/Caches/node-gyp/30.0.1/deps/v8/include \
-	-I/Users/archie/VisualStudioCode/Work/music-plugin/halbestunde-plugin/lib/muse/MuseClientSDK/include
+	-I/Users/archie/VisualStudioCode/tutorials/halbestunde-plugin/lib/muse/MuseClientSDK/include
 
 OBJS := \
 	$(obj).target/$(TARGET)/MuseClientSdk_addon.o
@@ -171,7 +173,7 @@ $(obj).$(TOOLSET)/$(TARGET)/%.o: $(obj)/%.cpp FORCE_DO_CMD
 # End of this set of suffix rules
 ### Rules for final target.
 # Build our special outputs first.
-/Users/archie/VisualStudioCode/Work/music-plugin/halbestunde-plugin/lib/muse/mac/MuseClientSdk.node: | $(binding_gyp_MuseClientSdk_target_copies)
+/Users/archie/VisualStudioCode/tutorials/halbestunde-plugin/lib/muse/mac/MuseClientSdk.node: | $(binding_gyp_MuseClientSdk_target_copies)
 
 # Preserve order dependency of special output on deps.
 $(binding_gyp_MuseClientSdk_target_copies): | 
@@ -185,7 +187,8 @@ LDFLAGS_Debug := \
 	-undefined dynamic_lookup \
 	-Wl,-search_paths_first \
 	-mmacosx-version-min=10.15 \
-	-arch x86_64 \
+	-arch \
+	x86_64 \
 	-L$(builddir) \
 	-stdlib=libc++
 
@@ -207,7 +210,8 @@ LDFLAGS_Release := \
 	-undefined dynamic_lookup \
 	-Wl,-search_paths_first \
 	-mmacosx-version-min=10.15 \
-	-arch x86_64 \
+	-arch \
+	x86_64 \
 	-L$(builddir) \
 	-stdlib=libc++
 
@@ -221,29 +225,29 @@ LIBTOOLFLAGS_Release := \
 	-Wl,-search_paths_first
 
 LIBS := \
-	/Users/archie/VisualStudioCode/Work/music-plugin/halbestunde-plugin/lib/muse/MuseClientSDK/bin/macos_universal/libMuseClientSdk.1.0.2.dylib
+	/Users/archie/VisualStudioCode/tutorials/halbestunde-plugin/lib/muse/MuseClientSDK/bin/macos_universal/libMuseClientSdk.1.0.2.dylib
 
-/Users/archie/VisualStudioCode/Work/music-plugin/halbestunde-plugin/lib/muse/mac/MuseClientSdk.node: GYP_LDFLAGS := $(LDFLAGS_$(BUILDTYPE))
-/Users/archie/VisualStudioCode/Work/music-plugin/halbestunde-plugin/lib/muse/mac/MuseClientSdk.node: LIBS := $(LIBS)
-/Users/archie/VisualStudioCode/Work/music-plugin/halbestunde-plugin/lib/muse/mac/MuseClientSdk.node: GYP_LIBTOOLFLAGS := $(LIBTOOLFLAGS_$(BUILDTYPE))
-/Users/archie/VisualStudioCode/Work/music-plugin/halbestunde-plugin/lib/muse/mac/MuseClientSdk.node: TOOLSET := $(TOOLSET)
-/Users/archie/VisualStudioCode/Work/music-plugin/halbestunde-plugin/lib/muse/mac/MuseClientSdk.node: $(OBJS) FORCE_DO_CMD
+/Users/archie/VisualStudioCode/tutorials/halbestunde-plugin/lib/muse/mac/MuseClientSdk.node: GYP_LDFLAGS := $(LDFLAGS_$(BUILDTYPE))
+/Users/archie/VisualStudioCode/tutorials/halbestunde-plugin/lib/muse/mac/MuseClientSdk.node: LIBS := $(LIBS)
+/Users/archie/VisualStudioCode/tutorials/halbestunde-plugin/lib/muse/mac/MuseClientSdk.node: GYP_LIBTOOLFLAGS := $(LIBTOOLFLAGS_$(BUILDTYPE))
+/Users/archie/VisualStudioCode/tutorials/halbestunde-plugin/lib/muse/mac/MuseClientSdk.node: TOOLSET := $(TOOLSET)
+/Users/archie/VisualStudioCode/tutorials/halbestunde-plugin/lib/muse/mac/MuseClientSdk.node: $(OBJS) FORCE_DO_CMD
 	$(call do_cmd,solink_module)
 
-all_deps += /Users/archie/VisualStudioCode/Work/music-plugin/halbestunde-plugin/lib/muse/mac/MuseClientSdk.node
+all_deps += /Users/archie/VisualStudioCode/tutorials/halbestunde-plugin/lib/muse/mac/MuseClientSdk.node
 # Add target alias
 .PHONY: MuseClientSdk
 MuseClientSdk: $(builddir)/MuseClientSdk.node
 
 # Copy this to the executable output path.
 $(builddir)/MuseClientSdk.node: TOOLSET := $(TOOLSET)
-$(builddir)/MuseClientSdk.node: /Users/archie/VisualStudioCode/Work/music-plugin/halbestunde-plugin/lib/muse/mac/MuseClientSdk.node FORCE_DO_CMD
+$(builddir)/MuseClientSdk.node: /Users/archie/VisualStudioCode/tutorials/halbestunde-plugin/lib/muse/mac/MuseClientSdk.node FORCE_DO_CMD
 	$(call do_cmd,copy)
 
 all_deps += $(builddir)/MuseClientSdk.node
 # Short alias for building this executable.
 .PHONY: MuseClientSdk.node
-MuseClientSdk.node: /Users/archie/VisualStudioCode/Work/music-plugin/halbestunde-plugin/lib/muse/mac/MuseClientSdk.node $(builddir)/MuseClientSdk.node
+MuseClientSdk.node: /Users/archie/VisualStudioCode/tutorials/halbestunde-plugin/lib/muse/mac/MuseClientSdk.node $(builddir)/MuseClientSdk.node
 
 # Add executable to "all" target.
 .PHONY: all
