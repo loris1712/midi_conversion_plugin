@@ -2,7 +2,6 @@ import { useMemo } from 'react';
 import { ReactComponent as ErrorIcon } from '@assets/icon-error.svg';
 import { ReactComponent as DoneIcon } from '@assets/done-check-icon.svg';
 
-import { Button } from '@radix-ui/themes';
 import { GradientButton, Loader } from '@styles/index';
 import useProcessingStateStore from '@store/useProcessingStateStore';
 
