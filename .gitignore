@@ -31,4 +31,5 @@ notarize.sh
 ./notarize.sh
 release-muse-out
 release
-lib/muse/build/*
+lib/muse/build
+lib/muse/build
