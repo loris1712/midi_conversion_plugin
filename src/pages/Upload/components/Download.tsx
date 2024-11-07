@@ -159,7 +159,6 @@ const Download = () => {
                 pageNumber={pdfPage}
                 url={resultPdf}
                 setTotalPages={setTotalPages}
-                onLoadSuccess={() => setPdfPage(1)}
               />
             </div>
           </Flex>

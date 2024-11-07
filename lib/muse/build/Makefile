@@ -332,7 +332,7 @@ endif
 
 quiet_cmd_regen_makefile = ACTION Regenerating $@
 cmd_regen_makefile = cd $(srcdir); /Users/archie/.config/yarn/global/node_modules/node-gyp/gyp/gyp_main.py -fmake --ignore-environment "-Dlibrary=shared_library" "-Dvisibility=default" "-Dnode_root_dir=/Users/archie/.electron-gyp/Library/Caches/node-gyp/30.0.1" "-Dnode_gyp_dir=/Users/archie/.config/yarn/global/node_modules/node-gyp" "-Dnode_lib_file=/Users/archie/.electron-gyp/Library/Caches/node-gyp/30.0.1/<(target_arch)/node.lib" "-Dmodule_root_dir=/Users/archie/VisualStudioCode/Work/music-plugin/halbestunde-plugin/lib/muse" "-Dnode_engine=v8" "--depth=." "-Goutput_dir=." "--generator-output=build" -I/Users/archie/VisualStudioCode/Work/music-plugin/halbestunde-plugin/lib/muse/build/config.gypi -I/Users/archie/.config/yarn/global/node_modules/node-gyp/addon.gypi -I/Users/archie/.electron-gyp/Library/Caches/node-gyp/30.0.1/include/node/common.gypi "--toplevel-dir=." binding.gyp
-Makefile: $(srcdir)/../../../../../../.electron-gyp/Library/Caches/node-gyp/30.0.1/include/node/common.gypi $(srcdir)/binding.gyp $(srcdir)/../../../../../../.config/yarn/global/node_modules/node-gyp/addon.gypi $(srcdir)/build/config.gypi
+Makefile: $(srcdir)/binding.gyp $(srcdir)/../../../../../../.config/yarn/global/node_modules/node-gyp/addon.gypi $(srcdir)/../../../../../../.electron-gyp/Library/Caches/node-gyp/30.0.1/include/node/common.gypi $(srcdir)/build/config.gypi
 	$(call do_cmd,regen_makefile)
 
 # "all" is a concatenation of the "all" targets from all the included
