@@ -32,13 +32,13 @@ const Processing = ({
           <div className="flex flex-col items-center gap-4 ">
             <ErrorIcon />
             <p>Whoops! File converting failed</p>
-            <Button color="amber" onClick={uploadNewFile} className="px-6 mt-2">
+            <GradientButton onClick={uploadNewFile} className="px-6 mt-2">
               Reset
-            </Button>
+            </GradientButton>
           </div>
         )}
 
-        {isUploaded && !isReadyToDownload && (
+        {!isError && isUploaded && !isReadyToDownload && (
           <div className="flex flex-col items-center gap-4">
             <Loader>
               <div className="loader"></div>
@@ -50,7 +50,7 @@ const Processing = ({
           </div>
         )}
 
-        {isUploaded && isReadyToDownload && (
+        {!isError && isUploaded && isReadyToDownload && (
           <div className="flex flex-col items-center gap-4">
             <DoneIcon />
             <p className="w-[90%] text-center">

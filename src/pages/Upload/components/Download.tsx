@@ -12,7 +12,7 @@ import { FileNameInput } from './styles';
 import CircleLoader from '@components/Loaders/CircleLoader';
 import { ConvertedTag, GradientButton, OriginalTag, RoundButton } from 'styles';
 import useProcessingStateStore from '@store/useProcessingStateStore';
-import {  getFileExtension, isFileAvailable, isPDF } from '@utils/helpers';
+import { getFileExtension, isFileAvailable, isPDF } from '@utils/helpers';
 import { EVENTS } from '@constants/index';
 import PdfRenderer from '@components/PdfRenderer';
 
@@ -42,9 +42,46 @@ const Download = () => {
   const [downloadProgress, setDownloadProgress] = useState(0);
   const [downloadDone, setDownloadDone] = useState(false);
   const [selectedFile, setSelectedFile] = useState<FileType>('mid');
+  const [showPreview, setShowPreview] = useState(false);
+  const [fileDownloadReady, setFileDownloadReady] = useState(false)
 
   const resultPdf = useMemo(() => results?.body?.result_pdf, [results]);
   const sourceFile = useMemo(() => results?.body.source_file, [results]);
+
+  const {
+    result_midi = '',
+    result_mscz = '',
+    result_xml = '',
+  } = results?.body ?? {};
+
+  useEffect(() => {
+    if (!!resultPdf) {
+      const interval = setInterval(async () => {
+        const isReady = await isFileAvailable(resultPdf);
+        if (isReady) {
+          setShowPreview(true);
+          clearInterval(interval);
+        }
+      }, 2000);
+    }
+  }, [resultPdf]);
+
+  useEffect(() => {
+    if (!!result_xml && !!result_midi && !!result_mscz) {
+      const interval = setInterval(async () => {
+        const isXmlReady = await isFileAvailable(result_xml);
+        const isMidiReady = await isFileAvailable(result_midi);
+        const isMsczReady = await isFileAvailable(result_mscz);
+
+        const filesReady = isXmlReady && isMidiReady && isMsczReady
+        setFileDownloadReady(filesReady);
+        if (filesReady) {
+          toast.success('Files ready to download');
+          clearInterval(interval);
+        }
+      }, 2000);
+    }
+  }, [result_midi, result_mscz, result_xml]);
 
   const onDownload = useCallback(
     async (filename: string, fileType: FileType) => {
@@ -52,11 +89,11 @@ const Download = () => {
       // get the selected file
       let file;
       if (fileType === 'mid') {
-        file = results.body.result_midi;
+        file = result_midi;
       } else if (fileType === 'mscz') {
-        file = results.body.result_mscz;
+        file = result_mscz;
       } else if (fileType === 'xml') {
-        file = results.body.result_xml;
+        file = result_xml;
       }
       const isAvailable = await isFileAvailable(file);
       if (isAvailable) {
@@ -68,7 +105,7 @@ const Download = () => {
         };
         posthog.capture(`halbestunde_${EVENTS.FILE_DOWNLOAD}`, payload);
         window.ipcRenderer.send('download', payload);
-      }else {
+      } else {
         toast('File not ready for download, try again in 5 secs', {
           icon: '⌛️',
         });
@@ -125,7 +162,10 @@ const Download = () => {
             </RoundButton>
           </Flex>
           <GradientButton
+            disabled={!fileDownloadReady}
             onClick={() => {
+              setFilename('');
+              setDownloadDone(false);
               setShowDownloadModal(true);
             }}
           >
@@ -155,11 +195,13 @@ const Download = () => {
           <Flex direction={'column'} gap={'4'} className="h-full">
             <ConvertedTag>Converted</ConvertedTag>
             <div className="pdf-container bg-white">
-              <PdfRenderer
-                pageNumber={pdfPage}
-                url={resultPdf}
-                setTotalPages={setTotalPages}
-              />
+              {showPreview && (
+                <PdfRenderer
+                  pageNumber={pdfPage}
+                  url={resultPdf}
+                  setTotalPages={setTotalPages}
+                />
+              )}
             </div>
           </Flex>
         </div>
