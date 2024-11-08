@@ -35,6 +35,7 @@
   "mac": {
     "icon":"./public/icon.png",
     "category": "public.app-category.utilities",
+    "forceCodeSigning": false,
     "target": [
       "dmg"
     ],
