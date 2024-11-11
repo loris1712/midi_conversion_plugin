@@ -31,5 +31,9 @@ notarize.sh
 ./notarize.sh
 release-muse-out
 release
-lib/muse/build
-lib/muse/build
+lib/muse/build/MuseClientSdk.target.mk
+lib/muse/build/Makefile
+lib/muse/build/config.gypi
+lib/muse/build/node_gyp_bins/*
+lib/muse/build/MuseClientSdk.target.mk
+lib/muse/build/config.gypi
