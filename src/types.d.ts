@@ -8,7 +8,7 @@ declare module '*.svg' {
 declare type FileType = 'mid' | 'mscz' | 'xml';
 
 
-declare interface MuseResonse {
+declare interface MuseResponse {
   userInfo: {
     uuid: string;
   };

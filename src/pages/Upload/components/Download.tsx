@@ -8,13 +8,16 @@ import { RightChevron, LeftChevron } from '@styles/index';
 import { ReactComponent as CheckIcon } from '@assets/done-check.svg';
 import Modal from '@components/Modal';
 
-import { FileNameInput } from './styles';
 import CircleLoader from '@components/Loaders/CircleLoader';
-import { ConvertedTag, GradientButton, OriginalTag, RoundButton } from 'styles';
+import { ConvertedTag, OriginalTag, RoundButton, GradientButton } from 'styles';
 import useProcessingStateStore from '@store/useProcessingStateStore';
 import { getFileExtension, isFileAvailable, isPDF } from '@utils/helpers';
 import { EVENTS } from '@constants/index';
 import PdfRenderer from '@components/PdfRenderer';
+
+
+import { FileNameInput, DownloadButton } from './styles';
+
 
 const FILE_TYPES = [
   {
@@ -46,7 +49,7 @@ const Download = () => {
   const [fileDownloadReady, setFileDownloadReady] = useState(false)
 
   const resultPdf = useMemo(() => results?.body?.result_pdf, [results]);
-  const sourceFile = useMemo(() => results?.body.source_file, [results]);
+  const sourceFile = useMemo(() => results?.body?.source_file, [results]);
 
   const {
     result_midi = '',
@@ -76,7 +79,6 @@ const Download = () => {
         const filesReady = isXmlReady && isMidiReady && isMsczReady
         setFileDownloadReady(filesReady);
         if (filesReady) {
-          toast.success('Files ready to download');
           clearInterval(interval);
         }
       }, 2000);
@@ -161,7 +163,8 @@ const Download = () => {
               <RightChevron />
             </RoundButton>
           </Flex>
-          <GradientButton
+          <DownloadButton
+            ready={fileDownloadReady}
             disabled={!fileDownloadReady}
             onClick={() => {
               setFilename('');
@@ -171,7 +174,7 @@ const Download = () => {
           >
             <DownloadIcon />
             Download
-          </GradientButton>
+          </DownloadButton>
         </Flex>
 
         <div className="mx-6 grid grid-cols-2 gap-4 h-full">
@@ -195,12 +198,16 @@ const Download = () => {
           <Flex direction={'column'} gap={'4'} className="h-full">
             <ConvertedTag>Converted</ConvertedTag>
             <div className="pdf-container bg-white">
-              {showPreview && (
+              {showPreview ? (
                 <PdfRenderer
                   pageNumber={pdfPage}
                   url={resultPdf}
                   setTotalPages={setTotalPages}
                 />
+              ) : (
+                <div className="flex flex-col items-center">
+                  <span className="text-black p-4">Loading</span>
+                </div>
               )}
             </div>
           </Flex>

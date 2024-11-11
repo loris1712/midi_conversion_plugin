@@ -152,3 +152,18 @@ export const Loader = styled.div`
     }
   }
 `;
+
+
+export const AppLoading = styled.div`
+  width: 220px;
+  height: 6px;
+  border-radius: 5px;
+  background: linear-gradient(90deg, #0000, #2797c1) left -50px top 0/50px 20px no-repeat
+    lightblue;
+  animation: l2 2s infinite linear;
+  @keyframes l2 {
+    100% {
+      background-position: right -50px top 0;
+    }
+  }
+`;
