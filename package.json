@@ -44,7 +44,7 @@
     "react-pdf": "^9.1.1",
     "react-router-dom": "^6.24.1",
     "react-use": "^17.5.0",
-    "rollup": "^4.24.0",
+    "rollup": "^4.25.0",
     "sharp": "^0.33.4",
     "styled-components": "^6.1.11",
     "uuid": "^10.0.0",
@@ -75,6 +75,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
     "javascript-obfuscator": "^4.1.1",
+    "node-gyp": "^10.2.0",
     "postcss": "^8.4.39",
     "rollup-obfuscator": "^4.1.1",
     "rollup-plugin-obfuscator": "^1.1.0",
@@ -83,8 +84,7 @@
     "vite": "^5.1.6",
     "vite-plugin-electron": "^0.28.6",
     "vite-plugin-electron-renderer": "^0.14.5",
-    "vite-plugin-native": "^2.2.1",
-    "node-gyp": "^10.2.0"
+    "vite-plugin-native": "^2.2.1"
   },
   "license": "ISC"
 }
