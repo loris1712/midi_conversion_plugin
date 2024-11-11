@@ -8,15 +8,17 @@ import { EVENTS } from '@constants/index';
 import { getFileExtension } from '@utils/helpers';
 import { useFileStore } from 'store';
 import { GradientButton } from 'styles';
+import CircleLoader from '@components/Loaders/CircleLoader';
 
 interface FileUploadProps {
   // eslint-disable-next-line no-unused-vars
   onUpload: () => void;
+  isUploading: boolean;
 }
 
-const FileUpload = ({ onUpload }: FileUploadProps) => {
-  const { file, setFile } = useFileStore((state) => state);
-  const [filename, setFilename] = useState('')
+const FileUpload = ({ onUpload, isUploading }: FileUploadProps) => {
+  const { setFile } = useFileStore((state) => state);
+  const [filename, setFilename] = useState('');
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     const selectedFile = acceptedFiles[0];
@@ -42,7 +44,7 @@ const FileUpload = ({ onUpload }: FileUploadProps) => {
     <div className="h-full w-full p-[4vw] flex flex-col items-center justify-center gap-4">
       <div
         {...getRootProps()}
-        className="p-[8vh] max-w-[60vw] w-full cursor-pointer border border-dashed border-uploadBorder rounded-[10px] flex flex-col items-center justify-end gap-4"
+        className="p-[8vh] min-w-[50vw] max-w-[350px] cursor-pointer border border-dashed border-uploadBorder rounded-[10px] flex flex-col items-center justify-end gap-4"
       >
         <input {...getInputProps()} />
         <UploadIcon />
@@ -63,12 +65,13 @@ const FileUpload = ({ onUpload }: FileUploadProps) => {
         </div>
       </div>
       <GradientButton
-        disabled={!file?.name}
+        disabled={!filename || isUploading}
         onClick={() => {
           onUpload();
         }}
         className=""
       >
+        {isUploading && <CircleLoader />}
         Convert
       </GradientButton>
     </div>

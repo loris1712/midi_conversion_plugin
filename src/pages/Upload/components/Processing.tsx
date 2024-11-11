@@ -1,4 +1,8 @@
-import { useMemo } from 'react';
+import { useMemo, useEffect, useRef } from 'react';
+import { useQuery } from '@tanstack/react-query';
+
+import { getResults } from '@service/api';
+
 import { ReactComponent as ErrorIcon } from '@assets/icon-error.svg';
 import { ReactComponent as DoneIcon } from '@assets/done-check-icon.svg';
 
@@ -11,18 +15,53 @@ interface ProcessingProps {
   isUploaded?: boolean;
   isDone?: boolean;
   uploadNewFile?: any;
+  inferenceId: string;
 }
 
 const Processing = ({
   isUploaded,
-  isError,
   uploadNewFile,
+  inferenceId,
 }: ProcessingProps) => {
-  const { setState, results } = useProcessingStateStore((state) => state);
+
+  const timeoutId = useRef<any>(null);
+  const { setState, results, setResults } = useProcessingStateStore(
+    (state) => state,
+  );
+
   const isReadyToDownload = useMemo(
     () => results?.job_status === 'completed',
     [results],
   );
+
+  const {
+    isError,
+    data: queryResults,
+    refetch,
+  } = useQuery({
+    queryKey: [inferenceId],
+    queryFn: async () => {
+      if (inferenceId) {
+        const response = await getResults(inferenceId);
+        return response.data;
+      }
+    },
+  });
+
+  useEffect(() => {
+    if (inferenceId && queryResults && queryResults?.job_status === 'running') {
+      timeoutId.current = setInterval(() => {
+        refetch();
+      }, 3000);
+    } else if (queryResults?.job_status === 'completed') {
+      setResults(queryResults);
+      clearInterval(timeoutId.current);
+    }
+
+    return () => {
+      clearInterval(timeoutId.current);
+    };
+  }, [inferenceId, queryResults, refetch]);
 
   return (
     <div className="h-full w-full flex flex-col items-center justify-center">

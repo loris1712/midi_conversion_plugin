@@ -1,34 +1,25 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import axios from 'axios';
 import posthog from 'posthog-js';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import FileUpload from './components/FileUpload';
 import Processing from './components/Processing';
 import Download from './components/Download';
-import {
-  generatePresignedUploadUrl,
-  getResults,
-  postUploadedFile,
-} from '@service/api';
+import { generatePresignedUploadUrl, postUploadedFile } from '@service/api';
 import { EVENTS } from '@constants/index';
 import { useFileStore, useProcessingStateStore } from 'store';
 
 const UploadPage: React.FC = () => {
-  const { state, setState, setResults } = useProcessingStateStore(
-    (state) => state,
-  );
+  const { state, setState } = useProcessingStateStore((state) => state);
 
-
-  const timeoutId = useRef<any>(null);
   const { file } = useFileStore();
   const [progress, setProgress] = useState(0);
-  const [isUploaded, setIsUploaded] = useState(false);
-  const [inferenceId, setInferenceId] = useState();
+  const [isUploading, setIsUploading] = useState(false);
 
   const fileProcessMutation = useMutation({
     mutationKey: ['fileUploads'],
     mutationFn: async (file: File) => {
-      setIsUploaded(true);
+      setIsUploading(true);
       const { data } = await generatePresignedUploadUrl(file.name);
       const { url, filename } = data;
       await axios.put(url, file, {
@@ -45,47 +36,25 @@ const UploadPage: React.FC = () => {
         filename,
         pdf_image: file.type.includes('pdf'),
       });
-
       return uploadResponse.data;
     },
-    onSuccess: (data) => {
-      setInferenceId(data?.inference_id);
+    onSuccess: () => {
+      setIsUploading(false);
+      setState('processing');
     },
   });
 
-  const {
-    refetch,
-    data: resultBody,
-    isError: referenceError,
-  } = useQuery({
-    queryKey: [inferenceId],
-    queryFn: async () => {
-      if (inferenceId) {
-        const response = await getResults(inferenceId);
-        setResults(response.data);
-        return response.data;
-      }
-      return null;
-    },
-  });
+  const inFerenceId = useMemo(
+    () => fileProcessMutation?.data?.inference_id,
+    [fileProcessMutation?.data],
+  );
 
-  useEffect(() => {
-    if (inferenceId && resultBody && resultBody?.job_status === 'running') {
-      timeoutId.current = setInterval(() => {
-        refetch();
-      }, 3000);
-    } else if (resultBody?.job_status === 'completed') {
-      clearInterval(timeoutId.current);
-    }
-  }, [inferenceId, resultBody, refetch]);
-
- 
   const CurrentView = {
     upload: (
       <FileUpload
+        isUploading={isUploading}
         onUpload={() => {
           if (file) {
-            setState('processing');
             fileProcessMutation.mutate(file);
             posthog.capture(`halbestunde_${EVENTS.FILE_UPLOAD}`, {});
           }
@@ -95,16 +64,14 @@ const UploadPage: React.FC = () => {
     processing: (
       <Processing
         progress={progress}
-        isError={referenceError || fileProcessMutation.isError}
+        inferenceId={inFerenceId}
+        isUploaded={!isUploading && !!inFerenceId}
         uploadNewFile={() => {
           setState('upload');
         }}
-        isUploaded={isUploaded}
       />
     ),
-    download: (
-      <Download />
-    ),
+    download: <Download />,
   }[state];
 
   return (
