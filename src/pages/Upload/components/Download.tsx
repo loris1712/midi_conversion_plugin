@@ -21,12 +21,8 @@ import { FileNameInput, DownloadButton } from './styles';
 
 const FILE_TYPES = [
   {
-    name: 'MiDi',
+    name: 'MIDI',
     type: 'mid' as FileType,
-  },
-  {
-    name: 'Muse',
-    type: 'mscz' as FileType,
   },
   {
     name: 'XML',

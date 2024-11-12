@@ -44,7 +44,9 @@ const FileUpload = ({ onUpload, isUploading }: FileUploadProps) => {
     <div className="h-full w-full p-[4vw] flex flex-col items-center justify-center gap-4">
       <div
         {...getRootProps()}
-        className="p-[8vh] min-w-[50vw] max-w-[350px] cursor-pointer border border-dashed border-uploadBorder rounded-[10px] flex flex-col items-center justify-end gap-4"
+        className={`p-[8vh] min-w-[50vw] max-w-[350px] cursor-pointer border border-dashed ${
+          !!filename ? 'border-primaryBlue' : 'border-uploadBorder'
+        } rounded-[10px] flex flex-col items-center justify-end gap-4`}
       >
         <input {...getInputProps()} />
         <UploadIcon />
@@ -57,7 +59,7 @@ const FileUpload = ({ onUpload, isUploading }: FileUploadProps) => {
           </p>
           {!!filename && (
             <div className="flex flex-col items-center gap-4">
-              <span className="font-bold text-primaryBlue text-[12px]">
+              <span className="font-bold text-primaryBlue text-[12px] text-center text-ellipsis line-clamp-1">
                 {filename}
               </span>
             </div>
