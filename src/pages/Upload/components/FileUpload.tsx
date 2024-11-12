@@ -35,7 +35,7 @@ const FileUpload = ({ onUpload, isUploading }: FileUploadProps) => {
     setFile(renameFile);
   }, []);
 
-  const { getRootProps, getInputProps } = useDropzone({
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     maxFiles: 1,
     accept: {},
@@ -45,10 +45,12 @@ const FileUpload = ({ onUpload, isUploading }: FileUploadProps) => {
       <div
         {...getRootProps()}
         className={`p-[8vh] min-w-[50vw] max-w-[350px] cursor-pointer border border-dashed transition-all ${
-          !!filename ? 'border-primaryBlue' : 'border-uploadBorder'
+          !!filename || isDragActive
+            ? 'border-primaryBlue'
+            : 'border-uploadBorder'
         } rounded-[10px] flex flex-col items-center justify-end gap-4`}
       >
-        <input {...getInputProps()} />
+        <input {...getInputProps()} disabled={isUploading} />
         <UploadIcon />
         <div className="flex flex-col gap-3 items-center justify-center">
           <p className="text-[14px] font-[400] text-center">
