@@ -50,7 +50,7 @@ const FileUpload = ({ onUpload, isUploading }: FileUploadProps) => {
             : 'border-uploadBorder'
         } rounded-[10px] flex flex-col items-center justify-end gap-4`}
       >
-        <input {...getInputProps()} disabled={isUploading} />
+        <input {...getInputProps()} disabled={isUploading} className='disabled:cursor-not-allowed'/>
         <UploadIcon />
         <div className="flex flex-col gap-3 items-center justify-center">
           <p className="text-[14px] font-[400] text-center">
