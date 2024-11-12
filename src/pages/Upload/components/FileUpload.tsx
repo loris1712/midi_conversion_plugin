@@ -44,7 +44,7 @@ const FileUpload = ({ onUpload, isUploading }: FileUploadProps) => {
     <div className="h-full w-full p-[4vw] flex flex-col items-center justify-center gap-4">
       <div
         {...getRootProps()}
-        className={`p-[8vh] min-w-[50vw] max-w-[350px] cursor-pointer border border-dashed ${
+        className={`p-[8vh] min-w-[50vw] max-w-[350px] cursor-pointer border border-dashed transition-all ${
           !!filename ? 'border-primaryBlue' : 'border-uploadBorder'
         } rounded-[10px] flex flex-col items-center justify-end gap-4`}
       >
@@ -57,13 +57,13 @@ const FileUpload = ({ onUpload, isUploading }: FileUploadProps) => {
           <p className="text-[14px] font-[400] text-center">
             Image or PDF(multiple pages works as well)
           </p>
-          {!!filename && (
-            <div className="flex flex-col items-center gap-4">
+          <div className="flex flex-col items-center gap-4 h-[20px]">
+            {!!filename && (
               <span className="font-bold text-primaryBlue text-[12px] text-center text-ellipsis line-clamp-1">
                 {filename}
               </span>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
       <GradientButton
