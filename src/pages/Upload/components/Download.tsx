@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { Flex, Checkbox } from '@radix-ui/themes';
+import heic2any from 'heic2any';
+
 import { DownloadIcon } from './styles';
 import posthog from 'posthog-js';
 import toast from 'react-hot-toast';
@@ -15,11 +17,13 @@ import { getFileExtension, isFileAvailable, isPDF } from '@utils/helpers';
 import { EVENTS } from '@constants/index';
 import PdfRenderer from '@components/PdfRenderer';
 
-
 import { FileNameInput, DownloadButton } from './styles';
 
-
 const FILE_TYPES = [
+  {
+    name: 'MSCZ',
+    type: 'mscz' as FileType,
+  },
   {
     name: 'MIDI',
     type: 'mid' as FileType,
@@ -42,10 +46,44 @@ const Download = () => {
   const [downloadDone, setDownloadDone] = useState(false);
   const [selectedFile, setSelectedFile] = useState<FileType>('mid');
   const [showPreview, setShowPreview] = useState(false);
-  const [fileDownloadReady, setFileDownloadReady] = useState(false)
+  const [fileDownloadReady, setFileDownloadReady] = useState(false);
+  const [sourceFile, setSourceFile] = useState('');
+  const [sourceFileLoading, setSourceFileLoading] = useState(false)
 
   const resultPdf = useMemo(() => results?.body?.result_pdf, [results]);
-  const sourceFile = useMemo(() => results?.body?.source_file, [results]);
+
+  useEffect(() => {
+    (async () => {
+      setSourceFileLoading(true)
+      const file = results?.body?.source_file;
+      const extension = getFileExtension(file);
+      if (extension?.toLocaleLowerCase() === 'heic') {
+        fetch(file)
+          .then((res) => res.blob())
+          .then((blob) =>
+            heic2any({
+              blob,
+              toType: 'image/jpeg',
+              quality: 0.9,
+            }),
+          )
+          .then((conversionResult: any) => {
+            var url = URL.createObjectURL(conversionResult);
+            setSourceFile(url);
+            setSourceFileLoading(false);
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+          setSourceFileLoading(false);
+      } else {
+        setSourceFile(file);
+      }
+      setSourceFileLoading(false);
+    })();
+  }, []);
+
+  console.log({ sourceFileLoading });
 
   const {
     result_midi = '',
@@ -72,7 +110,7 @@ const Download = () => {
         const isMidiReady = await isFileAvailable(result_midi);
         const isMsczReady = await isFileAvailable(result_mscz);
 
-        const filesReady = isXmlReady && isMidiReady && isMsczReady
+        const filesReady = isXmlReady && isMidiReady && isMsczReady;
         setFileDownloadReady(filesReady);
         if (filesReady) {
           clearInterval(interval);
@@ -177,17 +215,25 @@ const Download = () => {
           <Flex direction={'column'} gap={'4'} className="h-full">
             <OriginalTag>Original</OriginalTag>
             <div className="pdf-container bg-white">
-              {isPDF(sourceFile) ? (
-                <PdfRenderer
-                  pageNumber={pdfPage}
-                  url={sourceFile}
-                  setTotalPages={setTotalPages}
-                />
+              {sourceFileLoading ? (
+                <div className="flex flex-col items-center">
+                  <span className="text-black p-4">Loading</span>
+                </div>
               ) : (
-                <img
-                  className="object-contain h-full w-full"
-                  src={sourceFile}
-                />
+                <>
+                  {isPDF(sourceFile) ? (
+                    <PdfRenderer
+                      pageNumber={pdfPage}
+                      url={sourceFile}
+                      setTotalPages={setTotalPages}
+                    />
+                  ) : (
+                    <img
+                      className="object-contain h-full w-full"
+                      src={sourceFile}
+                    />
+                  )}
+                </>
               )}
             </div>
           </Flex>
