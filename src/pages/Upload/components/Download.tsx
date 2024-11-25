@@ -83,8 +83,6 @@ const Download = () => {
     })();
   }, []);
 
-  console.log({ sourceFileLoading });
-
   const {
     result_midi = '',
     result_mscz = '',

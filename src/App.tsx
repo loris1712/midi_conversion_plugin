@@ -3,6 +3,11 @@ import { useEffect, useMemo, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import * as Sentry from '@sentry/electron/renderer';
 import posthog from 'posthog-js';
+import { pdfjs } from 'react-pdf';
+
+
+import 'react-pdf/dist/Page/AnnotationLayer.css';
+import 'react-pdf/dist/Page/TextLayer.css';
 
 import InitLoading from '@components/InitLoading';
 import { signIn } from '@service/api';
@@ -12,6 +17,13 @@ import Navigation from './layout/Navigation';
 import NotAllowed from '@components/NotAllowed';
 import { enableMuseChecks, EVENTS } from './constants';
 import NoInternet from 'layout/NoInternet';
+
+
+
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+  'pdfjs-dist/build/pdf.worker.min.mjs',
+  import.meta.url,
+).toString();
 
 const App = () => {
   const [userActive, setUserActive] = useState(true);
@@ -79,7 +91,7 @@ const App = () => {
 
 
   return (
-    <main className="bg-black h-[100vh] w-dvw flex flex-col flex-1 relative overflow-hidden">
+    <main className="bg-black h-screen w-screen flex flex-col flex-1 relative overflow-hidden">
       <AppBar />
       {isOnline && (
         <>

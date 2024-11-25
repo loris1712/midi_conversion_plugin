@@ -5,6 +5,8 @@ import { ReactComponent as MusicLogo } from '@assets/music.svg';
 import { ReactComponent as SettingLogo } from '@assets/settings.svg';
 import { ReactComponent as AppLogo } from '@assets/app-icon.svg';
 import { ReactComponent as PlusIconSvg } from '@assets/plus-icon.svg';
+import { ReactComponent as QuestionSvg } from '@assets/question-icon.svg';
+
 
 
 export const NavItem = styled(NavLink)`
@@ -50,4 +52,11 @@ export const HomeIcon = styled(HomeLogo)``;
 export const PianoIcon = styled(AppLogo)``;
 export const MusicIcon = styled(MusicLogo)``;
 export const SettingsIcon = styled(SettingLogo)``;
-export const PlusIcon = styled(PlusIconSvg)``;
+export const PlusIcon = styled(PlusIconSvg)`
+  height: 32px;
+  width: 32px;
+`;
+export const QuestionIcon = styled(QuestionSvg)`
+height: 32px;
+width: 32px;
+`;

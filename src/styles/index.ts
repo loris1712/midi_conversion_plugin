@@ -31,6 +31,14 @@ export const GradientButton = styled(Button)`
   }
 `;
 
+
+export const PDFDocumentWrapper = styled.div`
+  canvas {
+    width: 100% !important;
+    height: fit-content !important;
+  }
+`;
+
 export const GradientOutlineButton = styled(Button)`
   width: fit-content;
   height: fit-content;
