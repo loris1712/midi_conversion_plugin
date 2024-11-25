@@ -21,7 +21,7 @@ const Faqs = () => {
             className="my-react-pdf"
           >
             {Array.apply(null, Array(numOfPages))
-              .map((x, i) => i + 1)
+              .map((_, i) => i + 1)
               .map((page) => (
                 <Page pageNumber={page} />
               ))}

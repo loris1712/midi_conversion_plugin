@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, Menu, session } from 'electron';
+import { app, BrowserWindow, ipcMain, Menu } from 'electron';
 import * as Sentry from '@sentry/electron/main';
 import { PostHog } from 'posthog-node';
 import { fileURLToPath } from 'node:url';
