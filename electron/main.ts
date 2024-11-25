@@ -54,6 +54,8 @@ function sendLog(args: any) {
   } catch (e) {}
 }
 
+
+
 function createWindow() {
   try {
     Menu.setApplicationMenu(null);
