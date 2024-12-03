@@ -48,7 +48,7 @@ const Download = () => {
   const [showPreview, setShowPreview] = useState(false);
   const [fileDownloadReady, setFileDownloadReady] = useState(false);
   const [sourceFile, setSourceFile] = useState('');
-  const [sourceFileLoading, setSourceFileLoading] = useState(false)
+  const [sourceFileLoading, setSourceFileLoading] = useState(false);
 
   const resultPdf = useMemo(() => results?.body?.result_pdf, [results]);
 
@@ -173,27 +173,7 @@ const Download = () => {
       <div className="h-full w-full flex flex-col gap-6 py-4 mb-4">
         <Flex className="flex flex-row px-6 items-center justify-between py-2">
           <Flex direction={'row'} align={'center'} gap={'4'}>
-            <RoundButton
-              onClick={() => {
-                if (pdfPage - 1 > 0) {
-                  setPdfPage((page) => page - 1);
-                }
-              }}
-            >
-              <LeftChevron />
-            </RoundButton>
-            <span className="text-white">
-              Page {pdfPage}/{totalPages}
-            </span>
-            <RoundButton
-              onClick={() => {
-                if (pdfPage < totalPages) {
-                  setPdfPage((page) => page + 1);
-                }
-              }}
-            >
-              <RightChevron />
-            </RoundButton>
+            <h3 className="text-xl font-bold">Ready to Download</h3>
           </Flex>
           <DownloadButton
             ready={fileDownloadReady}
@@ -221,9 +201,7 @@ const Download = () => {
                 <>
                   {isPDF(sourceFile) ? (
                     <PdfRenderer
-                      pageNumber={pdfPage}
                       url={sourceFile}
-                      setTotalPages={setTotalPages}
                     />
                   ) : (
                     <img
@@ -240,9 +218,7 @@ const Download = () => {
             <div className="pdf-container bg-white">
               {showPreview ? (
                 <PdfRenderer
-                  pageNumber={pdfPage}
                   url={resultPdf}
-                  setTotalPages={setTotalPages}
                 />
               ) : (
                 <div className="flex flex-col items-center">
