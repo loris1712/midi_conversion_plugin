@@ -185,7 +185,7 @@ const Download = () => {
             }}
           >
             <DownloadIcon />
-            Download
+            Download Now
           </DownloadButton>
         </Flex>
 
