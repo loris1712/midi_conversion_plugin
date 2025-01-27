@@ -2,9 +2,18 @@ import axios, { InternalAxiosRequestConfig } from 'axios';
 import { serverUrl, tokenType } from '@constants/index';
 import { getAuthToken } from '@service/local';
 
+axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+
 const axiosInstance = axios.create({
   baseURL: serverUrl,
+  headers: {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+    'Origin': null,
+
+  },
 });
+
 
 axiosInstance.interceptors.request.use(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

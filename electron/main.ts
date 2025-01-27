@@ -1,13 +1,13 @@
-import { app, BrowserWindow, ipcMain, Menu } from 'electron';
+import { app, BrowserWindow, ipcMain, Menu, session } from 'electron';
 import * as Sentry from '@sentry/electron/main';
 import { PostHog } from 'posthog-node';
 import { fileURLToPath } from 'node:url';
-import Store from 'electron-store'
+import Store from 'electron-store';
 import { v4 as uuidv4 } from 'uuid';
 import path from 'node:path';
 import { download as downloader } from 'electron-dl';
 import isDev from 'electron-is-dev';
-import "../use-require"
+import '../use-require';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 import Authenticate from '../lib/muse/index';
@@ -24,7 +24,6 @@ import Authenticate from '../lib/muse/index';
 process.env.APP_ROOT = path.join(__dirname, '..');
 
 const store = new Store();
-
 // 🚧 Use ['ENV_NAME'] avoid vite:define plugin - Vite@2.x
 export const VITE_DEV_SERVER_URL = process.env['VITE_DEV_SERVER_URL'];
 export const MAIN_DIST = path.join(process.env.APP_ROOT, 'dist-electron');
@@ -43,18 +42,15 @@ Sentry.init({
 });
 
 // init posthog
-const posthog = new PostHog(
-    'phc_6SAY5JblXxvIU6zzkcoYDInjcBVBn0lW08HjvLm6HVB',
-    { host: 'https://us.i.posthog.com' }
-)
+const posthog = new PostHog('phc_6SAY5JblXxvIU6zzkcoYDInjcBVBn0lW08HjvLm6HVB', {
+  host: 'https://us.i.posthog.com',
+});
 
 function sendLog(args: any) {
   try {
     win?.webContents.send('log', args);
   } catch (e) {}
 }
-
-
 
 function createWindow() {
   try {
@@ -80,7 +76,7 @@ function createWindow() {
     },
   });
 
-  userId = getOrCreateUserId()
+  userId = getOrCreateUserId();
 
   // remove default menu
   try {
@@ -133,10 +129,10 @@ function createWindow() {
       } else {
         posthog.capture({
           distinctId: userId ?? uuidv4(),
-          event: 'muse_sdk_connection_error'
+          event: 'muse_sdk_connection_error',
         });
         Sentry.captureException({
-          message:"Unable to establish connection"
+          message: 'Unable to establish connection',
         });
         win?.webContents.send('muse-user-error', {
           message: 'Connection did not work',
@@ -199,6 +195,22 @@ app.on('activate', () => {
   }
 });
 
+app.on('ready', () => {
+  const filter = { urls: ['https://omr.external.api.halbestunde.com/*'] };
+  const currSession = session.defaultSession;
+
+  currSession.webRequest.onHeadersReceived(
+    filter,
+    (details, callback) => {
+      if (details.responseHeaders) {
+        details.responseHeaders['Access-Control-Allow-Origin'] = ['*'];
+      }
+
+      callback({ responseHeaders: details.responseHeaders });
+    },
+  );
+});
+
 ipcMain.on('install-update', () => {
   setImmediate(() => {
     app.removeAllListeners('window-all-closed');
@@ -208,17 +220,16 @@ ipcMain.on('install-update', () => {
   });
 });
 
-
 function getOrCreateUserId() {
   let userId = store.get('userId');
 
   if (!userId) {
     // Generate a new unique ID
     userId = uuidv4();
-    
+
     // Store the generated ID persistently
     store.set('userId', userId);
-    
+
     console.log('New user ID generated:', userId);
   } else {
     console.log('Existing user ID retrieved:', userId);
