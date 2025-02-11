@@ -23,6 +23,8 @@ import Authenticate from '../lib/muse/index';
 // │
 process.env.APP_ROOT = path.join(__dirname, '..');
 
+const isMuse = true;
+
 const store = new Store();
 // 🚧 Use ['ENV_NAME'] avoid vite:define plugin - Vite@2.x
 export const VITE_DEV_SERVER_URL = process.env['VITE_DEV_SERVER_URL'];
@@ -99,53 +101,55 @@ function createWindow() {
     if (isDev) {
       win?.webContents.openDevTools({ mode: 'detach' });
     }
-    let auth;
-    try {
-      sendLog('init');
-      posthog.capture({
-        distinctId: userId ?? uuidv4(),
-        event: 'muse_sdk_init',
-      });
-      auth = new Authenticate(isDev);
-      posthog.capture({
-        distinctId: userId ?? uuidv4(),
-        event: 'muse_sdk_auth_success',
-      });
-      sendLog('success');
-      if (auth.connected) {
-        sendLog('auth-connected');
-        const info = auth.getIsAllowed();
+    if(isMuse){
+      let auth;
+      try {
+        sendLog('init');
         posthog.capture({
           distinctId: userId ?? uuidv4(),
-          event: 'muse_sdk_auth_info',
-          properties: {
+          event: 'muse_sdk_init',
+        });
+        auth = new Authenticate(isDev);
+        posthog.capture({
+          distinctId: userId ?? uuidv4(),
+          event: 'muse_sdk_auth_success',
+        });
+        sendLog('success');
+        if (auth.connected) {
+          sendLog('auth-connected');
+          const info = auth.getIsAllowed();
+          posthog.capture({
+            distinctId: userId ?? uuidv4(),
+            event: 'muse_sdk_auth_info',
+            properties: {
+              ...info,
+            },
+          });
+          win?.webContents.send('muse-user', {
             ...info,
-          },
-        });
-        win?.webContents.send('muse-user', {
-          ...info,
-          dev: isDev,
-        });
-      } else {
-        posthog.capture({
-          distinctId: userId ?? uuidv4(),
-          event: 'muse_sdk_connection_error',
-        });
-        Sentry.captureException({
-          message: 'Unable to establish connection',
-        });
-        win?.webContents.send('muse-user-error', {
-          message: 'Connection did not work',
-          dev: isDev,
-        });
+            dev: isDev,
+          });
+        } else {
+          posthog.capture({
+            distinctId: userId ?? uuidv4(),
+            event: 'muse_sdk_connection_error',
+          });
+          Sentry.captureException({
+            message: 'Unable to establish connection',
+          });
+          win?.webContents.send('muse-user-error', {
+            message: 'Connection did not work',
+            dev: isDev,
+          });
+        }
+        sendLog('init-done');
+      } catch (error) {
+        console.log({ error });
+        win?.webContents.send('muse-user-error', { message: error });
+        Sentry.captureException(error);
+      } finally {
+        auth?.finalize();
       }
-      sendLog('init-done');
-    } catch (error) {
-      console.log({ error });
-      win?.webContents.send('muse-user-error', { message: error });
-      Sentry.captureException(error);
-    } finally {
-      auth?.finalize();
     }
   });
 }
