@@ -1,23 +1,20 @@
-import React,{ useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Document, Page } from 'react-pdf';
 import { PDFDocumentWrapper } from '@styles/index';
 
 
 interface Props {
   url: string;
-  setTotalPages?: (page: number) => void;
-  pageNumber?: number;
   onLoadSuccess?: () => void
 }
 
 
 const PdfRenderer = ({
   url,
-  setTotalPages,
-  pageNumber = 1,
   onLoadSuccess,
 }: Props) => {
   const file = useMemo(() => url, [url]);
+  const [totalPages, setTotalPages] = useState(0);
   return (
     <PDFDocumentWrapper>
       <Document
@@ -31,13 +28,12 @@ const PdfRenderer = ({
           onLoadSuccess?.();
         }}
       >
-        <Page pageNumber={pageNumber} />
+        {Array.from({ length: totalPages }, (_, index) => (
+          <Page key={index} pageNumber={index + 1} />
+        ))}
       </Document>
     </PDFDocumentWrapper>
   );
 };
 
-export default React.memo(
-  PdfRenderer,
-  (prev, next) => prev.pageNumber === next.pageNumber,
-);
+export default React.memo(PdfRenderer, (prev, next) => prev.url === next.url);

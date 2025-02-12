@@ -8,6 +8,7 @@ import Download from './components/Download';
 import { generatePresignedUploadUrl, postUploadedFile } from '@service/api';
 import { EVENTS } from '@constants/index';
 import { useFileStore, useProcessingStateStore } from 'store';
+import toast from 'react-hot-toast';
 
 const UploadPage: React.FC = () => {
   const { state, setState } = useProcessingStateStore((state) => state);
@@ -42,6 +43,10 @@ const UploadPage: React.FC = () => {
       setIsUploading(false);
       setState('processing');
     },
+    onError:() => {
+      toast.error('Error uploading file');
+      setIsUploading(false)
+    }
   });
 
   const inFerenceId = useMemo(
