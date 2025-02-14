@@ -6,12 +6,11 @@ import { DownloadIcon } from './styles';
 import posthog from 'posthog-js';
 import toast from 'react-hot-toast';
 
-import { RightChevron, LeftChevron } from '@styles/index';
 import { ReactComponent as CheckIcon } from '@assets/done-check.svg';
 import Modal from '@components/Modal';
 
 import CircleLoader from '@components/Loaders/CircleLoader';
-import { ConvertedTag, OriginalTag, RoundButton, GradientButton } from 'styles';
+import { ConvertedTag, OriginalTag, GradientButton } from 'styles';
 import useProcessingStateStore from '@store/useProcessingStateStore';
 import { getFileExtension, isFileAvailable, isPDF } from '@utils/helpers';
 import { EVENTS } from '@constants/index';
@@ -37,8 +36,6 @@ const FILE_TYPES = [
 const Download = () => {
   const { results } = useProcessingStateStore((state) => state);
 
-  const [pdfPage, setPdfPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
   const [showDownloadModal, setShowDownloadModal] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
   const [filename, setFilename] = useState('');
