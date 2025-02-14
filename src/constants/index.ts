@@ -1,6 +1,8 @@
-export const serverUrl = 'https://omr.external.api.halbestunde.com/service-omr';
+export const serverUrl = 'https://omr.external.api.halbestunde.com/service-omr/v2';
 export const tokenType = 'Bearer';
 export const enableMuseChecks = true;
+
+export const apiKey = 'YbnDo0a7Kh2oe140lFWgIWFezIjUH891M0Jvbbe7Pzo';
 
 export const EVENTS = {
   APP_INIT: 'app_initialize',

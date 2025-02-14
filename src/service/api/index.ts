@@ -1,5 +1,5 @@
 import axios, { InternalAxiosRequestConfig } from 'axios';
-import { serverUrl, tokenType } from '@constants/index';
+import { serverUrl, tokenType, apiKey } from '@constants/index';
 import { getAuthToken } from '@service/local';
 
 axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
@@ -19,6 +19,7 @@ axiosInstance.interceptors.request.use(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (config: InternalAxiosRequestConfig<any>) => {
     config.headers.Authorization = `${tokenType} ${getAuthToken()}`;
+    config.headers['Api-Key'] = apiKey;
     return config;
   },
 );
@@ -39,9 +40,9 @@ export const postUploadedFile = (payload: {
   filename: string;
   pdf_image: boolean;
 }) => {
-  return axiosInstance.post('/recognize/presigned-upload', payload);
+  return axiosInstance.post('/v2/recognize/presigned-upload', payload);
 };
 
 export const getResults = (inferenceId: string) => {
-    return axiosInstance.get(`/recognize/${inferenceId}`);
+    return axiosInstance.get(`/v2/recognize/${inferenceId}`);
 }

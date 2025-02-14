@@ -75,6 +75,7 @@ function createWindow() {
       preload: path.join(__dirname, 'preload.mjs'),
       devTools: isDev,
       nodeIntegration: true,
+      webSecurity: false
     },
   });
 
