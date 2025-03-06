@@ -34,6 +34,7 @@
     "electron-updater": "^6.2.1",
     "electron-vite": "^2.3.0",
     "esbuild": "^0.24.0",
+    "flat-embed": "^2.3.0",
     "heic2any": "^0.0.4",
     "helmet": "^7.1.0",
     "node-addon-api": "^8.1.0",

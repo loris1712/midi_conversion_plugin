@@ -54,6 +54,7 @@ const Processing = ({
         refetch();
       }, 3000);
     } else if (queryResults?.job_status === 'completed') {
+      console.log({ queryResults });
       setResults(queryResults);
       clearInterval(timeoutId.current);
     }
@@ -97,7 +98,7 @@ const Processing = ({
             </p>
             <GradientButton
               onClick={() => {
-                setState('download');
+                setState('embed');
               }}
             >
               Great, let's go

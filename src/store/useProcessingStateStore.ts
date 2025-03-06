@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-type State = 'upload' | 'processing' | 'download'
+type State = 'upload' | 'processing' | 'download' | 'embed'
 type Store = {
   state: State;
   results: Record<string, any>
@@ -13,7 +13,7 @@ type Store = {
 const useProcessingStateStore = create<Store>()(
   persist(
     (set) => ({
-      state: 'upload',
+      state: 'embed',
       results: {},
       setState: (state: State) =>
         set((store) => ({

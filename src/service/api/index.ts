@@ -9,8 +9,6 @@ const axiosInstance = axios.create({
   headers: {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-    'Origin': null,
-
   },
 });
 
@@ -18,7 +16,7 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (config: InternalAxiosRequestConfig<any>) => {
-    config.headers.Authorization = `${tokenType} ${getAuthToken()}`;
+    // config.headers.Authorization = `${tokenType} ${getAuthToken()}`;
     config.headers['Api-Key'] = apiKey;
     return config;
   },

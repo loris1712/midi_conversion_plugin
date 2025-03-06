@@ -31,7 +31,7 @@ const Navigation = () => {
                 <PianoIcon />
               </span>
               <ReactTooltip anchorSelect="#home" place="right">
-                Hasbestunde
+                Halbestunde
               </ReactTooltip>
             </NavItem>
           </ul>

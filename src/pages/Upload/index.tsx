@@ -9,6 +9,7 @@ import { generatePresignedUploadUrl, postUploadedFile } from '@service/api';
 import { EVENTS } from '@constants/index';
 import { useFileStore, useProcessingStateStore } from 'store';
 import toast from 'react-hot-toast';
+import FlatIoEmbed from './components/FlatIoEmbed';
 
 const UploadPage: React.FC = () => {
   const { state, setState } = useProcessingStateStore((state) => state);
@@ -76,12 +77,13 @@ const UploadPage: React.FC = () => {
         }}
       />
     ),
+    embed: (<FlatIoEmbed/>),
     download: <Download />,
   }[state];
 
   return (
     <div className="flex flex-col items-center justify-center h-full w-full gap-4">
-      {CurrentView}
+      <FlatIoEmbed />
     </div>
   );
 };
