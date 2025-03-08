@@ -1,5 +1,6 @@
 import axios, { InternalAxiosRequestConfig } from 'axios';
 import { serverUrl, tokenType, apiKey } from '@constants/index';
+import { getAuthToken } from '@service/local';
 axios.defaults.headers['Api-Key'] = apiKey;
 axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
 
@@ -15,7 +16,7 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (config: InternalAxiosRequestConfig<any>) => {
-    // config.headers.Authorization = `${tokenType} ${getAuthToken()}`;
+    config.headers.Authorization = `${tokenType} ${getAuthToken()}`;
     config.headers['Api-Key'] = apiKey;
     return config;
   },
