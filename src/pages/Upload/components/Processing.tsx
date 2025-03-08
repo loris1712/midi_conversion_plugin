@@ -98,7 +98,8 @@ const Processing = ({
             </p>
             <GradientButton
               onClick={() => {
-                setState('embed');
+                // change this to embed
+                setState('download');
               }}
             >
               Great, let's go

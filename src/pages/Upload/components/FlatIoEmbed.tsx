@@ -3,6 +3,7 @@ import Embed from 'flat-embed';
 import { flatIoApiKey, flatIoAppId } from '@constants/index';
 import { GradientButton } from '@styles/index';
 import { generateListKey } from '@utils/helpers';
+import { useProcessingStateStore } from '@store/index';
 
 
 
@@ -99,6 +100,10 @@ async function processMidi(midiFileURL: string) {
 
 const FlatIoEmbed = () => {
 
+  const { setState } = useProcessingStateStore(
+    (state) => state,
+  );
+
     const embedRef = useRef<any>();
     const scoreKey = '67b509b78ecb0da7aea0921a';
     const userId = '67b3bf7d4fce81439d990b99';
@@ -109,6 +114,7 @@ const FlatIoEmbed = () => {
           width: '100%',
           height: '100%',
           embedParams: {
+            // @ts-ignore
             mode: 'edit',
             locale: 'en-GB',
             appId: flatIoAppId,
@@ -125,9 +131,8 @@ const FlatIoEmbed = () => {
             <div className='h-10 w-full flex flex-row items-center justify-between'>
                 <div/>
                 <GradientButton onClick={() => {
-                    uploadMidiToFlatIO(
-                      'https://www.musicimpressions.de/demos_midi/d_CR5757.mid',
-                    );
+                    setState('upload');
+                    // uploadMidiToFlatIO('https://www.musicimpressions.de/demos_midi/d_CR5757.mid');
                 }}>New Upload</GradientButton>
             </div>
             <div className='h-full bg-blue-200' ref={embedRef}>
