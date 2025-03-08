@@ -1,11 +1,11 @@
 import { useEffect, useRef } from 'react';
 import Embed from 'flat-embed';
-import { flatIoApiKey, flatIoAppId } from '@constants/index';
+import {  flatIoAppId } from '@constants/index';
 import { GradientButton } from '@styles/index';
-import { generateListKey } from '@utils/helpers';
 import { useProcessingStateStore } from '@store/index';
 
-
+// Example usage (replace with your actual values)
+/*
 
 async function uploadMidiToFlatIO(midiFileURL: string) {
   try {
@@ -48,6 +48,7 @@ async function uploadMidiToFlatIO(midiFileURL: string) {
   }
 }
 
+
 async function createFlatIOScore(fileId: string) {
   try {
     const scoreResponse = await fetch('https://api.flat.io/v2/scores', {
@@ -78,7 +79,6 @@ async function createFlatIOScore(fileId: string) {
   }
 }
 
-// Example usage (replace with your actual values)
 async function processMidi(midiFileURL: string) {
   try {
     const fileId = await uploadMidiToFlatIO(midiFileURL);
@@ -93,6 +93,7 @@ async function processMidi(midiFileURL: string) {
     // Handle the error appropriately in your application
   }
 }
+  */
 
 // Example call, replace with your actual values.
 // processMidi('YOUR_MIDI_FILE_URL', 'YOUR_ACCESS_TOKEN');
@@ -123,6 +124,7 @@ const FlatIoEmbed = () => {
               '274ede5cc1bcaa7fcd1c0c64e16d1b223b55dd8721c14f9af575317a022def1f7ed53017bd7cdf13d0cc51c3acb8cfba4b56a8dd46d9f98c4e863bd226c1fa71',
           },
         });
+        console.log(embed);
       }
     }, [embedRef.current]);
 

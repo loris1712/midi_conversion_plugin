@@ -10,10 +10,8 @@ import isDev from 'electron-is-dev';
 import '../use-require';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-import { generateListKey } from '../src/utils/helpers';
 
 import Authenticate from '../lib/muse/index';
-import { flatIoApiKey } from '../src/constants/index';
 
 // The built directory structure
 //
@@ -242,40 +240,5 @@ function getOrCreateUserId() {
 }
 
 
-async function uploadMidiToFlatIo(midiFile: string) {
-  const response = await fetch(midiFile);
-  if(!response.ok){
-    // broadcast error
-    console.log(response.statusText);
-    return;
-  }
-  const midiBlob = await response.blob();
-  const formData = new FormData();
-  formData.append('file', midiBlob, `${generateListKey()}.mid`);
-
-  const uploadResponse = await fetch('https://api.flat.io/v2/files', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${flatIoApiKey}`,
-    },
-    body: formData,
-  });
-
-  if (!uploadResponse.ok) {
-    const errorData = await uploadResponse.json();
-    throw new Error(
-      `Failed to upload file: ${
-        uploadResponse.statusText
-      }. Details: ${JSON.stringify(errorData)}`,
-    );
-  }
-
-  const uploadData = await uploadResponse.json();
-  const fileId = uploadData.id;
-
-  console.log('File uploaded successfully. File ID:', fileId);
-  return fileId;
-
-}
 
 app.whenReady().then(createWindow);
